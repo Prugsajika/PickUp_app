@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "713081952345",
+    "project_id": "is-devops-prugsajika",
+    "storage_bucket": "is-devops-prugsajika.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713081952345:android:2cd52a7bfa659499e8f948",
+        "android_client_info": {
+          "package_name": "com.example.grubngo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713081952345-14r4cnumf6d1mhladipejavkaqioom8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSg-Y67uFiGy1fC7fLb4HSLJptASjkIzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713081952345-14r4cnumf6d1mhladipejavkaqioom8j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "713081952345-6m487obgu40u1srddu6aj43lgjrn0lgl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.magetApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713081952345:android:0a1d58f9f18fda02e8f948",
+        "android_client_info": {
+          "package_name": "com.example.maget_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713081952345-14r4cnumf6d1mhladipejavkaqioom8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSg-Y67uFiGy1fC7fLb4HSLJptASjkIzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713081952345-14r4cnumf6d1mhladipejavkaqioom8j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "713081952345-6m487obgu40u1srddu6aj43lgjrn0lgl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.magetApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
