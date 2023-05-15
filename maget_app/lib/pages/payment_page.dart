@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -23,6 +24,7 @@ class _PaymentPageState extends State<PaymentPage> {
   TextEditingController _date = TextEditingController();
   CartController cartcontroller = CartController(CartServices());
   late AnimationController animationController;
+  final user = FirebaseAuth.instance.currentUser!;
 
   String _paydate = '';
   String _paytime = '';
@@ -37,10 +39,40 @@ class _PaymentPageState extends State<PaymentPage> {
     super.initState();
   }
 
-  void _addtoCart(String image, name, Productid, customerId, int quantity, cost,
-      price, deliveryFee, totalCost, _paydate, _paytime, confirmPayimg) async {
-    cartcontroller.addCart(image, name, Productid, customerId, quantity, cost,
-        price, deliveryFee, totalCost, _paydate, _paytime, confirmPayimg);
+  void _addtoCart(
+      String image,
+      name,
+      Productid,
+      customerId,
+      int quantity,
+      cost,
+      price,
+      deliveryFee,
+      totalCost,
+      _paydate,
+      _paytime,
+      confirmPayimg,
+      email,
+      UrlQr,
+      buildName,
+      roomNo) async {
+    cartcontroller.addCart(
+        image,
+        name,
+        Productid,
+        customerId,
+        quantity,
+        cost,
+        price,
+        deliveryFee,
+        totalCost,
+        _paydate,
+        _paytime,
+        confirmPayimg,
+        email,
+        UrlQr,
+        buildName,
+        roomNo);
   }
 
   File? _confirmPayimg;
@@ -260,9 +292,13 @@ class _PaymentPageState extends State<PaymentPage> {
                       context.read<CartItemModel>().totalCost,
                       _paydate,
                       _paytime,
-                      confirmPayimg);
+                      confirmPayimg,
+                      user.email,
+                      context.read<CartItemModel>().UrlQr,
+                      context.read<CartItemModel>().buildName,
+                      context.read<CartItemModel>().roomNo);
 
-                  // Navigator.pushNamed(context, '/5');
+                  Navigator.pushNamed(context, '/7');
                 },
                 child: Text("ยืนยันการชำระเงิน"),
               ),

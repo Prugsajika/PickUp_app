@@ -5,6 +5,7 @@ import 'package:maget_app/models/cartitem_model.dart';
 import 'package:maget_app/models/mycart.dart';
 import 'package:maget_app/models/products_model.dart';
 import 'package:maget_app/pages/login_page.dart';
+import 'package:maget_app/pages/order_page.dart';
 import 'package:maget_app/pages/register_success_page.dart';
 import 'package:provider/provider.dart';
 import 'components/restaurant_appbar.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         '/4': (context) => FavouritesPage(),
         '/5': (context) => CheckOutPage(),
         '/6': (context) => RegisterSuccessPage(),
+        '/7': (context) => OrderPage(),
       },
     );
   }

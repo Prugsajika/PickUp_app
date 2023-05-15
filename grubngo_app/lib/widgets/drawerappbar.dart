@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grubngo_app/models/products_model.dart';
 import 'package:grubngo_app/pages/histories_page.dart';
 
 import 'package:grubngo_app/pages/products_page.dart';
@@ -41,7 +42,9 @@ class _DrawerBarState extends State<DrawerBar> {
       child: InkWell(
         onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ProfilePage(),
+            builder: (context) => ProfilePage(
+                // email: user.email!,
+                ),
           ));
         },
         child: Container(
@@ -132,6 +135,9 @@ Widget buildMenuItems(BuildContext context) {
                 builder: (context) => HistoryPage(),
               ));
             }),
+        const Divider(
+          color: Colors.black54,
+        ),
         ListTile(
             leading: const Icon(Icons.power_settings_new),
             title: Text('ออกจากระบบ'),

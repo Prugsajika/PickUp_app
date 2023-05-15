@@ -2,14 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CartItem {
-  // static const CARTID = "cartId";
-  // static const IMAGE = "image";
-  // static const NAME = "name";
-  // static const QUANTITY = "quantity";
-  // static const COST = "cost";
-  // static const PRICE = "price";
-  // static const PRODUCT_ID = "productId";
-
   late String cartId;
   late String image;
   late String name;
@@ -21,6 +13,12 @@ class CartItem {
   late int deliveryFee;
   late int totalCost;
   late String UrlQr;
+  late String confirmPayimg;
+  late String paydate;
+  late String paytime;
+  late String email;
+  late String buildName;
+  late String roomNo;
 
   CartItem(
       this.cartId,
@@ -33,7 +31,13 @@ class CartItem {
       this.customerId,
       this.deliveryFee,
       this.totalCost,
-      this.UrlQr);
+      this.UrlQr,
+      this.confirmPayimg,
+      this.paydate,
+      this.paytime,
+      this.email,
+      this.buildName,
+      this.roomNo);
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
@@ -48,36 +52,29 @@ class CartItem {
       json['deliveryFee'] as int,
       json['totalCost'] as int,
       json['UrlQr'] as String,
+      json['confirmPayimg'] as String,
+      json['paydate'] as String,
+      json['paytime'] as String,
+      json['email'] as String,
+      json['buildName'] as String,
+      json['roomNo'] as String,
     );
   }
-
-  // CartItem.fromMap(Map<String, dynamic> data) {
-  //   cartId = data[CARTID];
-  //   image = data[IMAGE];
-  //   name = data[NAME];
-  //   quantity = data[QUANTITY];
-  //   cost = data[COST].toDouble();
-  //   Productid = data[PRODUCT_ID];
-  //   price = data[PRICE].toDouble();
-  // }
-  // Map toJson() => {
-  //       CARTID: cartId,
-  //       PRODUCT_ID: Productid,
-  //       IMAGE: image,
-  //       NAME: name,
-  //       QUANTITY: quantity,
-  //       COST: price * quantity,
-  //       PRICE: price
-  //     };
 }
 
 class AllCartItems extends ChangeNotifier {
   final List<CartItem> cartitems;
 
   AllCartItems(this.cartitems);
+  factory AllCartItems.fromJson(List<dynamic> json) {
+    List<CartItem> cartitems;
+    cartitems = json.map((index) => CartItem.fromJson(index)).toList();
+    return AllCartItems(cartitems);
+  }
 
-  factory AllCartItems.fromJason(QuerySnapshot s) {
+  factory AllCartItems.fromSnapshot(QuerySnapshot s) {
     List<CartItem> cartitems = s.docs.map((DocumentSnapshot ds) {
+      print("documentsnapshot : cartitems ${ds.data()}");
       CartItem cartitem = CartItem.fromJson(ds.data() as Map<String, dynamic>);
       cartitem.cartId = ds
           .id; //after mapping from firevase can insert or replace value before return list
@@ -99,6 +96,12 @@ class CartItemModel extends ChangeNotifier {
   int deliveryFee = 0;
   int totalCost = 0;
   String UrlQr = '';
+  String confirmPayimg = '';
+  String paydate = '';
+  String paytime = '';
+  String email = '';
+  String buildName = '';
+  String roomNo = '';
 
   get getcartId => this.cartId;
   set setcartId(value) {
@@ -163,6 +166,50 @@ class CartItemModel extends ChangeNotifier {
   get getUrlQr => this.UrlQr;
   set setUrlQr(value) {
     this.UrlQr = value;
+    notifyListeners();
+  }
+
+  get getconfirmPayimg => this.confirmPayimg;
+  set setconfirmPayimg(value) {
+    this.confirmPayimg = value;
+    notifyListeners();
+  }
+
+  get getpaydate => this.paydate;
+  set setpaydate(value) {
+    this.paydate = value;
+    notifyListeners();
+  }
+
+  get getpaytime => this.paytime;
+  set setpaytime(value) {
+    this.paytime = value;
+    notifyListeners();
+  }
+
+  get getemail => this.email;
+  set setemail(value) {
+    this.email = value;
+    notifyListeners();
+  }
+
+  get getbuildName => this.buildName;
+  set setbuildName(value) {
+    this.buildName = value;
+    notifyListeners();
+  }
+
+  get getroomNo => this.roomNo;
+  set setroomNo(value) {
+    this.roomNo = value;
+    notifyListeners();
+  }
+
+  List<CartItem> _listCartItem = List.empty();
+  List<CartItem> get getListCartItem => this._listCartItem;
+
+  set getListCartItem(List<CartItem> value) {
+    this._listCartItem = value;
     notifyListeners();
   }
 

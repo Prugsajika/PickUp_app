@@ -18,7 +18,8 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   final _formkey = GlobalKey<FormState>();
   late int _quantity = 0;
-  // late int _quantitys = 0;
+  late String _buildName = '';
+  late String _roomNo = '';
   late int _cost = 0;
 
   @override
@@ -55,8 +56,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "ชื่อสินค้า : ",
@@ -78,7 +81,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                         ],
                       ),
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "รายละเอียดสินค้า : ",
@@ -258,27 +262,82 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
               Form(
                 key: _formkey,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(),
-                    border: OutlineInputBorder(),
-                    labelText: 'จำนวนที่ต้องการสั่ง',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'กรุณาใส่จำนวนที่ต้องการสั่ง';
-                    }
-                    return null;
-                  },
-                  // onSaved: (newValue) => _quantity = newValue!,
-                  onSaved: (newValue) {
-                    _quantity = int.parse(newValue!);
-                    // setState(() {
-                    //   _quantitys = _quantity;
-                    //   print(_quantitys);
-                    // });
-                  },
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(),
+                          border: OutlineInputBorder(),
+                          labelText: 'จำนวนที่ต้องการสั่ง',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาใส่จำนวนที่ต้องการสั่ง';
+                          }
+                          return null;
+                        },
+                        // onSaved: (newValue) => _quantity = newValue!,
+                        onSaved: (newValue) {
+                          _quantity = int.parse(newValue!);
+                          // setState(() {
+                          //   _quantitys = _quantity;
+                          //   print(_quantitys);
+                          // });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(),
+                          border: OutlineInputBorder(),
+                          labelText: 'ชื่อตึก',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาใส่ชื่อตึก';
+                          }
+                          return null;
+                        },
+                        // onSaved: (newValue) => _quantity = newValue!,
+                        onSaved: (newValue) {
+                          _buildName = newValue!;
+                          // setState(() {
+                          //   _quantitys = _quantity;
+                          //   print(_quantitys);
+                          // });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(),
+                          border: OutlineInputBorder(),
+                          labelText: 'เลขห้อง',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาใส่เลขห้อง';
+                          }
+                          return null;
+                        },
+                        // onSaved: (newValue) => _quantity = newValue!,
+                        onSaved: (newValue) {
+                          _roomNo = newValue!;
+                          // setState(() {
+                          //   _quantitys = _quantity;
+                          //   print(_quantitys);
+                          // });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -302,7 +361,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ..deliveryFee = widget.Products.deliveryFee * _quantity
                     ..totalCost = (_quantity *
                         (widget.Products.price + widget.Products.deliveryFee))
-                    ..UrlQr = widget.Products.UrlQr;
+                    ..UrlQr = widget.Products.UrlQr
+                    ..buildName = _buildName
+                    ..roomNo = _roomNo;
 
                   print('check cart ${context.read<CartItemModel>().image}');
                   print('check cost ${context.read<CartItemModel>().cost}');

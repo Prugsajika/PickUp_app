@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../pages/favourite_page.dart';
 import '../pages/home_page.dart';
 import '../pages/login_page.dart';
-import '../pages/orderhistory_page.dart';
+import '../pages/order_page.dart';
 import '../pages/profile_page.dart';
 
 class DrawerBar extends StatelessWidget {
@@ -101,7 +101,7 @@ Widget buildMenuItems(BuildContext context) {
             title: Text('รายการสั่งซื้อ'),
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => OrderHistory(),
+                builder: (context) => OrderPage(),
               ));
             }),
         const Divider(

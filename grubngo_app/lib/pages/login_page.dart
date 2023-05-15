@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                             text: "รับหิ้วกับ",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline5!
+                                .headlineSmall!
                                 .copyWith(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black),

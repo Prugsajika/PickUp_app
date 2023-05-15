@@ -15,7 +15,17 @@ class CartController {
   Future<List<CartItem>> fetchCart() async {
     // controller status => Start
     onSyncController.add(true);
-    cartitems = await services.get();
+    cartitems = await services.getCart();
+    // controller status => End
+    onSyncController.add(false);
+
+    return cartitems;
+  }
+
+  Future<List<CartItem>> fetchCartItemsByEmail(String email) async {
+    // controller status => Start
+    onSyncController.add(true);
+    cartitems = await services.getCartItemsByEmail(email);
     // controller status => End
     onSyncController.add(false);
 
@@ -34,8 +44,27 @@ class CartController {
       totalCost,
       String _paydate,
       _paytime,
-      confirmPayimg) async {
-    services.addCart(image, name, Productid, customerId, quantity, cost, price,
-        deliveryFee, totalCost, _paydate, _paytime, confirmPayimg);
+      confirmPayimg,
+      email,
+      UrlQr,
+      buildName,
+      roomNo) async {
+    services.addCart(
+        image,
+        name,
+        Productid,
+        customerId,
+        quantity,
+        cost,
+        price,
+        deliveryFee,
+        totalCost,
+        _paydate,
+        _paytime,
+        confirmPayimg,
+        email,
+        UrlQr,
+        buildName,
+        roomNo);
   }
 }

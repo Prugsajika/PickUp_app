@@ -52,15 +52,20 @@ class ProductDetailPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "ชื่อสินค้า : ",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "ชื่อสินค้า : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           Padding(
@@ -75,14 +80,18 @@ class ProductDetailPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "รายละเอียดสินค้า : ",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "รายละเอียดสินค้า : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           Padding(
@@ -99,12 +108,15 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            "ราคา : ",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "ราคา : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           Padding(
@@ -128,12 +140,15 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            "จำนวนสินค้าที่มีทั้งหมด : ",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "จำนวนสินค้าที่มีทั้งหมด : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           Padding(
@@ -148,14 +163,17 @@ class ProductDetailPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Row(
+                      Column(
                         children: [
-                          Text(
-                            "สถานที่จัดส่ง : ",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "สถานที่จัดส่ง : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           Padding(
@@ -172,12 +190,15 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            "วันที่จัดส่ง : ",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "วันที่จัดส่ง : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           Padding(
@@ -194,12 +215,15 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            "เวลาที่จัดส่ง : ",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "เวลาที่จัดส่ง : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           Padding(
@@ -225,9 +249,29 @@ class ProductDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text("แก้ไข"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      children: [
+                        Icon(Icons.edit),
+                        Text("แก้ไขรายการ"),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete),
+                        Text("ลบรายการ"),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
