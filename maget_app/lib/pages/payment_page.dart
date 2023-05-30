@@ -21,7 +21,9 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   final _formkey = GlobalKey<FormState>();
-  TextEditingController _date = TextEditingController();
+  TextEditingController _dateC = TextEditingController();
+  TextEditingController _timeC = TextEditingController();
+
   CartController cartcontroller = CartController(CartServices());
   late AnimationController animationController;
   final user = FirebaseAuth.instance.currentUser!;
@@ -30,6 +32,9 @@ class _PaymentPageState extends State<PaymentPage> {
   String _paytime = '';
   late String confirmPayimg;
   String customerId = '';
+  String _status = '';
+
+  TimeOfDay timeOfDay = TimeOfDay.now();
 
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
@@ -55,7 +60,11 @@ class _PaymentPageState extends State<PaymentPage> {
       email,
       UrlQr,
       buildName,
-      roomNo) async {
+      roomNo,
+      status,
+      availableDate,
+      availableTime,
+      emailRider) async {
     cartcontroller.addCart(
         image,
         name,
@@ -72,7 +81,11 @@ class _PaymentPageState extends State<PaymentPage> {
         email,
         UrlQr,
         buildName,
-        roomNo);
+        roomNo,
+        status,
+        availableDate,
+        availableTime,
+        emailRider);
   }
 
   File? _confirmPayimg;
@@ -191,7 +204,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        controller: _date,
+                        controller: _dateC,
                         decoration: InputDecoration(
                           labelText: 'วันที่โอน',
                           enabledBorder: OutlineInputBorder(),
@@ -207,7 +220,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               if (pickedate != null) {
                                 setState(
                                   () {
-                                    _date.text = DateFormat('dd/MM/yyyy')
+                                    _dateC.text = DateFormat('dd/MM/yyyy')
                                         .format(pickedate);
                                   },
                                 );
@@ -230,11 +243,35 @@ class _PaymentPageState extends State<PaymentPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        controller: _timeC,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
                           border: OutlineInputBorder(),
                           labelText: 'เวลาที่โอน',
+                          suffixIcon: IconButton(
+                            onPressed: () async {
+                              var _time = await showTimePicker(
+                                context: context,
+                                initialTime: timeOfDay,
+                              );
+
+                              if (_time != null) {
+                                setState(() {
+                                  _timeC.text = "${_time.hour}:${_time.minute}";
+                                });
+                              }
+                              // TimeOfDay? picketime = TimeOfDay.now();
+                              // if (picketime != null) {
+                              //   setState(
+                              //     () {
+                              //       _timeC.text = TimeOfDay.now().toString();
+                              //     },
+                              //   );
+                              // }
+                            },
+                            icon: Icon(Icons.access_time),
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -244,6 +281,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         },
                         onSaved: (newValue) {
                           _paytime = newValue!;
+                          print(_paytime + _paydate);
                         },
                       ),
                     ),
@@ -281,22 +319,27 @@ class _PaymentPageState extends State<PaymentPage> {
                     _formkey.currentState!.save();
                   }
                   _addtoCart(
-                      context.read<CartItemModel>().image,
-                      context.read<CartItemModel>().name,
-                      context.read<CartItemModel>().Productid,
-                      context.read<CartItemModel>().customerId,
-                      context.read<CartItemModel>().quantity,
-                      context.read<CartItemModel>().cost,
-                      context.read<CartItemModel>().price,
-                      context.read<CartItemModel>().deliveryFee,
-                      context.read<CartItemModel>().totalCost,
-                      _paydate,
-                      _paytime,
-                      confirmPayimg,
-                      user.email,
-                      context.read<CartItemModel>().UrlQr,
-                      context.read<CartItemModel>().buildName,
-                      context.read<CartItemModel>().roomNo);
+                    context.read<CartItemModel>().image,
+                    context.read<CartItemModel>().name,
+                    context.read<CartItemModel>().Productid,
+                    context.read<CartItemModel>().customerId,
+                    context.read<CartItemModel>().quantity,
+                    context.read<CartItemModel>().cost,
+                    context.read<CartItemModel>().price,
+                    context.read<CartItemModel>().deliveryFee,
+                    context.read<CartItemModel>().totalCost,
+                    _paydate,
+                    _paytime,
+                    confirmPayimg,
+                    user.email,
+                    context.read<CartItemModel>().UrlQr,
+                    context.read<CartItemModel>().buildName,
+                    context.read<CartItemModel>().roomNo,
+                    _status = "รอยืนยันสลิป",
+                    context.read<CartItemModel>().availableDate,
+                    context.read<CartItemModel>().availableTime,
+                    context.read<CartItemModel>().email,
+                  );
 
                   Navigator.pushNamed(context, '/7');
                 },

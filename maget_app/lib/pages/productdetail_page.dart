@@ -363,7 +363,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         (widget.Products.price + widget.Products.deliveryFee))
                     ..UrlQr = widget.Products.UrlQr
                     ..buildName = _buildName
-                    ..roomNo = _roomNo;
+                    ..roomNo = _roomNo
+                    ..availableDate = widget.Products.availableDate
+                    ..availableTime = widget.Products.availableTime
+                    ..email = widget.Products.email;
 
                   print('check cart ${context.read<CartItemModel>().image}');
                   print('check cost ${context.read<CartItemModel>().cost}');

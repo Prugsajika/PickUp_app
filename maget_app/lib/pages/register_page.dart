@@ -128,21 +128,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: TextFormField(
                         maxLength: 13,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(),
-                          border: OutlineInputBorder(),
-                          labelText: 'เลขบัตรประชาชน',
-                        ),
+                            enabledBorder: OutlineInputBorder(),
+                            border: OutlineInputBorder(),
+                            labelText: 'พร้อมเพย์',
+                            hintText: 'หมายเลขบัตรประชาช / เบอร์มือถือ'),
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'กรุณาใส่เลขบัตรประชาชน 13 หลัก ';
+                            return 'กรุณาใส่เลขพร้อมเพย์ ';
                           }
-                          if (value.length < 13 || value.length > 13) {
-                            return 'เลขบัตรประชาชน 13 หลัก';
-                          }
+                          // if (value.length < 13 || value.length > 13) {
+                          //   return 'เลขบัตรประชาชน 13 หลัก';
+                          // }
                           return null;
                         },
                         onSaved: (newValue) {
@@ -178,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: TextFormField(
                         maxLength: 30,
                         decoration: InputDecoration(
@@ -197,7 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: TextFormField(
                         maxLength: 30,
                         obscureText: _hidePassword,
@@ -235,7 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: TextFormField(
                         obscureText: _hidePassword,
                         decoration: InputDecoration(

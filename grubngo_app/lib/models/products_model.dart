@@ -21,6 +21,8 @@ class Product {
   bool productStatus;
   late String email;
   late String UrlQr;
+  late String availableDate;
+  late String availableTime;
 
   Product(
       this.Productid,
@@ -41,7 +43,9 @@ class Product {
       // this.endTime,
       this.stock,
       this.email,
-      this.UrlQr);
+      this.UrlQr,
+      this.availableDate,
+      this.availableTime);
 
   factory Product.fromJason(Map<String, dynamic> json) {
     return Product(
@@ -64,6 +68,8 @@ class Product {
       json['stock'] as int,
       json['email'] as String,
       json['UrlQr'] as String,
+      json['availableDate'] as String,
+      json['availableTime'] as String,
     );
   }
 }
@@ -98,9 +104,10 @@ class ProductModel extends ChangeNotifier {
   late int stock;
   late int deliveryFee;
   String UrlQr = '';
+  String availableDate = '';
+  String availableTime = '';
 
   get getProductid => this.Productid;
-
   set setProductid(value) {
     this.Productid = value;
     notifyListeners();
@@ -172,9 +179,21 @@ class ProductModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get getdUrlQr => this.UrlQr;
+  get getUrlQr => this.UrlQr;
   set setUrlQr(value) {
     this.UrlQr = value;
+    notifyListeners();
+  }
+
+  get getavailableDate => this.availableDate;
+  set setavailableDate(value) {
+    this.availableDate = value;
+    notifyListeners();
+  }
+
+  get getavailableTime => this.availableTime;
+  set setavailableTime(value) {
+    this.availableTime = value;
     notifyListeners();
   }
 

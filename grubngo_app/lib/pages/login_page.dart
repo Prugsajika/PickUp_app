@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grubngo_app/pages/home_page.dart';
@@ -17,6 +19,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  bool _hidePassword = true;
+
   RiderController controllerR = RiderController(RiderServices());
   late String UrlQr = "";
   Future singIn() async {
@@ -37,8 +42,8 @@ class _LoginPageState extends State<LoginPage> {
               content: Text('กรุณาตรวจสอบข้อมูลการเข้าระบบ'),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => Navigator.pop(context, 'OK'),
-                  child: const Text('OK'),
+                  onPressed: () => Navigator.pop(context, 'ตกลง'),
+                  child: const Text('ตกลง'),
                 ),
               ],
             );
@@ -128,10 +133,24 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
-                    obscureText: true,
+                    obscureText: _hidePassword,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       labelText: 'รหัสผ่าน',
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _hidePassword = false;
+                          });
+
+                          Timer.periodic(Duration(seconds: 5), ((timer) {
+                            setState(() {
+                              _hidePassword = true;
+                            });
+                          }));
+                        },
+                        icon: Icon(Icons.remove_red_eye),
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: iGreyColor),
                         borderRadius: BorderRadius.circular(12),
@@ -147,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 15),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
                   child: ElevatedButton(
                     onPressed: singIn,
                     child: Center(

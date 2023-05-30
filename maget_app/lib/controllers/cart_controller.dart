@@ -48,7 +48,11 @@ class CartController {
       email,
       UrlQr,
       buildName,
-      roomNo) async {
+      roomNo,
+      status,
+      availableDate,
+      availableTime,
+      emailRider) async {
     services.addCart(
         image,
         name,
@@ -65,6 +69,10 @@ class CartController {
         email,
         UrlQr,
         buildName,
-        roomNo);
+        roomNo,
+        status,
+        availableDate,
+        availableTime,
+        emailRider);
   }
 }

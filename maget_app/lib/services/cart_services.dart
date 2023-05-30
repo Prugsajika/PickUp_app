@@ -44,7 +44,11 @@ class CartServices {
       email,
       UrlQr,
       buildName,
-      roomNo) async {
+      roomNo,
+      status,
+      availableDate,
+      availableTime,
+      emailRider) async {
     FirebaseFirestore.instance.collection('cart').add({
       'cartId': '',
       'image': image,
@@ -63,6 +67,10 @@ class CartServices {
       'UrlQr': UrlQr,
       'buildName': buildName,
       'roomNo': roomNo,
+      'status': status,
+      'availableDate': availableDate,
+      'availableTime': availableTime,
+      'emailRider': emailRider,
     }).then((value) =>
         FirebaseFirestore.instance.collection('cart').doc(value.id).update({
           // 'id': value.id,

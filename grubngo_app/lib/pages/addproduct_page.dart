@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grubngo_app/controllers/rider_controller.dart';
 import 'package:grubngo_app/models/riderinfo_model.dart';
+import 'package:grubngo_app/pages/addproduct_success_page.dart';
 import 'package:grubngo_app/pages/products_page.dart';
 import 'package:grubngo_app/services/rider_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +26,10 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProduct extends State<AddProduct> {
-  TextEditingController _date = TextEditingController();
+  TextEditingController _dateSent = TextEditingController();
+  TextEditingController _dateAvailable = TextEditingController();
+  TextEditingController _timeSent = TextEditingController();
+  TextEditingController _timeAvailable = TextEditingController();
   final user = FirebaseAuth.instance.currentUser!;
 
   final _formkey = GlobalKey<FormState>();
@@ -35,6 +39,8 @@ class _AddProduct extends State<AddProduct> {
   late String _description;
   late String _sentDate;
   late String _sentTime;
+  late String _availableDate;
+  late String _availableTime;
   late String _typeOfFood;
 
   late String _UrlPd;
@@ -48,6 +54,8 @@ class _AddProduct extends State<AddProduct> {
   late String UrlQr = "";
   ProductController controller = ProductController(ProductServices());
   RiderController controllerR = RiderController(RiderServices());
+
+  TimeOfDay timeOfDay = TimeOfDay.now();
 
   void initState() {
     super.initState();
@@ -79,9 +87,24 @@ class _AddProduct extends State<AddProduct> {
       int price,
       stock,
       deliveryFee,
-      urlQr) async {
-    controller.addProduct(name, description, UrlPd, deliveryLocation, email,
-        typeOfFood, sentDate, sentTime, price, stock, deliveryFee, urlQr);
+      urlQr,
+      availableDate,
+      availableTime) async {
+    controller.addProduct(
+        name,
+        description,
+        UrlPd,
+        deliveryLocation,
+        email,
+        typeOfFood,
+        sentDate,
+        sentTime,
+        price,
+        stock,
+        deliveryFee,
+        urlQr,
+        availableDate,
+        availableTime);
   }
 
   File? _imagePD;
@@ -215,7 +238,7 @@ class _AddProduct extends State<AddProduct> {
                   decoration: InputDecoration(
                     labelText: 'ชื่อสินค้า',
                     border: OutlineInputBorder(),
-                    hintText: 'ชื่อสินค้า',
+                    hintText: 'เช่น หมูปิ้ง',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -240,6 +263,7 @@ class _AddProduct extends State<AddProduct> {
                   items: [
                     DropdownMenuItem(child: Text("ของคาว"), value: "ของคาว"),
                     DropdownMenuItem(child: Text("ของหวาน"), value: "ของหวาน"),
+                    DropdownMenuItem(child: Text("ผลไม้"), value: "ผลไม้"),
                   ],
                   onChanged: (String? newVal) {
                     setState(() {
@@ -254,7 +278,7 @@ class _AddProduct extends State<AddProduct> {
                   decoration: InputDecoration(
                       labelText: 'รายละเอียดสินค้า',
                       border: OutlineInputBorder(),
-                      hintText: 'รายละเอียดสินค้า'),
+                      hintText: 'เช่น ร้าน... ถุงละ 10 ไม้'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'กรุณาใส่รายละเอียดสินค้า';
@@ -270,9 +294,9 @@ class _AddProduct extends State<AddProduct> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                      labelText: 'ราคาสินค้า',
+                      labelText: 'ราคาสินค้าต่อชิ้น',
                       border: OutlineInputBorder(),
-                      hintText: 'ราคาสินค้า'),
+                      hintText: 'จำนวนเงิน (บาท)'),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -295,7 +319,7 @@ class _AddProduct extends State<AddProduct> {
                   decoration: InputDecoration(
                       labelText: 'จำนวนสินค้า',
                       border: OutlineInputBorder(),
-                      hintText: 'จำนวนสินค้า'),
+                      hintText: 'จำนวนสินค้าทั้งหมด (ชิ้น)'),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -315,9 +339,9 @@ class _AddProduct extends State<AddProduct> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                      labelText: 'ค่าหิ้ว',
+                      labelText: 'ค่าหิ้วต่อชิ้น',
                       border: OutlineInputBorder(),
-                      hintText: 'ค่าหิ้ว'),
+                      hintText: 'จำนวนเงิน (บาท)'),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -336,7 +360,7 @@ class _AddProduct extends State<AddProduct> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: _date,
+                  controller: _dateSent,
                   decoration: InputDecoration(
                     labelText: 'วันที่จัดส่ง',
                     border: OutlineInputBorder(),
@@ -351,7 +375,7 @@ class _AddProduct extends State<AddProduct> {
                         if (pickedate != null) {
                           setState(
                             () {
-                              _date.text =
+                              _dateSent.text =
                                   DateFormat('dd/MM/yyyy').format(pickedate);
                             },
                           );
@@ -374,12 +398,27 @@ class _AddProduct extends State<AddProduct> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'เวลาที่จัดส่ง',
-                    border: OutlineInputBorder(),
-                    hintText: 'เวลาที่จัดส่ง',
-                  ),
+                  controller: _timeSent,
                   keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      labelText: 'เวลาที่จัดส่ง',
+                      border: OutlineInputBorder(),
+                      hintText: 'เช่น 18.00',
+                      suffixIcon: IconButton(
+                        onPressed: () async {
+                          var _time = await showTimePicker(
+                            context: context,
+                            initialTime: timeOfDay,
+                          );
+
+                          if (_time != null) {
+                            setState(() {
+                              _timeSent.text = "${_time.hour}:${_time.minute}";
+                            });
+                          }
+                        },
+                        icon: Icon(Icons.access_time),
+                      )),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'กรุณาใส่เวลาที่จัดส่ง';
@@ -397,7 +436,7 @@ class _AddProduct extends State<AddProduct> {
                   decoration: InputDecoration(
                       labelText: 'สถานที่จัดส่ง',
                       border: OutlineInputBorder(),
-                      hintText: 'สถานที่จัดส่ง'),
+                      hintText: 'เช่น คอนโด... / หมู่บ้าน...'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'กรุณาใส่รายละเอียดสถานที่จัดส่ง';
@@ -406,6 +445,81 @@ class _AddProduct extends State<AddProduct> {
                   },
                   onSaved: (newValue) {
                     _deliveryLocation = newValue!;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _dateAvailable,
+                  decoration: InputDecoration(
+                    labelText: 'วันที่สั่งได้ถึง',
+                    border: OutlineInputBorder(),
+                    hintText: 'วันที่สั่งได้ถึง',
+                    suffixIcon: IconButton(
+                      onPressed: () async {
+                        DateTime? pickedate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101));
+                        if (pickedate != null) {
+                          setState(
+                            () {
+                              _dateAvailable.text =
+                                  DateFormat('dd/MM/yyyy').format(pickedate);
+                            },
+                          );
+                        }
+                      },
+                      icon: Icon(Icons.calendar_today_rounded),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'กรุณาใส่วันที่สั่งได้ถึง';
+                    }
+                    return null;
+                  },
+                  onSaved: (newValue) {
+                    _availableDate = newValue!;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _timeAvailable,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'เวลาที่สั่งได้ถึง',
+                    border: OutlineInputBorder(),
+                    hintText: 'เช่น 18.00',
+                    suffixIcon: IconButton(
+                      onPressed: () async {
+                        var _time = await showTimePicker(
+                          context: context,
+                          initialTime: timeOfDay,
+                        );
+
+                        if (_time != null) {
+                          setState(() {
+                            _timeAvailable.text =
+                                "${_time.hour}:${_time.minute}";
+                          });
+                        }
+                      },
+                      icon: Icon(Icons.access_time),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'กรุณาใส่เวลาที่สั่งได้ถึง';
+                    }
+                    return null;
+                  },
+                  onSaved: (newValue) {
+                    _availableTime = newValue!;
                   },
                 ),
               ),
@@ -422,7 +536,8 @@ class _AddProduct extends State<AddProduct> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProductsPage()));
+                                  builder: (context) =>
+                                      AddProductSuccessPage()));
 
                           _addProduct(
                               _name,
@@ -437,15 +552,17 @@ class _AddProduct extends State<AddProduct> {
                               _price = int.parse(_prices),
                               _stock = int.parse(_stocks),
                               _deliveryFee = int.parse(_deliveryFees),
-                              UrlQr);
+                              UrlQr,
+                              _availableDate,
+                              _availableTime);
 
                           print('test QR Code ${UrlQr}');
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Processing Save : $_name'),
-                            ),
-                          );
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(
+                          //     content: Text('Processing Save : $_name'),
+                          //   ),
+                          // );
                         }
                         context.read<ProductModel>()
                           ..name = _name
@@ -459,7 +576,9 @@ class _AddProduct extends State<AddProduct> {
                               context.read<emailProvider>().email.toString()
                           ..price = _price
                           ..stock = _stock
-                          ..deliveryFee = _deliveryFee;
+                          ..deliveryFee = _deliveryFee
+                          ..availableDate = _availableDate
+                          ..availableTime = _availableTime;
                       },
                       child: Text('สร้างรายการสินค้า'),
                     ),

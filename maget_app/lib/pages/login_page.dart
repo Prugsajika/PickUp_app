@@ -16,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _hidePassword = true;
 
   Future singIn() async {
     try {
@@ -34,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
               content: Text('กรุณาตรวจสอบข้อมูลการเข้าระบบ'),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => Navigator.pop(context, 'OK'),
-                  child: const Text('OK'),
+                  onPressed: () => Navigator.pop(context, 'ตกลง'),
+                  child: const Text('ตกลง'),
                 ),
               ],
             );
@@ -134,6 +135,20 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       decoration: InputDecoration(
                         labelText: 'รหัสผ่าน',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _hidePassword = false;
+                            });
+
+                            Timer.periodic(Duration(seconds: 5), ((timer) {
+                              setState(() {
+                                _hidePassword = true;
+                              });
+                            }));
+                          },
+                          icon: Icon(Icons.remove_red_eye),
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: iGreyColor),
                           borderRadius: BorderRadius.circular(12),
@@ -149,23 +164,16 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 20),
-                    child: GestureDetector(
-                      onTap: singIn,
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: iOrangeColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'เข้าสู่ระบบ',
-                            style: TextStyle(
-                                color: iWhiteColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          ),
+                        horizontal: 100, vertical: 20),
+                    child: ElevatedButton(
+                      onPressed: singIn,
+                      child: Center(
+                        child: Text(
+                          'เข้าสู่ระบบ',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
                         ),
                       ),
                     ),

@@ -45,8 +45,23 @@ class ProductController {
       int price,
       stock,
       deliveryFee,
-      String UrlQr) async {
-    services.addProduct(name, description, UrlPd, deliveryLocation, email,
-        typeOfFood, sentDate, sentTime, price, stock, deliveryFee, UrlQr);
+      String UrlQr,
+      availableDate,
+      availableTime) async {
+    services.addProduct(
+        name,
+        description,
+        UrlPd,
+        deliveryLocation,
+        email,
+        typeOfFood,
+        sentDate,
+        sentTime,
+        price,
+        stock,
+        deliveryFee,
+        UrlQr,
+        availableDate,
+        availableTime);
   }
 }

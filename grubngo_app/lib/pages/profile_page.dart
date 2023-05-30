@@ -15,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  List<Rider> profile = List.empty();
+  List<RiderModel> profile = List.empty();
   // late String _email = widget.email;
   bool isLoading = false;
   final _formkey = GlobalKey<FormState>();

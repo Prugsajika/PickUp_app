@@ -161,6 +161,13 @@ class ProductDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          Text(
+                            " ชิ้น",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 15,
+                            ),
+                          ),
                         ],
                       ),
                       Column(
@@ -230,6 +237,63 @@ class ProductDetailPage extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               Notes.sentTime,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            " น.",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "วันที่สั่งได้ถึง : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              Notes.availableDate,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "เวลาที่สั่งได้ถึง : ",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              Notes.availableTime,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,

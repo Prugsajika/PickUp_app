@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../models/customer_model.dart';
 import '../pages/favourite_page.dart';
 import '../pages/home_page.dart';
 import '../pages/login_page.dart';
@@ -40,21 +42,23 @@ class DrawerBar extends StatelessWidget {
             bottom: 24,
           ),
           child: Column(
-            children: const [
-              CircleAvatar(
-                radius: 52,
-                backgroundImage: NetworkImage(
-                    'https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'),
-              ),
-              SizedBox(
-                height: 12,
-              ),
+            children: [
+              // CircleAvatar(
+              //   radius: 52,
+              //   backgroundImage: NetworkImage(
+              //       'https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'),
+              // ),
+              // SizedBox(
+              //   height: 12,
+              // ),
               Text(
-                'Sam Poomin',
+                context.read<ProfileDetailModel>().name.toString() +
+                    ' ' +
+                    context.read<ProfileDetailModel>().lastName.toString(),
                 style: TextStyle(fontSize: 28, color: Colors.black),
               ),
               Text(
-                'sam@mail.com',
+                context.read<ProfileDetailModel>().email.toString(),
                 style: TextStyle(fontSize: 16, color: Colors.black),
               )
             ],
@@ -79,18 +83,18 @@ Widget buildMenuItems(BuildContext context) {
                 builder: (context) => HomePage(),
               ));
             }),
-        ListTile(
-            leading: const Icon(Icons.favorite_border),
-            title: Text('รายการโปรด'),
-            onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const FavouritesPage(),
-              ));
-            }),
-        ListTile(
-            leading: const Icon(Icons.shopping_cart),
-            title: Text('ตระกร้าของฉัน'),
-            onTap: () {}),
+        // ListTile(
+        //     leading: const Icon(Icons.favorite_border),
+        //     title: Text('รายการโปรด'),
+        //     onTap: () {
+        //       Navigator.of(context).pushReplacement(MaterialPageRoute(
+        //         builder: (context) => const FavouritesPage(),
+        //       ));
+        //     }),
+        // ListTile(
+        //     leading: const Icon(Icons.shopping_cart),
+        //     title: Text('ตระกร้าของฉัน'),
+        //     onTap: () {}),
         // ListTile(
         //     leading: const Icon(Icons.add_box),
         //     title: Text('รายการสั่งซื้อ'),
@@ -115,10 +119,7 @@ Widget buildMenuItems(BuildContext context) {
         //         builder: (context) => RestaurantPage(),
         //       ));
         //     }),
-        ListTile(
-            leading: const Icon(Icons.settings),
-            title: Text('การตั้งค่า'),
-            onTap: () {}),
+
         ListTile(
             leading: const Icon(Icons.power_settings_new),
             title: Text('ออกจากระบบ'),

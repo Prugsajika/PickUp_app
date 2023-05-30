@@ -39,7 +39,9 @@ class ProductServices {
       int price,
       stock,
       deliveryFee,
-      String UrlQr) async {
+      String UrlQr,
+      availableDate,
+      availableTime) async {
     FirebaseFirestore.instance.collection('products').add({
       // 'id': "",
       'name': name,
@@ -55,6 +57,8 @@ class ProductServices {
       'deliveryFee': deliveryFee,
       'productStatus': true,
       'UrlQr': UrlQr,
+      'availableDate': availableDate,
+      'availableTime': availableTime,
     }).then((value) =>
         FirebaseFirestore.instance.collection('products').doc(value.id).update({
           'Productid': value.id,

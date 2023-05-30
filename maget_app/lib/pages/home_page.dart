@@ -118,7 +118,8 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.shopping_cart_sharp),
             onPressed: () {
-              showSearch(context: context, delegate: delegate);
+              Navigator.pushNamed(context, '/Login');
+              // showSearch(context: context, delegate: delegate);
             },
           ),
           // IconButton(

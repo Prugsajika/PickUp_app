@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:grubngo_app/models/cartitem_model.dart';
 import 'package:grubngo_app/models/products_model.dart';
 import 'package:grubngo_app/models/riderinfo_model.dart';
+import 'package:grubngo_app/pages/addproduct_success_page.dart';
 import 'package:grubngo_app/pages/login_page.dart';
 import 'package:grubngo_app/pages/register_success_page.dart';
 import 'package:grubngo_app/widgets/uploadimage.dart';
@@ -51,6 +53,9 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => UrlPdProvider(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => CartItemModel(),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -75,6 +80,7 @@ class MyApp extends StatelessWidget {
         '/3': (context) => RegisterSuccessPage(),
         '/4': (context) => UploadWidget(),
         '/5': (context) => AddProduct(),
+        '/6': (context) => AddProductSuccessPage(),
         // '/11': (context) => ImageUploads()
         // '/6': (context) => ProductDetailPage()
       },

@@ -55,14 +55,14 @@ class _DrawerBarState extends State<DrawerBar> {
           ),
           child: Column(
             children: [
-              CircleAvatar(
-                radius: 52,
-                backgroundImage: NetworkImage(
-                    'https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'),
-              ),
-              SizedBox(
-                height: 12,
-              ),
+              // CircleAvatar(
+              //   radius: 52,
+              //   backgroundImage: NetworkImage(
+              //       'https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'),
+              // ),
+              // SizedBox(
+              //   height: 12,
+              // ),
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Consumer<RiderModel>(builder: (context, value, child) {
