@@ -9,7 +9,8 @@ class ProductServices {
       FirebaseFirestore.instance.collection('products');
   final user = FirebaseAuth.instance.currentUser!;
   Future<List<Product>> get() async {
-    QuerySnapshot snapshot = await _collection.get();
+    QuerySnapshot snapshot =
+        await _collection.where('email', isEqualTo: user.email).get();
 
     AllProducts snap = AllProducts.fromSnapshot(snapshot);
 

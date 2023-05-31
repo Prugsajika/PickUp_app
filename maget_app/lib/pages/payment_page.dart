@@ -186,6 +186,40 @@ class _PaymentPageState extends State<PaymentPage> {
               SizedBox(
                 height: 15,
               ),
+              Consumer<CartItemModel>(builder: (context, value, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "จำนวนเงินที่ต้องโอน ",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      value.totalCost.toString(),
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      ' บาท',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                );
+              }),
+              SizedBox(
+                height: 15,
+              ),
               Text(
                 "กรอกข้อมูลการชำระเงิน",
                 style: TextStyle(
@@ -261,14 +295,6 @@ class _PaymentPageState extends State<PaymentPage> {
                                   _timeC.text = "${_time.hour}:${_time.minute}";
                                 });
                               }
-                              // TimeOfDay? picketime = TimeOfDay.now();
-                              // if (picketime != null) {
-                              //   setState(
-                              //     () {
-                              //       _timeC.text = TimeOfDay.now().toString();
-                              //     },
-                              //   );
-                              // }
                             },
                             icon: Icon(Icons.access_time),
                           ),

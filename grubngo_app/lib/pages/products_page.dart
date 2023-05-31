@@ -77,9 +77,9 @@ class _ProductsPageState extends State<ProductsPage> {
 }
 
 class CardList extends StatelessWidget {
-  final Product notes;
+  final Product products;
   int index;
-  CardList(this.notes, this.index);
+  CardList(this.products, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class CardList extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           title: Text(
-            notes.name,
+            products.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -111,7 +111,7 @@ class CardList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                notes.description,
+                products.description,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -131,7 +131,7 @@ class CardList extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    notes.availableDate,
+                    products.availableDate,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -153,7 +153,7 @@ class CardList extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    notes.availableTime,
+                    products.availableTime,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -166,14 +166,15 @@ class CardList extends StatelessWidget {
             ],
           ),
           leading: CircleAvatar(
-            backgroundImage: NetworkImage(notes.UrlPd),
+            backgroundImage: NetworkImage(products.UrlPd),
           ),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ProductDetailPage(Notes: notes)));
+                    builder: (context) =>
+                        ProductDetailPage(Products: products)));
           },
         ),
       ),

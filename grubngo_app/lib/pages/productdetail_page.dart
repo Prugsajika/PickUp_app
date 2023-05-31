@@ -5,8 +5,8 @@ import '../models/products_model.dart';
 import '../models/riderinfo_model.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  const ProductDetailPage({super.key, required this.Notes});
-  final Product Notes;
+  const ProductDetailPage({super.key, required this.Products});
+  final Product Products;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ProductDetailPage extends StatelessWidget {
                       color: Color.fromARGB(255, 232, 237, 243),
                       image: DecorationImage(
                         image: NetworkImage(
-                          Notes.UrlPd,
+                          Products.UrlPd,
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -71,7 +71,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.name,
+                              Products.name,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -97,7 +97,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.description,
+                              Products.description,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -122,7 +122,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.price.toString(),
+                              Products.price.toString(),
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -154,7 +154,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.stock.toString(),
+                              Products.stock.toString(),
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -186,7 +186,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.deliveryLocation,
+                              Products.deliveryLocation,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -211,7 +211,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.sentDate,
+                              Products.sentDate,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -236,7 +236,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.sentTime,
+                              Products.sentTime,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -268,7 +268,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.availableDate,
+                              Products.availableDate,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -293,7 +293,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Notes.availableTime,
+                              Products.availableTime,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,

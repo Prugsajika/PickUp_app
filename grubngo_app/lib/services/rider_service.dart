@@ -1,15 +1,18 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/riderinfo_model.dart';
 
 class RiderServices {
+  final user = FirebaseAuth.instance.currentUser!;
   CollectionReference _collection =
       FirebaseFirestore.instance.collection('rider');
 
   Future<List<Rider>> getRiders() async {
-    QuerySnapshot snapshot = await _collection.get();
+    QuerySnapshot snapshot =
+        await _collection.where('Riderid', isEqualTo: user.uid).get();
 
     AllRiders riders = AllRiders.fromSnapshot(snapshot);
     return riders.riders;

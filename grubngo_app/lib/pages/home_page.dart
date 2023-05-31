@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
-    _getEmail(context);
+    // _getEmail(context);
 
     final user = FirebaseAuth.instance.currentUser!;
     String UserEmail = user.email.toString();
@@ -63,10 +63,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _getEmail(BuildContext context) async {
-    // get data  MedicalDashboard
-    context.read<emailProvider>().email = user.email!;
-  }
+  // void _getEmail(BuildContext context) async {
+  //   // get data  MedicalDashboard
+  //   context.read<emailProvider>().email = user.email!;
+  // }
 
   void _getCartByEmail(String emailRider) async {
     List<CartItem> items = List.empty();
@@ -396,6 +396,7 @@ class CardList extends StatelessWidget {
           ),
           // trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
+            print('#######################carts ID ${carts.cartId}');
             Navigator.push(
                 context,
                 MaterialPageRoute(
