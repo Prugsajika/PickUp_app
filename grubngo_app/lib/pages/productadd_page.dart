@@ -3,11 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:grubngo_app/controllers/rider_controller.dart';
-import 'package:grubngo_app/models/riderinfo_model.dart';
-import 'package:grubngo_app/pages/addproduct_success_page.dart';
-import 'package:grubngo_app/pages/products_page.dart';
-import 'package:grubngo_app/services/rider_service.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -15,9 +11,13 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/product_controller.dart';
+import '../controllers/rider_controller.dart';
 import '../models/products_model.dart';
+import '../models/riderinfo_model.dart';
 import '../services/product_services.dart';
+import '../services/rider_service.dart';
 import '../widgets/drawerappbar.dart';
+import 'productadd_success_page.dart';
 
 class AddProduct extends StatefulWidget {
   // const AddProduct({Key? key, required this.email}) : super(key: key);
@@ -412,8 +412,15 @@ class _AddProduct extends State<AddProduct> {
                           );
 
                           if (_time != null) {
+                            print(_time.format(context));
+                            DateTime parsedTime = DateFormat.jm()
+                                .parse(_time.format(context).toString());
+                            print(parsedTime);
+                            String formattedTime =
+                                DateFormat('HH:mm').format(parsedTime);
+                            print(formattedTime);
                             setState(() {
-                              _timeSent.text = "${_time.hour}:${_time.minute}";
+                              _timeSent.text = formattedTime;
                             });
                           }
                         },
@@ -503,9 +510,15 @@ class _AddProduct extends State<AddProduct> {
                         );
 
                         if (_time != null) {
+                          print(_time.format(context));
+                          DateTime parsedTime = DateFormat.jm()
+                              .parse(_time.format(context).toString());
+                          print(parsedTime);
+                          String formattedTime =
+                              DateFormat('HH:mm').format(parsedTime);
+                          print(formattedTime);
                           setState(() {
-                            _timeAvailable.text =
-                                "${_time.hour}:${_time.minute}";
+                            _timeAvailable.text = formattedTime;
                           });
                         }
                       },

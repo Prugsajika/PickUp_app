@@ -75,4 +75,20 @@ class CartController {
         availableTime,
         emailRider);
   }
+
+  void updateProcessPayment(
+    String cartId,
+    status,
+    _paydate,
+    _paytime,
+    confirmPayimg,
+  ) async {
+    services.updateProcessPayment(
+      cartId,
+      status,
+      _paydate,
+      _paytime,
+      confirmPayimg,
+    );
+  }
 }

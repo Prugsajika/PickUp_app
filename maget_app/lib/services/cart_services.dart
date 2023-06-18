@@ -77,4 +77,21 @@ class CartServices {
           'cartId': value.id,
         }));
   }
+
+  void updateProcessPayment(
+    String cartId,
+    status,
+    _paydate,
+    _paytime,
+    confirmPayimg,
+  ) async {
+    FirebaseFirestore.instance.collection('cart').doc(cartId).update({
+      'cartId': cartId,
+      'status': status,
+      'paydate': _paydate,
+      'paytime': _paytime,
+      'confirmPayimg': confirmPayimg,
+    });
+    print('cartId for service$cartId');
+  }
 }

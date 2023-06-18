@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grubngo_app/pages/products_page.dart';
+
+import 'products_page.dart';
 
 class AddProductSuccessPage extends StatelessWidget {
   @override
@@ -49,6 +50,24 @@ class AddProductSuccessPage extends StatelessWidget {
                     },
                     child: Text(
                       "ตกลง",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductsPage()));
+                      // Navigator.popUntil(context, (route) => route.first);
+                    },
+                    child: Text(
+                      "ยกเลิก",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

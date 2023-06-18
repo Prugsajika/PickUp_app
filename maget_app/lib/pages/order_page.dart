@@ -2,11 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maget_app/controllers/cart_controller.dart';
 import 'package:maget_app/models/cartitem_model.dart';
+import 'package:maget_app/pages/checkout_page.dart';
 import 'package:maget_app/pages/home_page.dart';
+import 'package:maget_app/pages/payment_page.dart';
 import 'package:maget_app/services/cart_services.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/drawerappbar.dart';
+import 'processpayment_page.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -179,6 +182,13 @@ class CardList extends StatelessWidget {
             backgroundImage: NetworkImage(carts.image),
           ),
           // trailing: const Icon(Icons.arrow_forward_ios),
+          trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProcessPaymentPage(Carts: carts)));
+          },
         ),
       ),
     );

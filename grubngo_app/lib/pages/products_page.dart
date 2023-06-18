@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:grubngo_app/pages/productdetail_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -10,6 +9,7 @@ import '../models/products_model.dart';
 import '../services/product_services.dart';
 import '../widgets/drawerappbar.dart';
 import 'color.dart';
+import 'productdetail_page.dart';
 
 class ProductsPage extends StatefulWidget {
   @override
@@ -174,7 +174,7 @@ class CardList extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        ProductDetailPage(Products: products)));
+                        ProductDetailPage(Products: products, Indexs: index)));
           },
         ),
       ),

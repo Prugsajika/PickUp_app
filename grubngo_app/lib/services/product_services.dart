@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:grubngo_app/pages/addproduct_page.dart';
+import 'package:flutter/material.dart';
 
 import '../models/products_model.dart';
 
@@ -26,6 +26,14 @@ class ProductServices {
 
     print('QuerySnapshot ${snap.products.length}');
     return snap.products;
+  }
+
+  Future<List<Product>> getProductInfo(String Productid) async {
+    QuerySnapshot snapshot =
+        await _collection.where('Productid', isEqualTo: Productid).get();
+    AllProducts products = AllProducts.fromSnapshot(snapshot);
+    print('getproductinfo ${products.products.length}');
+    return products.products;
   }
 
   void addProduct(
@@ -66,27 +74,38 @@ class ProductServices {
         }));
   }
 
-  // void update(Product item) async {
-  //   print("update");
-  //   print(item.id);
-  //   await _collection.doc(item.id).update({
-  //     "name": item.name,
-  //     "description": item.description,
-  //     "price": item.price,
-  //     "stock": item.stock,
-  //     "productStatus": item.productStatus,
-  //     "deliveryLocation": item.deliveryLocation,
-  //   });
-  // }
+  void updateProduct(
+      String UrlPd,
+      name,
+      typeOfFood,
+      description,
+      int price,
+      stock,
+      deliveryFee,
+      String sentDate,
+      sentTime,
+      deliveryLocation,
+      availableDate,
+      availableTime,
+      Productid) async {
+    FirebaseFirestore.instance.collection('products').doc(Productid).update({
+      'UrlPd': UrlPd,
+      'name': name,
+      'typeOfFood': typeOfFood,
+      'description': description,
+      'price': price,
+      'stock': stock,
+      'deliveryFee': deliveryFee,
+      'sentDate': sentDate,
+      'sentTime': sentTime,
+      'deliveryLocation': deliveryLocation,
+      'availableDate': availableDate,
+      'availableTime': availableTime,
+      'Productid': Productid,
+    });
+  }
 
-  // void insert(Product item) async {
-  //   await _collection.doc().set({
-  //     "name": item.name,
-  //     "description": item.description,
-  //     "price": item.price,
-  //     "stock": item.stock,
-  //     "productStatus": item.productStatus,
-  //     "deliveryLocation": item.deliveryLocation,
-  //   });
-  // }
+  void deleteProduct(String Productid) async {
+    FirebaseFirestore.instance.collection('products').doc(Productid).delete();
+  }
 }

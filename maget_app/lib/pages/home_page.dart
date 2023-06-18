@@ -32,6 +32,12 @@ class _HomePageState extends State<HomePage> {
 
   CustomerController custcontroller = CustomerController(CustomerServices());
 
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+  final searchController = TextEditingController();
+  List<Product> filteredData = [];
+  List<Product> data = List.empty();
+
   List<Product> products = List.empty();
   List<Customer> customers = List.empty();
   bool isLoading = false;
@@ -44,9 +50,11 @@ class _HomePageState extends State<HomePage> {
   int _stock = 0;
   DateTime _endDate = DateTime.now();
   TimeOfDay _endTime = TimeOfDay.now();
+  String searchvalue = "";
 
   void initState() {
     _getProduct(context);
+    filteredData = data;
     super.initState();
     _getEmail(context);
     context.read<ListProducts>().addAllItem(products);
@@ -69,6 +77,11 @@ class _HomePageState extends State<HomePage> {
     print('chk-- ${newProduct}');
     print('chk--product ${products}');
     setState(() => products = newProduct);
+    setState(() {
+      data = newProduct;
+      filteredData = newProduct;
+      print('chk filter $filteredData');
+    });
 
     context.read<ProductModel>().getListProduct = newProduct;
   }
@@ -90,8 +103,43 @@ class _HomePageState extends State<HomePage> {
         ..telNo = customer.first.telNo
         ..email = customer.first.email
         ..status = customer.first.status
-        ..role = customer.first.role;
+        ..role = customer.first.role
+        ..Gender = customer.first.Gender;
     }
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchTextChanged(String text) {
+    setState(() {
+      filteredData = text.isEmpty
+          ? data
+          : data
+              .where((item) =>
+                      item.name.toLowerCase().contains(text.toLowerCase()) ||
+                      item.deliveryLocation
+                          .toLowerCase()
+                          .contains(text.toLowerCase()) ||
+                      item.sentDate
+                          .toLowerCase()
+                          .contains(text.toLowerCase()) ||
+                      item.availableDate
+                          .toLowerCase()
+                          .contains(text.toLowerCase())
+                  // item.namechild.toLowerCase().contains(text.toLowerCase()) ||
+                  // item.namepartner.toLowerCase().contains(text.toLowerCase()) ||
+                  // item.maritalstatus.toLowerCase().contains(text.toLowerCase()) ||
+                  // item.submaritalstatus.toLowerCase().contains(text.toLowerCase()) ||
+                  // item.status.toLowerCase().contains(text.toLowerCase())
+                  )
+              .toList();
+
+      print(data);
+    });
   }
 
   @override
@@ -118,7 +166,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.shopping_cart_sharp),
             onPressed: () {
-              Navigator.pushNamed(context, '/Login');
+              Navigator.pushNamed(context, '/7');
               // showSearch(context: context, delegate: delegate);
             },
           ),
@@ -132,29 +180,101 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: DrawerBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Consumer<ProductModel>(
-            builder: (context, ProductModel data, child) {
-          return data.getListProduct.length != 0
-              ? ListView.builder(
-                  itemCount: data.getListProduct.length,
-                  itemBuilder: (context, index) {
-                    print(data.getListProduct.length);
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 60,
+              child: TextField(
+                focusNode: _searchFocusNode,
+                controller: _searchController,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: 'ค้นหา...',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (val) {
+                  setState(() {
+                    searchvalue = val;
+                  });
+                },
+              ),
+            ),
+          ),
+          Expanded(
+            // child: Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: ListView.builder(
+            //     itemCount: filteredData.length,
+            //     itemBuilder: (context, index) {
+            //       // print("************************");
+            //       print(filteredData.length);
+            //       // print(products.first.Productid);
+            //       data = filteredData[index] as List<Product>;
 
-                    return CardList(data.getListProduct[index], index);
-                  })
-              : GestureDetector(
-                  child: Center(
-                    child: Text(
-                      "ไม่มีรายการสินค้า",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                );
-        }),
+            //       if (data.isEmpty) {
+            //         return CardList(data[index], index);
+            //       }
+            //       // if (products
+            //       //     .toString()
+            //       //     .toLowerCase()
+            //       //     .startsWith(filteredData.toLowerCase())) {
+            //       //   return CardList(filteredData[index], index);
+            //       // }
+            //     },
+            //   ),
+            //   // : GestureDetector(
+            //   //     child: Center(
+            //   //       child: Text(
+            //   //         "ไม่มีรายการสินค้า",
+            //   //         style: TextStyle(
+            //   //           color: Colors.black,
+            //   //         ),
+            //   //       ),
+            //   //     ),
+            //   //   );
+            //   // },
+
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Consumer<ProductModel>(
+                  builder: (context, ProductModel data, child) {
+                return data.getListProduct.length != 0
+                    ? ListView.builder(
+                        itemCount: data.getListProduct.length,
+                        itemBuilder: (context, index) {
+                          // print("************************");
+                          // print(data.getListProduct.length);
+                          // print(products.first.Productid);
+
+                          if (searchvalue.isEmpty) {
+                            return CardList(data.getListProduct[index], index);
+                          }
+                          if (data.name
+                                  .toLowerCase()
+                                  .contains(searchvalue.toLowerCase()) ||
+                              data.deliveryLocation
+                                  .toString()
+                                  .toLowerCase()
+                                  .startsWith(searchvalue.toLowerCase())) {
+                            return CardList(data.getListProduct[index], index);
+                          }
+                        })
+                    : GestureDetector(
+                        child: Center(
+                          child: Text(
+                            "ไม่มีรายการสินค้า",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }

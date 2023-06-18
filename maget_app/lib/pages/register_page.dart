@@ -108,10 +108,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: _Gender,
                         items: [
                           DropdownMenuItem(
-                              child: Text("ไม่ระบุเพศ"), value: "No Gender"),
-                          DropdownMenuItem(
-                              child: Text("หญิง"), value: "Female"),
-                          DropdownMenuItem(child: Text("ชาย"), value: "Male"),
+                              child: Text("ไม่ระบุเพศ"), value: "ไม่ระบุเพศ"),
+                          DropdownMenuItem(child: Text("หญิง"), value: "หญิง"),
+                          DropdownMenuItem(child: Text("ชาย"), value: "ชาย"),
                         ],
                         onChanged: (String? newVal) {
                           setState(() {

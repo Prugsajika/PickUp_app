@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:grubngo_app/pages/addproduct_page.dart';
-
 import '../models/products_model.dart';
 import '../services/product_services.dart';
 
@@ -30,6 +28,13 @@ class ProductController {
     // controller status => End
     onSyncController.add(false);
 
+    return products;
+  }
+
+  Future<List<Product>> fetchProductInfo(String Productid) async {
+    onSyncController.add(true);
+    products = await services.getProductInfo(Productid);
+    onSyncController.add(false);
     return products;
   }
 
@@ -63,5 +68,39 @@ class ProductController {
         UrlQr,
         availableDate,
         availableTime);
+  }
+
+  void updateProduct(
+      String UrlPd,
+      name,
+      typeOfFood,
+      description,
+      int price,
+      stock,
+      deliveryFee,
+      String sentDate,
+      sentTime,
+      deliveryLocation,
+      availableDate,
+      availableTime,
+      Productid) async {
+    services.updateProduct(
+        UrlPd,
+        name,
+        typeOfFood,
+        description,
+        price,
+        stock,
+        deliveryFee,
+        sentDate,
+        sentTime,
+        deliveryLocation,
+        availableDate,
+        availableTime,
+        Productid);
+  }
+
+  void deleteProduct(String Productid) async {
+    services.deleteProduct(Productid);
   }
 }

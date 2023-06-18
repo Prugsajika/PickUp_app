@@ -244,3 +244,108 @@ class UrlPdProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class EditProductModel extends ChangeNotifier {
+  String _Productid = '';
+  String _UrlPd = '';
+  String _name = '';
+  String _description = '';
+  String _deliveryLocation = '';
+  String _email = '';
+  String _typeOfFood = '';
+  String _sentDate = '';
+  String _sentTime = '';
+  late int _price;
+  late int _stock;
+  late int _deliveryFee;
+  String _UrlQr = '';
+  String _availableDate = '';
+  String _availableTime = '';
+
+  get Productid => this._Productid;
+
+  set Productid(value) => this._Productid = value;
+
+  get UrlPd => this._UrlPd;
+
+  set UrlPd(value) => this._UrlPd = value;
+
+  get name => this._name;
+
+  set name(value) => this._name = value;
+
+  get description => this._description;
+
+  set description(value) => this._description = value;
+
+  get deliveryLocation => this._deliveryLocation;
+
+  set deliveryLocation(value) => this._deliveryLocation = value;
+
+  get email => this._email;
+
+  set email(value) => this._email = value;
+
+  get typeOfFood => this._typeOfFood;
+
+  set typeOfFood(value) => this._typeOfFood = value;
+
+  get sentDate => this._sentDate;
+
+  set sentDate(value) => this._sentDate = value;
+
+  get sentTime => this._sentTime;
+
+  set sentTime(value) => this._sentTime = value;
+
+  get price => this._price;
+
+  set price(value) => this._price = value;
+
+  get stock => this._stock;
+
+  set stock(value) => this._stock = value;
+
+  get deliveryFee => this._deliveryFee;
+
+  set deliveryFee(value) => this._deliveryFee = value;
+
+  get UrlQr => this._UrlQr;
+
+  set UrlQr(value) => this._UrlQr = value;
+
+  get availableDate => this._availableDate;
+
+  set availableDate(value) => this._availableDate = value;
+
+  get availableTime => this._availableTime;
+
+  set availableTime(value) => this._availableTime = value;
+
+  List<Product> _listEditProduct = List.empty();
+  List<Product> get getEditListProduct => this._listEditProduct;
+  set getEditListProduct(List<Product> value) {
+    this._listEditProduct = value;
+    notifyListeners();
+  }
+
+  void modify(
+    int indexs,
+    // String Productid,
+    // String _UrlPd,
+    // String _name,
+    // String _description,
+    // String _deliveryLocation,
+    // String _typeOfFood,
+    // String _sentDate,
+    // String _sentTime,
+    int pricess,
+    // int _stock,
+    // int _deliveryFee,
+    // String _availableDate,
+    // String _availableTime,
+  ) {
+    _listEditProduct[indexs].price = pricess;
+    notifyListeners();
+  }
+}

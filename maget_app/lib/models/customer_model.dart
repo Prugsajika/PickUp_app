@@ -84,6 +84,7 @@ class ProfileDetailModel with ChangeNotifier {
   String telNo = '';
   late bool status = false;
   String role = '';
+  String Gender = '';
 
   // get getId => this.id;
   // set setId(value) {
@@ -154,6 +155,12 @@ class ProfileDetailModel with ChangeNotifier {
   get getrole => this.role;
   set setrole(value) {
     this.role = value;
+    notifyListeners();
+  }
+
+  get getGender => this.Gender;
+  set setGender(value) {
+    this.Gender = value;
     notifyListeners();
   }
 }

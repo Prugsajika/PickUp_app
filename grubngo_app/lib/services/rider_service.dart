@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/riderinfo_model.dart';
 
 class RiderServices {
-  final user = FirebaseAuth.instance.currentUser!;
+  get user => FirebaseAuth.instance.currentUser!;
   CollectionReference _collection =
       FirebaseFirestore.instance.collection('rider');
 

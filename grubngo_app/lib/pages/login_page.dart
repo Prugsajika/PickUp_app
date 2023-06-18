@@ -2,16 +2,14 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:grubngo_app/pages/home_page.dart';
 
 import '../controllers/rider_controller.dart';
-import '../models/riderinfo_model.dart';
+
 import '../services/rider_service.dart';
 import 'color.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }

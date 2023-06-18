@@ -1,12 +1,124 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../controllers/product_controller.dart';
 import '../models/products_model.dart';
 import '../models/riderinfo_model.dart';
+import '../services/product_services.dart';
+import 'product_edit_page.dart';
 
-class ProductDetailPage extends StatelessWidget {
-  const ProductDetailPage({super.key, required this.Products});
+class ProductDetailPage extends StatefulWidget {
+  const ProductDetailPage(
+      {super.key, required this.Products, required this.Indexs});
   final Product Products;
+  final int Indexs;
+
+  @override
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  ProductController controller = ProductController(ProductServices());
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {});
+  }
+
+  void _deleteProduct(String Productid) async {
+    controller.deleteProduct(Productid);
+    setState(() {});
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("ยกเลิก"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget confirmButton = TextButton(
+      child: Text("ยืนยัน"),
+      onPressed: () {
+        _deleteProduct(widget.Products.Productid);
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "ยืนยันการลบ",
+      ),
+      content: Text(
+        "คุณต้องการลบรายการสินค้านี้เป็นการถาวร?",
+      ),
+      actions: [
+        cancelButton,
+        confirmButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  // Future<void> _showMyDialog() async {
+  //   return showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (BuildContext context) {
+  //       return SizedBox(
+  //         width: 100,
+  //         height: 100,
+  //         child: AlertDialog(
+  //           title: Text('ยืนยันลบ'),
+  //           content: Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: ListBody(
+  //               children: <Widget>[
+  //                 Column(
+  //                   children: [
+  //                     Text('คุณต้องการลบรายการสินค้าใช่ไหม'),
+  //                     Text('หากกดยืนยันแล้วจะไม่สามารถกู้คืนข้อมูลได้อีก'),
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           actions: <Widget>[
+  //             Row(
+  //               children: [
+  //                 ElevatedButton(
+  //                   child: Text('ยืนยัน'),
+  //                   onPressed: () {
+  //                     _deleteProduct(widget.Products.Productid);
+  //                     Navigator.of(context).pop();
+  //                   },
+  //                 ),
+  //                 ElevatedButton(
+  //                   child: Text('ยกเลิก'),
+  //                   onPressed: () {
+  //                     Navigator.of(context).pop();
+  //                   },
+  //                 )
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +147,7 @@ class ProductDetailPage extends StatelessWidget {
                       color: Color.fromARGB(255, 232, 237, 243),
                       image: DecorationImage(
                         image: NetworkImage(
-                          Products.UrlPd,
+                          widget.Products.UrlPd,
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -71,7 +183,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.name,
+                              widget.Products.name,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -97,7 +209,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.description,
+                              widget.Products.description,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -122,7 +234,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.price.toString(),
+                              widget.Products.price.toString(),
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -154,7 +266,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.stock.toString(),
+                              widget.Products.stock.toString(),
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -186,7 +298,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.deliveryLocation,
+                              widget.Products.deliveryLocation,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -211,7 +323,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.sentDate,
+                              widget.Products.sentDate,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -236,7 +348,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.sentTime,
+                              widget.Products.sentTime,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -268,7 +380,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.availableDate,
+                              widget.Products.availableDate,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -293,7 +405,7 @@ class ProductDetailPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Products.availableTime,
+                              widget.Products.availableTime,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 15,
@@ -318,7 +430,31 @@ class ProductDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<EditProductModel>()
+                        ..name = widget.Products.name
+                        ..description = widget.Products.description
+                        ..UrlPd = widget.Products.UrlPd
+                        ..deliveryLocation = widget.Products.deliveryLocation
+                        ..typeOfFood = widget.Products.typeOfFood
+                        ..sentDate = widget.Products.sentDate
+                        ..sentTime = widget.Products.sentTime
+                        ..email = widget.Products.email
+                        ..price = widget.Products.price
+                        ..stock = widget.Products.stock
+                        ..deliveryFee = widget.Products.deliveryFee
+                        ..availableDate = widget.Products.availableDate
+                        ..availableTime = widget.Products.availableTime
+                        ..Productid = widget.Products.Productid;
+                      print(
+                          'Productid ${context.read<EditProductModel>().Productid}');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProductPage(
+                                  products: widget.Products,
+                                  indexs: widget.Indexs.toInt())));
+                    },
                     child: Row(
                       children: [
                         Icon(Icons.edit),
@@ -327,7 +463,9 @@ class ProductDetailPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showAlertDialog(context);
+                    },
                     child: Row(
                       children: [
                         Icon(Icons.delete),
