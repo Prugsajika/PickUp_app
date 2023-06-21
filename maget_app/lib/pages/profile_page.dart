@@ -48,7 +48,6 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Text(
               "ข้อมูลผู้ใช้งาน",
-              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),
@@ -100,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     //   height: 100,
                     // ),
                     SizedBox(height: 12),
-                    const Divider(
+                    Divider(
                       height: 2,
                       thickness: 1,
                       indent: 1,

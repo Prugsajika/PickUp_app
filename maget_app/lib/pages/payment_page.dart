@@ -291,8 +291,15 @@ class _PaymentPageState extends State<PaymentPage> {
                               );
 
                               if (_time != null) {
+                                print(_time.format(context));
+                                DateTime parsedTime = DateFormat.jm()
+                                    .parse(_time.format(context).toString());
+                                print(parsedTime);
+                                String formattedTime =
+                                    DateFormat('HH:mm').format(parsedTime);
+                                print(formattedTime);
                                 setState(() {
-                                  _timeC.text = "${_time.hour}:${_time.minute}";
+                                  _timeC.text = formattedTime;
                                 });
                               }
                             },

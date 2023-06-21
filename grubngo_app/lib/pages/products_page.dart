@@ -27,6 +27,7 @@ class _ProductsPageState extends State<ProductsPage> {
   void initState() {
     super.initState();
     _getProduct(context);
+    setState(() {});
   }
 
   void _getProduct(BuildContext context) async {
@@ -34,6 +35,7 @@ class _ProductsPageState extends State<ProductsPage> {
     print('chk ${newProduct}');
 
     context.read<ProductModel>().getListProduct = newProduct;
+    print('provider ${context.read<ProductModel>().Productid}');
   }
 
   @override
@@ -173,8 +175,10 @@ class CardList extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        ProductDetailPage(Products: products, Indexs: index)));
+                    builder: (context) => ProductDetailPage(
+                          Products: products,
+                          Indexs: index,
+                        )));
           },
         ),
       ),

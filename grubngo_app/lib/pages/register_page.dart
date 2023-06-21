@@ -277,6 +277,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           border: OutlineInputBorder(),
                         ),
                         value: Gender,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'กรุณาใส่เพศ';
+                          }
+                          return null;
+                        },
                         items: [
                           DropdownMenuItem(
                               child: Text("ไม่ระบุเพศ"), value: "No Gender"),

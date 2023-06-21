@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 import 'models/cartitem_model.dart';
 import 'models/products_model.dart';
 import 'models/riderinfo_model.dart';
-import 'pages/product_edit_page.dart';
+
 import 'pages/productadd_page.dart';
 import 'pages/productadd_success_page.dart';
 import 'pages/createaccount.dart';

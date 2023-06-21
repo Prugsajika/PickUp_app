@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:grubngo_app/pages/productdetail_page.dart';
+import 'package:grubngo_app/pages/products_page.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -22,12 +23,12 @@ import '../widgets/drawerappbar.dart';
 import 'productadd_success_page.dart';
 
 class EditProductPage extends StatefulWidget {
-  const EditProductPage(
-      {super.key, required this.products, required this.indexs});
-  // final Product Products;
-  // const AddProduct({Key? key, required this.email}) : super(key: key);
-  final Product products;
-  final int indexs;
+  // const EditProductPage(
+  //     {super.key, required this.products, required this.indexs});
+  // // final Product Products;
+  // // const AddProduct({Key? key, required this.email}) : super(key: key);
+  // final Product products;
+  // final int indexs;
   @override
   State<EditProductPage> createState() => _EditProductPage();
 }
@@ -40,7 +41,7 @@ class _EditProductPage extends State<EditProductPage> {
   TextEditingController _dateAvailable = TextEditingController();
   TextEditingController _timeSent = TextEditingController();
   TextEditingController _timeAvailable = TextEditingController();
-  // TextEditingController _typeOfFoodController = TextEditingController();
+  TextEditingController _typeOfFoodController = TextEditingController();
   // TextEditingController __UrlPdController = TextEditingController();
   // TextEditingController _deliveryLocationController = TextEditingController();
   // TextEditingController _priceController = TextEditingController();
@@ -80,7 +81,7 @@ class _EditProductPage extends State<EditProductPage> {
     print('user $UserEmail');
     _getuserRider(UserEmail);
     print("widget");
-    print(widget.indexs.toInt());
+    // print(widget.indexs.toInt());
 
     String Productid =
         Provider.of<EditProductModel>(context, listen: false).Productid;
@@ -112,7 +113,7 @@ class _EditProductPage extends State<EditProductPage> {
       _dateAvailable.text = '${productinfo[0].availableDate}';
       _timeSent.text = '${productinfo[0].sentTime}';
       _timeAvailable.text = '${productinfo[0].availableTime}';
-      //   _typeOfFoodController.text = '${productinfo[0].typeOfFood}';
+      _typeOfFoodController.text = '${productinfo[0].typeOfFood}';
       //   __UrlPdController.text = '${productinfo[0].UrlPd}';
       //   _deliveryLocationController.text = '${productinfo[0].deliveryLocation}';
       //   _priceController.text = '${productinfo[0].price}';
@@ -326,6 +327,12 @@ class _EditProductPage extends State<EditProductPage> {
                         border: OutlineInputBorder(),
                       ),
                       value: typeOfFood,
+                      validator: (value) {
+                        if (value == null) {
+                          return 'กรุณาใส่ประเภทสินค้า';
+                        }
+                        return null;
+                      },
                       items: [
                         DropdownMenuItem(
                             child: Text("ของคาว"), value: "ของคาว"),
@@ -668,38 +675,39 @@ class _EditProductPage extends State<EditProductPage> {
                                   product.Productid);
                               print('_name $_name');
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProductDetailPage(
-                                      Products: widget.products,
-                                      Indexs: widget.indexs),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => ProductDetailPage(
+                              //         Products: widget.products,
+                              //         Indexs: widget.indexs),
+                              //   ),
+                              // );
 
-                              // Navigator.pop(context);
-                              // ScaffoldMessenger.of(context)
-                              //     .showSnackBar(SnackBar(
-                              //         content: Text(
-                              //   'บันทึกข้อมูลเรียบร้อย',
-                              //   style: TextStyle(fontSize: 16),
-                              // )));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductsPage()));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                      content: Text(
+                                'บันทึกข้อมูลเรียบร้อย',
+                                style: TextStyle(fontSize: 16),
+                              )));
                             }
-                            // context.read<ProductModel>()
-                            //   ..name = _name
-                            //   ..description = _description
-                            //   ..UrlPd = _UrlPd
-                            //   ..deliveryLocation = _deliveryLocation
-                            //   ..typeOfFood = _typeOfFood
-                            //   ..sentDate = _sentDate
-                            //   ..sentTime = _sentTime
-                            //   ..email =
-                            //       context.read<emailProvider>().email.toString()
-                            //   ..price = _price
-                            //   ..stock = _stock
-                            //   ..deliveryFee = _deliveryFee
-                            //   ..availableDate = _availableDate
-                            //   ..availableTime = _availableTime;
+                            context.read<ProductModel>()
+                              ..name = _name
+                              ..description = _description
+                              ..UrlPd = _UrlPd
+                              ..deliveryLocation = _deliveryLocation
+                              ..typeOfFood = _typeOfFood
+                              ..sentDate = _sentDate
+                              ..sentTime = _sentTime
+                              ..price = _price
+                              ..stock = _stock
+                              ..deliveryFee = _deliveryFee
+                              ..availableDate = _availableDate
+                              ..availableTime = _availableTime;
                           },
                           child: Text('บันทึก'),
                         ),

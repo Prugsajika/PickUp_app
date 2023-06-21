@@ -17,11 +17,62 @@ class ConfirmPaymentPage extends StatefulWidget {
 
 class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
   CartController cartcontroller = CartController(CartServices());
+  String? _chosenValue;
 
   void _updatePayStatus(String cartId, status) async {
     cartcontroller.updatePaystatus(cartId, status);
     setState(() {});
     print('chk confirm pty####' + cartId);
+  }
+
+  void _RejectPayStatus() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text("ปฎิเสธสลิป"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text('กรุณาเลือกเหตุผล'),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DropdownButton<String>(
+                      hint: Text(
+                        'Select one option',
+                      ),
+                      value: _chosenValue,
+                      underline: Container(),
+                      items: <String>[
+                        'I\'m not able to help',
+                        'Unclear description',
+                        'Not available at set date and time',
+                        'Other',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: new Text(
+                            value,
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (String? newVal) {
+                        setState(() {
+                          _chosenValue = newVal!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -123,7 +174,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
-                      // RejectPayStatus();
+                      _RejectPayStatus;
                       print(
                           'สลิปไม่ถูกต้อง ${context.read<CartItemModel>().cartId}');
                       _updatePayStatus(widget.Carts.cartId, 'สลิปไม่ถูกต้อง');

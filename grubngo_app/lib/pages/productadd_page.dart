@@ -260,6 +260,12 @@ class _AddProduct extends State<AddProduct> {
                     border: OutlineInputBorder(),
                   ),
                   value: typeOfFood,
+                  validator: (value) {
+                    if (value == null) {
+                      return 'กรุณาใส่ประเภทสินค้า';
+                    }
+                    return null;
+                  },
                   items: [
                     DropdownMenuItem(child: Text("ของคาว"), value: "ของคาว"),
                     DropdownMenuItem(child: Text("ของหวาน"), value: "ของหวาน"),

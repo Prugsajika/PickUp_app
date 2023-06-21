@@ -267,10 +267,15 @@ class _ProcessPaymentPageState extends State<ProcessPaymentPage> {
                               );
 
                               if (_time != null) {
+                                print(_time.format(context));
+                                DateTime parsedTime = DateFormat.jm()
+                                    .parse(_time.format(context).toString());
+                                print(parsedTime);
+                                String formattedTime =
+                                    DateFormat('HH:mm').format(parsedTime);
+                                print(formattedTime);
                                 setState(() {
-                                  _timeC.text =
-                                      "${_time.hour}:${_time.minute.toString()}";
-                                  print(_timeC.text);
+                                  _timeC.text = formattedTime;
                                 });
                               }
                             },

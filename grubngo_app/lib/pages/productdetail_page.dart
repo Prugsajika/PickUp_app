@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -451,9 +449,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditProductPage(
-                                  products: widget.Products,
-                                  indexs: widget.Indexs.toInt())));
+                              builder: (context) => EditProductPage()));
                     },
                     child: Row(
                       children: [
