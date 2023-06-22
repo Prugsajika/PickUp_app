@@ -21,6 +21,17 @@ class ProductController {
     return products;
   }
 
+  Future<List<Product>> fetchproductModelInfo(
+      String name, description, deliveryLocation, typeOfFood) async {
+    onSyncController.add(true);
+    products = await services.getproductModelInfo(
+        name, description, deliveryLocation, typeOfFood);
+    onSyncController.add(false);
+    print('chk fetchproductModelInfo');
+    print(name);
+    return products;
+  }
+
   // Future<List<Product>> fetchbyuser() async {
   //   // controller status => Start
   //   onSyncController.add(true);

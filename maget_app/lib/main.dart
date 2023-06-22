@@ -15,6 +15,7 @@ import 'models/customer_model.dart';
 
 import 'pages/checkout_page.dart';
 import 'pages/favourite_page.dart';
+import 'pages/findproduct.dart';
 import 'pages/home_page.dart';
 import 'pages/productdetail_page.dart';
 import 'pages/profile_page.dart';
@@ -44,7 +45,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ProfileDetailModel()),
         ChangeNotifierProvider(create: (context) => emailProvider()),
         ChangeNotifierProvider(create: (context) => ProductModel()),
-        ChangeNotifierProvider(create: (context) => ListProducts(List.empty())),
+        // ChangeNotifierProvider(create: (context) => ListProducts(List.empty())),
         // ChangeNotifierProvider(create: (context) => MyCart()),
         ChangeNotifierProvider(create: (context) => CartItemModel()),
         ChangeNotifierProvider(create: (context) => ListProfileProvider()),
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
         '/5': (context) => CheckOutPage(),
         '/6': (context) => RegisterSuccessPage(),
         '/7': (context) => OrderPage(),
+        '/8': (context) => FindProductPage(),
       },
     );
   }

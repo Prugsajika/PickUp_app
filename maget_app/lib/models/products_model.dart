@@ -73,11 +73,11 @@ class Product {
   }
 }
 
-class ListProducts extends ChangeNotifier {
+class AllProducts {
   final List<Product> products;
 
-  ListProducts(this.products);
-  factory ListProducts.fromJason(QuerySnapshot s) {
+  AllProducts(this.products);
+  factory AllProducts.fromSnapshot(QuerySnapshot s) {
     List<Product> products = s.docs.map((DocumentSnapshot ds) {
       Product product = Product.fromJason(ds.data() as Map<String, dynamic>);
       product.Productid = ds.id;
@@ -85,13 +85,7 @@ class ListProducts extends ChangeNotifier {
       return product;
     }).toList();
     print(products.length);
-    return ListProducts(products);
-  }
-
-  void addAllItem(List<Product> allItem) {
-    ListProducts(allItem);
-    print(allItem.length);
-    notifyListeners();
+    return AllProducts(products);
   }
 }
 
@@ -105,9 +99,9 @@ class ProductModel extends ChangeNotifier {
   String typeOfFood = '';
   String sentDate = '';
   String sentTime = '';
-  late int price;
-  late int stock;
-  late int deliveryFee;
+  late int price = 0;
+  late int stock = 0;
+  late int deliveryFee = 0;
   String UrlQr = '';
   String availableDate = '';
   String availableTime = '';

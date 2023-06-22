@@ -49,7 +49,8 @@ class _EditProductPage extends State<EditProductPage> {
   // TextEditingController _deliveryFeeController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
-  String? typeOfFood;
+  String? typeOfFood = null;
+  // List<DropdownMenuItem<String>> _listtypeOfFood = [];
 
   late String _name = "";
   late String _description = "";
@@ -104,6 +105,14 @@ class _EditProductPage extends State<EditProductPage> {
   void _getProductinfo(String Productid) async {
     var newproductinfo = await controller.fetchProductInfo(Productid);
 
+    // newproductinfo.forEach(
+    //   (e) {
+    //     _listtypeOfFood.add(
+    //       DropdownMenuItem(child: Text("ของคาว"), value: "ของคาว"),
+
+    //     );
+    //   },
+    // );
     // context.read<EditProductModel>().;
     setState(() {
       productinfo = newproductinfo;
@@ -253,6 +262,7 @@ class _EditProductPage extends State<EditProductPage> {
       ),
       body: Consumer<EditProductModel>(
         builder: (context, EditProductModel product, child) {
+          var typeOfFood = product.typeOfFood;
           return Form(
             key: _formkey,
             child: SingleChildScrollView(

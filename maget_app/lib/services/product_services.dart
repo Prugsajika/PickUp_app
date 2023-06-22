@@ -11,9 +11,21 @@ class ProductServices {
   Future<List<Product>> get() async {
     QuerySnapshot snapshot = await _collection.get();
 
-    ListProducts snap = ListProducts.fromJason(snapshot);
+    AllProducts snap = AllProducts.fromSnapshot(snapshot);
 
     print('QuerySnapshot ${snap.products.length}');
+    return snap.products;
+  }
+
+  Future<List<Product>> getproductModelInfo(
+      String name, description, deliveryLocation, typeOfFood) async {
+    QuerySnapshot snapshot = await _collection
+        .where('name', isEqualTo: name)
+        // .where('description', isEqualTo: description)
+        // .where('deliveryLocation', isEqualTo: deliveryLocation)
+        // .where('typeOfFood', isEqualTo: typeOfFood)
+        .get();
+    AllProducts snap = AllProducts.fromSnapshot(snapshot);
     return snap.products;
   }
 

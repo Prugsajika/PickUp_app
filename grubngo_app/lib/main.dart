@@ -52,9 +52,9 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => emailProvider(),
       ),
-      ChangeNotifierProvider(
-        create: (context) => UrlPdProvider(),
-      ),
+      // ChangeNotifierProvider(
+      //   create: (context) => UrlPdProvider(),
+      // ),
       ChangeNotifierProvider(
         create: (context) => CartItemModel(),
       ),

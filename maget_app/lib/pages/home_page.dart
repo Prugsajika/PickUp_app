@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:maget_app/pages/findproduct.dart';
 import 'package:maget_app/pages/products_page.dart';
 import 'package:maget_app/pages/register_page.dart';
 import 'package:provider/provider.dart';
@@ -45,11 +46,13 @@ class _HomePageState extends State<HomePage> {
   String? _Productid;
   String _name = '';
   String _description = '';
+  String _deliveryLocation = '';
+  String _typeOfFood = '';
   int _price = 0;
   String _UrlPd = '';
   int _stock = 0;
-  DateTime _endDate = DateTime.now();
-  TimeOfDay _endTime = TimeOfDay.now();
+  // DateTime _endDate = DateTime.now();
+  // TimeOfDay _endTime = TimeOfDay.now();
   String searchvalue = "";
 
   void initState() {
@@ -57,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     filteredData = data;
     super.initState();
     _getEmail(context);
-    context.read<ListProducts>().addAllItem(products);
+    // context.read<ListProducts>().addAllItem(products);
     controller.onSync.listen((bool syncState) => setState(() {
           isLoading = syncState;
         }));
@@ -65,6 +68,13 @@ class _HomePageState extends State<HomePage> {
     String UserEmail = user.email.toString();
     print('user $UserEmail');
     _getCustomer(UserEmail);
+    _getproductModelInfo(_name, _description, _deliveryLocation, _typeOfFood);
+    _name = context.read<ProductModel>().name;
+    _Productid = context.read<ProductModel>().Productid;
+    _description = context.read<ProductModel>().description;
+    _deliveryLocation = context.read<ProductModel>().deliveryLocation;
+    _typeOfFood = context.read<ProductModel>().typeOfFood;
+    print('_name_getproductModelInfo ${context.read<ProductModel>().name}');
   }
 
   void _getEmail(BuildContext context) async {
@@ -106,6 +116,16 @@ class _HomePageState extends State<HomePage> {
         ..role = customer.first.role
         ..Gender = customer.first.Gender;
     }
+  }
+
+  void _getproductModelInfo(
+      String _name, _description, _deliveryLocation, _typeOfFood) async {
+    var newfilteredData = await controller.fetchproductModelInfo(
+        _name, _description, _deliveryLocation, _typeOfFood);
+    setState(() {
+      filteredData = newfilteredData;
+    });
+    print('_getproductModelInfo =  $newfilteredData');
   }
 
   @override
@@ -190,52 +210,20 @@ class _HomePageState extends State<HomePage> {
                 focusNode: _searchFocusNode,
                 controller: _searchController,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
                   hintText: 'ค้นหา...',
                   border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.search),
                 ),
-                onChanged: (val) {
-                  setState(() {
-                    searchvalue = val;
-                  });
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FindProductPage()));
                 },
               ),
             ),
           ),
           Expanded(
-            // child: Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: ListView.builder(
-            //     itemCount: filteredData.length,
-            //     itemBuilder: (context, index) {
-            //       // print("************************");
-            //       print(filteredData.length);
-            //       // print(products.first.Productid);
-            //       data = filteredData[index] as List<Product>;
-
-            //       if (data.isEmpty) {
-            //         return CardList(data[index], index);
-            //       }
-            //       // if (products
-            //       //     .toString()
-            //       //     .toLowerCase()
-            //       //     .startsWith(filteredData.toLowerCase())) {
-            //       //   return CardList(filteredData[index], index);
-            //       // }
-            //     },
-            //   ),
-            //   // : GestureDetector(
-            //   //     child: Center(
-            //   //       child: Text(
-            //   //         "ไม่มีรายการสินค้า",
-            //   //         style: TextStyle(
-            //   //           color: Colors.black,
-            //   //         ),
-            //   //       ),
-            //   //     ),
-            //   //   );
-            //   // },
-
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Consumer<ProductModel>(
@@ -244,22 +232,7 @@ class _HomePageState extends State<HomePage> {
                     ? ListView.builder(
                         itemCount: data.getListProduct.length,
                         itemBuilder: (context, index) {
-                          // print("************************");
-                          // print(data.getListProduct.length);
-                          // print(products.first.Productid);
-
-                          if (searchvalue.isEmpty) {
-                            return CardList(data.getListProduct[index], index);
-                          }
-                          if (data.name
-                                  .toLowerCase()
-                                  .contains(searchvalue.toLowerCase()) ||
-                              data.deliveryLocation
-                                  .toString()
-                                  .toLowerCase()
-                                  .startsWith(searchvalue.toLowerCase())) {
-                            return CardList(data.getListProduct[index], index);
-                          }
+                          return CardList(data.getListProduct[index], index);
                         })
                     : GestureDetector(
                         child: Center(
@@ -352,6 +325,24 @@ class CardList extends StatelessWidget {
                       color: Colors.black54,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'สั่งได้ถึงวันที่ ${products.availableDate.toString()}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'เวลา ${products.availableTime.toString()} น.',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -375,45 +366,3 @@ class CardList extends StatelessWidget {
     );
   }
 }
-
-// class CatagoryCard extends StatelessWidget {
-//   const CatagoryCard({
-//     Key? key,
-//     required this.icon,
-//     required this.title,
-//     required this.press,
-//   }) : super(key: key);
-
-//   final String icon, title;
-//   final VoidCallback press;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return OutlinedButton(
-//       onPressed: press,
-//       style: OutlinedButton.styleFrom(
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.all(
-//             Radius.circular(20.0),
-//           ),
-//         ),
-//       ),
-//       child: Padding(
-//         padding:
-//             const EdgeInsets.symmetric(horizontal: 8.0 / 4, vertical: 8.0 / 2),
-//         child: Column(
-//           children: [
-//             Image.asset('assets/images/FastFood.jpg'),
-//             const SizedBox(
-//               height: 50 / 2,
-//             ),
-//             Text(
-//               title,
-//               style: Theme.of(context).textTheme.subtitle2,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
