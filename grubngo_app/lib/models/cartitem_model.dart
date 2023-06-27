@@ -23,6 +23,7 @@ class CartItem {
   late String availableDate;
   late String availableTime;
   late String emailRider;
+  late String rejectStatus;
 
   CartItem(
       this.cartId,
@@ -45,7 +46,8 @@ class CartItem {
       this.status,
       this.availableDate,
       this.availableTime,
-      this.emailRider);
+      this.emailRider,
+      this.rejectStatus);
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
@@ -70,6 +72,7 @@ class CartItem {
       json['availableDate'] as String,
       json['availableTime'] as String,
       json['emailRider'] as String,
+      json['rejectStatus'] as String,
     );
   }
 }
@@ -118,6 +121,7 @@ class CartItemModel extends ChangeNotifier {
   String availableDate = '';
   String availableTime = '';
   String emailRider = '';
+  String rejectStatus = '';
 
   get getcartId => this.cartId;
   set setcartId(value) {
@@ -242,6 +246,12 @@ class CartItemModel extends ChangeNotifier {
   get getemailRider => this.emailRider;
   set setemailRider(value) {
     this.emailRider = value;
+    notifyListeners();
+  }
+
+  get getrejectStatus => this.rejectStatus;
+  set setrejectStatus(value) {
+    this.rejectStatus = value;
     notifyListeners();
   }
 

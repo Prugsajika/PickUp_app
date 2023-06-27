@@ -183,3 +183,78 @@ class ListRiderModel extends ChangeNotifier {
   //   notifyListeners();
   // }
 }
+
+class Blacklist {
+  late String id;
+  // //late String imagerider;
+  // late String FirstName;
+  // late String LastName;
+  // late String Gender;
+  // late String TelNo;
+  late String email;
+  // late String password;
+  // late String idCard;
+  // late String UrlQr;
+  // late bool status;
+  // late String UrlCf;
+  // late String role;
+
+  Blacklist(
+    this.id,
+    // this.imagerider,
+    // this.Riderid,
+    // this.FirstName,
+    // this.LastName,
+    // this.Gender,
+    // this.TelNo,
+    this.email,
+    // this.password,
+    // this.idCard,
+    // this.UrlQr,
+    // this.status,
+    // this.UrlCf,
+    // this.role,
+  );
+  factory Blacklist.fromJson(Map<String, dynamic> json) {
+    return Blacklist(
+      json['id'] as String,
+      // json['FirstName'] as String,
+      // json['LastName'] as String,
+      // json['Gender'] as String,
+      // json['TelNo'] as String,
+      json['email'] as String,
+      // json['password'] as String,
+      // json['idCard'] as String,
+      // json['UrlQr'] as String,
+      // json['status'] as bool,
+      // json['UrlCf'] as String,
+      // json['role'] as String,
+    );
+  }
+}
+
+class AllBlacklists {
+  final List<Blacklist> blacklists;
+
+  AllBlacklists(this.blacklists);
+  factory AllBlacklists.fromJson(List<dynamic> json) {
+    List<Blacklist> blacklists;
+
+    blacklists = json.map((index) => Blacklist.fromJson(index)).toList();
+
+    return AllBlacklists(blacklists);
+  }
+
+  factory AllBlacklists.fromSnapshot(QuerySnapshot s) {
+    List<Blacklist> blacklists = s.docs.map((DocumentSnapshot ds) {
+      print("BLdocumentsnapshot ${ds.data()}");
+      Blacklist blacklist =
+          Blacklist.fromJson(ds.data() as Map<String, dynamic>);
+      blacklist.id = ds.id;
+      print("riderBLdocumentsnapshot ${blacklist.email}");
+      return blacklist;
+    }).toList();
+
+    return AllBlacklists(blacklists);
+  }
+}

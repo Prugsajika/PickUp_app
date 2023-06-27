@@ -8,6 +8,9 @@ class RiderServices {
   CollectionReference _collection =
       FirebaseFirestore.instance.collection('rider');
 
+  CollectionReference _collectionBL =
+      FirebaseFirestore.instance.collection('blacklist');
+
   Future<List<Rider>> getRiders() async {
     QuerySnapshot snapshot =
         await _collection.where('Riderid', isEqualTo: user.uid).get();
@@ -27,6 +30,19 @@ class RiderServices {
     AllRiders riders = AllRiders.fromSnapshot(snapshot);
     print("riders  $riders");
     return riders.riders;
+  }
+
+  Future<List<Blacklist>> getEmailRidersBlacklist(String email) async {
+    String emaillowC = email.toLowerCase().toString();
+    print(" getRidersByEmail $emaillowC");
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('blacklist')
+        .where('email', isEqualTo: email.toLowerCase().toString())
+        .get();
+
+    AllBlacklists blacklists = AllBlacklists.fromSnapshot(snapshot);
+    print("blacklists  $blacklists");
+    return blacklists.blacklists;
   }
 
   void addRider(String FirstName, LastName, Gender, TelNo, email, idCard, UrlQr,

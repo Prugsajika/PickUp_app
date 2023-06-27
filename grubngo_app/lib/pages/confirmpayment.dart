@@ -19,8 +19,8 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
   CartController cartcontroller = CartController(CartServices());
   String? _chosenValue;
 
-  void _updatePayStatus(String cartId, status) async {
-    cartcontroller.updatePaystatus(cartId, status);
+  void _updatePayStatus(String cartId, status, rejectStatus) async {
+    cartcontroller.updatePaystatus(cartId, status, rejectStatus);
     setState(() {});
     print('chk confirm pty####' + cartId);
   }
@@ -41,15 +41,15 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                     scrollDirection: Axis.horizontal,
                     child: DropdownButton<String>(
                       hint: Text(
-                        'Select one option',
+                        'เลือกเหตุผล',
                       ),
                       value: _chosenValue,
                       underline: Container(),
                       items: <String>[
-                        'I\'m not able to help',
-                        'Unclear description',
-                        'Not available at set date and time',
-                        'Other',
+                        'จำนวนเงินไม่ถูกต้อง',
+                        'สลิปไม่ถูกต้อง',
+                        'ไม่พบรายการโอนเงิน',
+                        'อื่นๆ',
                       ].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -64,6 +64,25 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                           _chosenValue = newVal!;
                         });
                       },
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      _updatePayStatus(
+                          widget.Carts.cartId, 'สลิปไม่ถูกต้อง', _chosenValue);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+
+                      // print(
+                      //     'สลิปไม่ถูกต้อง ${context.read<CartItemModel>().cartId}');
+                      // _updatePayStatus(widget.Carts.cartId, 'สลิปไม่ถูกต้อง');
+                    },
+                    child: const Text(
+                      "ตกลง",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
@@ -160,7 +179,8 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                       // ApprovePayStatus();
                       print(
                           'ยืนยันสลิปแล้ว ${context.read<CartItemModel>().cartId}');
-                      _updatePayStatus(widget.Carts.cartId, "ยืนยันสลิปแล้ว");
+                      _updatePayStatus(
+                          widget.Carts.cartId, "ยืนยันสลิปแล้ว", "");
                     },
                     child: const Text(
                       "ยืนยัน",
@@ -172,12 +192,14 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                      _RejectPayStatus;
+                      _RejectPayStatus();
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => HomePage()));
+
                       print(
                           'สลิปไม่ถูกต้อง ${context.read<CartItemModel>().cartId}');
-                      _updatePayStatus(widget.Carts.cartId, 'สลิปไม่ถูกต้อง');
+                      _updatePayStatus(
+                          widget.Carts.cartId, 'สลิปไม่ถูกต้อง', "");
                     },
                     child: const Text(
                       "ปฎิเสธ",

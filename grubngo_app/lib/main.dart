@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'models/admininfo_model.dart';
 import 'models/cartitem_model.dart';
 import 'models/products_model.dart';
 import 'models/riderinfo_model.dart';
@@ -52,8 +53,11 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => emailProvider(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => AdminModel(),
+      ),
       // ChangeNotifierProvider(
-      //   create: (context) => UrlPdProvider(),
+      //   create: (context) => Blacklist(),
       // ),
       ChangeNotifierProvider(
         create: (context) => CartItemModel(),

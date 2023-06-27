@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grubngo_app/controllers/admin_controller.dart';
+import 'package:grubngo_app/services/admin_service.dart';
 
 import '../controllers/rider_controller.dart';
 
 import '../services/rider_service.dart';
+import 'admin_homepage.dart';
 import 'color.dart';
 import 'home_page.dart';
 
@@ -21,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _hidePassword = true;
 
   RiderController controllerR = RiderController(RiderServices());
+  AdminController controllerAdmin = AdminController(AdminServices());
+
   late String UrlQr = "";
   Future singIn() async {
     try {
@@ -28,9 +33,41 @@ class _LoginPageState extends State<LoginPage> {
         email: _usernameController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      final emailRider = FirebaseAuth.instance.currentUser?.email!;
+      print('print rider $emailRider');
+      var newRider = await controllerR.fetchBlacklistByEmail(emailRider!);
+      int rider = newRider.length;
+      print('chk rider** $rider');
 
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => HomePage()));
+      // get admin
+      var newAdmin = await controllerAdmin.fetchAdminByEmail(emailRider);
+      int admin = newAdmin.length;
+      print('chk admin** $admin');
+      if (admin == 1) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomePageAdmin()));
+      } else {
+        if (rider == 1) {
+          return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text('ไม่สามารถเข้าสู่ระบบได้ ติดต่อแอดมิน'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'ตกลง'),
+                      child: const Text('ตกลง'),
+                    ),
+                  ],
+                );
+              });
+        } else {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => HomePage()));
+        }
+      }
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(builder: (context) => HomePage()));
     } on FirebaseAuthException catch (e) {
       print(e);
       showDialog(

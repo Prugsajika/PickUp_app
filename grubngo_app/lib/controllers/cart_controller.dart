@@ -33,8 +33,8 @@ class CartController {
     return cartitems;
   }
 
-  void updatePaystatus(String cartId, status) async {
-    services.updatePaystatus(cartId, status);
+  void updatePaystatus(String cartId, status, rejectStatus) async {
+    services.updatePaystatus(cartId, status, rejectStatus);
   }
 
   // void addCart(

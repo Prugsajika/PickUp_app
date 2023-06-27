@@ -190,39 +190,38 @@ class _HomePageState extends State<HomePage> {
               // showSearch(context: context, delegate: delegate);
             },
           ),
-          // IconButton(
-          //   onPressed: () {
-          //     FirebaseAuth.instance.signOut();
-          //     Navigator.pushNamed(context, '/Login');
-          //   },
-          //   icon: Icon(Icons.logout),
-          // ),
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/8');
+            },
+            icon: Icon(Icons.search),
+          ),
         ],
       ),
       drawer: DrawerBar(),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 60,
-              child: TextField(
-                focusNode: _searchFocusNode,
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'ค้นหา...',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.search),
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FindProductPage()));
-                },
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Container(
+          //     height: 60,
+          //     child: TextField(
+          //       focusNode: _searchFocusNode,
+          //       controller: _searchController,
+          //       decoration: InputDecoration(
+          //         hintText: 'ค้นหา...',
+          //         border: OutlineInputBorder(),
+          //         suffixIcon: Icon(Icons.search),
+          //       ),
+          //       onTap: () {
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //                 builder: (context) => FindProductPage()));
+          //       },
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

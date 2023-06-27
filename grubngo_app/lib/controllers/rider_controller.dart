@@ -8,6 +8,7 @@ class RiderController {
   // final HttpServices services;
   final RiderServices services;
   List<Rider> riders = List.empty();
+  List<Blacklist> blacklists = List.empty();
 
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
@@ -37,6 +38,13 @@ class RiderController {
     riders = await services.getRidersByEmail(email);
     onSyncController.add(false);
     return riders;
+  }
+
+  Future<List<Blacklist>> fetchBlacklistByEmail(String email) async {
+    onSyncController.add(true);
+    blacklists = await services.getEmailRidersBlacklist(email);
+    onSyncController.add(false);
+    return blacklists;
   }
 
   // void addRider(String name, lastName, birthDay, password, bank, bankAccount,

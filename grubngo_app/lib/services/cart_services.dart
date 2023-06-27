@@ -28,10 +28,11 @@ class CartServices {
     return cartitems.cartitems;
   }
 
-  void updatePaystatus(String cartId, status) async {
+  void updatePaystatus(String cartId, status, rejectStatus) async {
     FirebaseFirestore.instance.collection('cart').doc(cartId).update({
       'cartId': cartId,
       'status': status,
+      'rejectStatus': rejectStatus,
     });
     print('cartId for service$cartId');
   }
