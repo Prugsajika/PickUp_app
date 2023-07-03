@@ -8,7 +8,6 @@ class RiderController {
   // final HttpServices services;
   final RiderServices services;
   List<Rider> riders = List.empty();
-  List<Blacklist> blacklists = List.empty();
 
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
@@ -40,11 +39,11 @@ class RiderController {
     return riders;
   }
 
-  Future<List<Blacklist>> fetchBlacklistByEmail(String email) async {
+  Future<List<Rider>> fetchBlacklistByEmail(String email) async {
     onSyncController.add(true);
-    blacklists = await services.getEmailRidersBlacklist(email);
+    riders = await services.getEmailRidersBlacklist(email);
     onSyncController.add(false);
-    return blacklists;
+    return riders;
   }
 
   // void addRider(String name, lastName, birthDay, password, bank, bankAccount,
@@ -56,8 +55,20 @@ class RiderController {
   // }
 
   void addRider(String FirstName, LastName, Gender, TelNo, email, idCard,
-      imageQR, bool status, String UrlCf) async {
+      imageQR, bool statusBL, String UrlCf) async {
     services.addRider(FirstName, LastName, Gender, TelNo, email, idCard,
-        imageQR, status, UrlCf);
+        imageQR, statusBL, UrlCf);
   }
+
+  void updateBLStatus(String riderid, bool statusBL) async {
+    services.updateBLStatus(riderid, statusBL);
+  }
+
+  void updateApproveStatus(String riderid, String statusApprove) async {
+    services.updateApproveStatus(riderid, statusApprove);
+  }
+
+  // void updateRejectStatus(String riderid, String statusApprove) async {
+  //   services.updateRejectStatus(riderid, statusApprove);
+  // }
 }

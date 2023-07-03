@@ -582,7 +582,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ..LastName = _LastName
                                 ..Gender = _Gender
                                 ..TelNo = _TelNo
-                                ..status = _status
+                                ..statusBL = _status
                                 ..idCard = _idCard
                                 ..email = _email
                                 ..UrlQr = UrlQr;

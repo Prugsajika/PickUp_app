@@ -12,9 +12,10 @@ class Rider {
   late String password;
   late String idCard;
   late String UrlQr;
-  late bool status;
+  late bool statusBL;
   late String UrlCf;
   late String role;
+  late String statusApprove;
 
   Rider(
     // this.id,
@@ -28,9 +29,10 @@ class Rider {
     this.password,
     this.idCard,
     this.UrlQr,
-    this.status,
+    this.statusBL,
     this.UrlCf,
     this.role,
+    this.statusApprove,
   );
   factory Rider.fromJson(Map<String, dynamic> json) {
     return Rider(
@@ -43,9 +45,10 @@ class Rider {
       json['password'] as String,
       json['idCard'] as String,
       json['UrlQr'] as String,
-      json['status'] as bool,
+      json['statusBL'] as bool,
       json['UrlCf'] as String,
       json['role'] as String,
+      json['statusApprove'] as String,
     );
   }
 }
@@ -76,7 +79,7 @@ class AllRiders {
 }
 
 class RiderModel extends ChangeNotifier {
-  String id = '';
+  String Riderid = '';
   // String imagerider = '';
   String FirstName = '';
   String LastName = '';
@@ -86,15 +89,16 @@ class RiderModel extends ChangeNotifier {
   String Password = '';
   late String idCard;
   String UrlQr = '';
-  late bool status;
+  late bool statusBL;
   String UrlCf = '';
   String role = '';
+  String statusApprove = '';
 
-  // get getid => this.id;
-  // set setid(value) {
-  //   this.id = value;
-  //   notifyListeners();
-  // }
+  get getRiderid => this.Riderid;
+  set setRiderid(value) {
+    this.Riderid = value;
+    notifyListeners();
+  }
 
   // get getimagerider => this.imagerider;
   // set setimagerider(value) {
@@ -150,9 +154,9 @@ class RiderModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get getstatus => this.status;
+  get getstatusBL => this.statusBL;
   set setstatus(value) {
-    this.status = value;
+    this.statusBL = value;
     notifyListeners();
   }
 
@@ -167,9 +171,13 @@ class RiderModel extends ChangeNotifier {
     this.role = value;
     notifyListeners();
   }
-}
 
-class ListRiderModel extends ChangeNotifier {
+  get getstatusApprove => this.statusApprove;
+  set setstatusApprove(value) {
+    this.statusApprove = value;
+    notifyListeners();
+  }
+
   List<Rider> _listRider = List.empty();
   List<Rider> get getListRider => this._listRider;
 
@@ -177,84 +185,94 @@ class ListRiderModel extends ChangeNotifier {
     this._listRider = value;
     notifyListeners();
   }
-
-  // void setListRider(List<Rider> value) {
-  //   _listRider = value;
-  //   notifyListeners();
-  // }
 }
 
-class Blacklist {
-  late String id;
-  // //late String imagerider;
-  // late String FirstName;
-  // late String LastName;
-  // late String Gender;
-  // late String TelNo;
-  late String email;
-  // late String password;
-  // late String idCard;
-  // late String UrlQr;
-  // late bool status;
-  // late String UrlCf;
-  // late String role;
+// class ListRiderModel extends ChangeNotifier {
+//   List<Rider> _listRider = List.empty();
+//   List<Rider> get getListRider => this._listRider;
 
-  Blacklist(
-    this.id,
-    // this.imagerider,
-    // this.Riderid,
-    // this.FirstName,
-    // this.LastName,
-    // this.Gender,
-    // this.TelNo,
-    this.email,
-    // this.password,
-    // this.idCard,
-    // this.UrlQr,
-    // this.status,
-    // this.UrlCf,
-    // this.role,
-  );
-  factory Blacklist.fromJson(Map<String, dynamic> json) {
-    return Blacklist(
-      json['id'] as String,
-      // json['FirstName'] as String,
-      // json['LastName'] as String,
-      // json['Gender'] as String,
-      // json['TelNo'] as String,
-      json['email'] as String,
-      // json['password'] as String,
-      // json['idCard'] as String,
-      // json['UrlQr'] as String,
-      // json['status'] as bool,
-      // json['UrlCf'] as String,
-      // json['role'] as String,
-    );
-  }
-}
+//   set getListRider(List<Rider> value) {
+//     this._listRider = value;
+//     notifyListeners();
+//   }
 
-class AllBlacklists {
-  final List<Blacklist> blacklists;
+//   // void setListRider(List<Rider> value) {
+//   //   _listRider = value;
+//   //   notifyListeners();
+//   // }
+// }
 
-  AllBlacklists(this.blacklists);
-  factory AllBlacklists.fromJson(List<dynamic> json) {
-    List<Blacklist> blacklists;
+// class Blacklist {
+//   late String id;
+//   // //late String imagerider;
+//   // late String FirstName;
+//   // late String LastName;
+//   // late String Gender;
+//   // late String TelNo;
+//   late String email;
+//   // late String password;
+//   // late String idCard;
+//   // late String UrlQr;
+//   // late bool status;
+//   // late String UrlCf;
+//   // late String role;
 
-    blacklists = json.map((index) => Blacklist.fromJson(index)).toList();
+//   Blacklist(
+//     this.id,
+//     // this.imagerider,
+//     // this.Riderid,
+//     // this.FirstName,
+//     // this.LastName,
+//     // this.Gender,
+//     // this.TelNo,
+//     this.email,
+//     // this.password,
+//     // this.idCard,
+//     // this.UrlQr,
+//     // this.status,
+//     // this.UrlCf,
+//     // this.role,
+//   );
+//   factory Blacklist.fromJson(Map<String, dynamic> json) {
+//     return Blacklist(
+//       json['id'] as String,
+//       // json['FirstName'] as String,
+//       // json['LastName'] as String,
+//       // json['Gender'] as String,
+//       // json['TelNo'] as String,
+//       json['email'] as String,
+//       // json['password'] as String,
+//       // json['idCard'] as String,
+//       // json['UrlQr'] as String,
+//       // json['status'] as bool,
+//       // json['UrlCf'] as String,
+//       // json['role'] as String,
+//     );
+//   }
+// }
 
-    return AllBlacklists(blacklists);
-  }
+// class AllBlacklists {
+//   final List<Blacklist> blacklists;
 
-  factory AllBlacklists.fromSnapshot(QuerySnapshot s) {
-    List<Blacklist> blacklists = s.docs.map((DocumentSnapshot ds) {
-      print("BLdocumentsnapshot ${ds.data()}");
-      Blacklist blacklist =
-          Blacklist.fromJson(ds.data() as Map<String, dynamic>);
-      blacklist.id = ds.id;
-      print("riderBLdocumentsnapshot ${blacklist.email}");
-      return blacklist;
-    }).toList();
+//   AllBlacklists(this.blacklists);
+//   factory AllBlacklists.fromJson(List<dynamic> json) {
+//     List<Blacklist> blacklists;
 
-    return AllBlacklists(blacklists);
-  }
-}
+//     blacklists = json.map((index) => Blacklist.fromJson(index)).toList();
+
+//     return AllBlacklists(blacklists);
+//   }
+
+//   factory AllBlacklists.fromSnapshot(QuerySnapshot s) {
+//     List<Blacklist> blacklists = s.docs.map((DocumentSnapshot ds) {
+//       print("BLdocumentsnapshot ${ds.data()}");
+//       Blacklist blacklist =
+//           Blacklist.fromJson(ds.data() as Map<String, dynamic>);
+//       blacklist.id = ds.id;
+//       print("riderBLdocumentsnapshot ${blacklist.email}");
+//       return blacklist;
+//     }).toList();
+
+//     return AllBlacklists(blacklists);
+//   }
+// }

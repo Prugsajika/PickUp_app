@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
         ..LastName = rider.first.LastName
         ..Gender = rider.first.Gender
         ..TelNo = rider.first.TelNo
-        ..status = rider.first.status
+        ..statusBL = rider.first.statusBL
         ..idCard = rider.first.idCard
         ..email = rider.first.email
         ..UrlQr = rider.first.UrlQr;

@@ -8,14 +8,15 @@ class RiderServices {
   CollectionReference _collection =
       FirebaseFirestore.instance.collection('rider');
 
-  CollectionReference _collectionBL =
-      FirebaseFirestore.instance.collection('blacklist');
+  // CollectionReference _collectionBL =
+  //     FirebaseFirestore.instance.collection('blacklist');
 
   Future<List<Rider>> getRiders() async {
-    QuerySnapshot snapshot =
-        await _collection.where('Riderid', isEqualTo: user.uid).get();
+    QuerySnapshot snapshot = await _collection.get();
 
     AllRiders riders = AllRiders.fromSnapshot(snapshot);
+
+    print('QuerySnapshot All Riders ${riders.riders.length}');
     return riders.riders;
   }
 
@@ -32,21 +33,22 @@ class RiderServices {
     return riders.riders;
   }
 
-  Future<List<Blacklist>> getEmailRidersBlacklist(String email) async {
+  Future<List<Rider>> getEmailRidersBlacklist(String email) async {
     String emaillowC = email.toLowerCase().toString();
     print(" getRidersByEmail $emaillowC");
     QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('blacklist')
+        .collection('rider')
         .where('email', isEqualTo: email.toLowerCase().toString())
+        .where('statusBL', isEqualTo: true)
         .get();
 
-    AllBlacklists blacklists = AllBlacklists.fromSnapshot(snapshot);
-    print("blacklists  $blacklists");
-    return blacklists.blacklists;
+    AllRiders riders = AllRiders.fromSnapshot(snapshot);
+    print("blacklists  $riders");
+    return riders.riders;
   }
 
   void addRider(String FirstName, LastName, Gender, TelNo, email, idCard, UrlQr,
-      bool status, String UrlCf) async {
+      bool statusBL, String UrlCf) async {
     FirebaseFirestore.instance.collection('rider').add({
       // 'id': "",
       'FirstName': FirstName,
@@ -57,9 +59,10 @@ class RiderServices {
       'password': '',
       'idCard': idCard,
       'UrlQr': UrlQr,
-      'status': false,
+      'statusBL': false,
       'UrlCf': UrlCf,
       'role': "rider",
+      'statusApprove': '',
     }).then((value) =>
         FirebaseFirestore.instance.collection('rider').doc(value.id).update({
           'Riderid': value.id,
@@ -79,4 +82,26 @@ class RiderServices {
       // 'status': item.status,
     });
   }
+
+  void updateBLStatus(String riderid, bool statusBL) async {
+    FirebaseFirestore.instance.collection('rider').doc(riderid).update({
+      'riderid': riderid,
+      'statusBL': statusBL,
+    });
+    print('rider id for service update BL status $riderid');
+  }
+
+  void updateApproveStatus(String riderid, String statusApprove) async {
+    FirebaseFirestore.instance.collection('rider').doc(riderid).update({
+      'riderid': riderid,
+      'statusApprove': statusApprove,
+    });
+  }
+
+  // void updateRejectStatus(String riderid, String statusApprove) async {
+  //   FirebaseFirestore.instance.collection('rider').doc(riderid).update({
+  //     'riderid': riderid,
+  //     'statusApprove': statusApprove,
+  //   });
+  // }
 }

@@ -35,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
       );
       final emailRider = FirebaseAuth.instance.currentUser?.email!;
       print('print rider $emailRider');
-      var newRider = await controllerR.fetchBlacklistByEmail(emailRider!);
-      int rider = newRider.length;
+      var backlistRider = await controllerR.fetchBlacklistByEmail(emailRider!);
+      int rider = backlistRider.length;
       print('chk rider** $rider');
 
       // get admin
@@ -66,8 +66,6 @@ class _LoginPageState extends State<LoginPage> {
               .push(MaterialPageRoute(builder: (context) => HomePage()));
         }
       }
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (context) => HomePage()));
     } on FirebaseAuthException catch (e) {
       print(e);
       showDialog(
