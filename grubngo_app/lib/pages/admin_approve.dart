@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:grubngo_app/pages/admin_reject_success_page.dart';
 import 'package:grubngo_app/widgets/admin_drawerappbar.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/rider_controller.dart';
 import '../models/riderinfo_model.dart';
 import '../services/rider_service.dart';
+import 'admin_approve_success_page.dart';
 import 'color.dart';
 
 class ApproveRiderPage extends StatefulWidget {
@@ -14,6 +16,7 @@ class ApproveRiderPage extends StatefulWidget {
 
 class _ApproveRiderPageState extends State<ApproveRiderPage> {
   List<Rider> rider = List.empty();
+  List<Rider> newRider = List.empty();
   RiderController controllerR = RiderController(RiderServices());
 
   @override
@@ -24,7 +27,8 @@ class _ApproveRiderPageState extends State<ApproveRiderPage> {
   }
 
   void _getRiders(BuildContext context) async {
-    var newRider = await controllerR.fetchRiders();
+    var newRiders = await controllerR.fetchRiders();
+    newRider = newRiders.where((x) => x.statusApprove == '').toList();
     print('chk ${newRider}');
 
     context.read<RiderModel>().getListRider = newRider;
@@ -52,7 +56,7 @@ class _ApproveRiderPageState extends State<ApproveRiderPage> {
               : GestureDetector(
                   child: Center(
                       child: Text(
-                  "ไม่มีข้อมูล",
+                  "ไม่มีรายการรออนุมัติ",
                   style: TextStyle(
                     color: iBlueColor,
                   ),
@@ -87,6 +91,7 @@ class _CardListState extends State<CardList> {
   void initState() {
     super.initState();
     statusApprove = widget.riders.statusApprove;
+
     print('status Approve rider start $statusApprove');
     setState(() {});
   }
@@ -97,11 +102,17 @@ class _CardListState extends State<CardList> {
     print('chk confirm Approve status' + Riderid);
   }
 
-  // void _updateRejectStatus(String Riderid, String statusApprove) async {
-  //   controller.updateRejectStatus(Riderid, statusApprove);
-  //   setState(() {});
-  //   print('chk confirm reject status' + Riderid);
-  // }
+  void _updateBLStatus(String Riderid, bool statusBL) async {
+    controller.updateBLStatus(Riderid, statusBL);
+    setState(() {});
+    print('chk confirm BL status' + Riderid);
+  }
+
+  void _updateRejectStatus(String Riderid, String statusApprove) async {
+    controller.updateRejectStatus(Riderid, statusApprove);
+    setState(() {});
+    print('chk confirm reject status' + Riderid);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +142,7 @@ class _CardListState extends State<CardList> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Colors.black54,
+                          color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
@@ -140,7 +151,7 @@ class _CardListState extends State<CardList> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: Colors.black54,
+                        color: Colors.black,
                         fontSize: 16,
                       ),
                     ),
@@ -149,7 +160,7 @@ class _CardListState extends State<CardList> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: Colors.black54,
+                        color: Colors.black,
                         fontSize: 16,
                       ),
                     ),
@@ -158,7 +169,7 @@ class _CardListState extends State<CardList> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: Colors.black54,
+                        color: Colors.black,
                         fontSize: 16,
                       ),
                     ),
@@ -172,7 +183,7 @@ class _CardListState extends State<CardList> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Colors.black54,
+                          color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
@@ -181,7 +192,7 @@ class _CardListState extends State<CardList> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Colors.black54,
+                          color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.normal),
                     ),
@@ -195,6 +206,7 @@ class _CardListState extends State<CardList> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -208,6 +220,10 @@ class _CardListState extends State<CardList> {
                         setState(() {
                           _updateApproveStatus(
                               widget.riders.Riderid, 'Approved');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ApproveSuccessPage()));
                         });
                       },
                     ),
@@ -225,6 +241,12 @@ class _CardListState extends State<CardList> {
                         setState(() {
                           _updateApproveStatus(
                               widget.riders.Riderid, 'Rejected');
+
+                          _updateBLStatus(widget.riders.Riderid, true);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RejectSuccessPage()));
                         });
                       },
                     ),

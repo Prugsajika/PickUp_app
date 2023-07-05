@@ -46,6 +46,13 @@ class RiderController {
     return riders;
   }
 
+  Future<List<Rider>> fetchApproveRiderByEmail(String email) async {
+    onSyncController.add(true);
+    riders = await services.getEmailRidersApprove(email);
+    onSyncController.add(false);
+    return riders;
+  }
+
   // void addRider(String name, lastName, birthDay, password, bank, bankAccount,
   //     email) async {
   //   services.add(name, lastName, birthDay, password, bank, bankAccount, email);
@@ -68,7 +75,7 @@ class RiderController {
     services.updateApproveStatus(riderid, statusApprove);
   }
 
-  // void updateRejectStatus(String riderid, String statusApprove) async {
-  //   services.updateRejectStatus(riderid, statusApprove);
-  // }
+  void updateRejectStatus(String riderid, String statusApprove) async {
+    services.updateRejectStatus(riderid, statusApprove);
+  }
 }

@@ -21,8 +21,6 @@ class RiderServices {
   }
 
   Future<List<Rider>> getRidersByEmail(String email) async {
-    String emaillowC = email.toLowerCase().toString();
-    print(" getRidersByEmail $emaillowC");
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('rider')
         .where('email', isEqualTo: email.toLowerCase().toString())
@@ -34,8 +32,6 @@ class RiderServices {
   }
 
   Future<List<Rider>> getEmailRidersBlacklist(String email) async {
-    String emaillowC = email.toLowerCase().toString();
-    print(" getRidersByEmail $emaillowC");
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('rider')
         .where('email', isEqualTo: email.toLowerCase().toString())
@@ -44,6 +40,18 @@ class RiderServices {
 
     AllRiders riders = AllRiders.fromSnapshot(snapshot);
     print("blacklists  $riders");
+    return riders.riders;
+  }
+
+  Future<List<Rider>> getEmailRidersApprove(String email) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('rider')
+        .where('email', isEqualTo: email.toLowerCase().toString())
+        .where('statusApprove', isEqualTo: 'Approved')
+        .get();
+
+    AllRiders riders = AllRiders.fromSnapshot(snapshot);
+    print("Approve  $riders");
     return riders.riders;
   }
 
@@ -98,10 +106,10 @@ class RiderServices {
     });
   }
 
-  // void updateRejectStatus(String riderid, String statusApprove) async {
-  //   FirebaseFirestore.instance.collection('rider').doc(riderid).update({
-  //     'riderid': riderid,
-  //     'statusApprove': statusApprove,
-  //   });
-  // }
+  void updateRejectStatus(String riderid, String statusApprove) async {
+    FirebaseFirestore.instance.collection('rider').doc(riderid).update({
+      'riderid': riderid,
+      'statusApprove': statusApprove,
+    });
+  }
 }

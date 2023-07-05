@@ -1,13 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grubngo_app/controllers/admin_controller.dart';
+import 'package:grubngo_app/models/riderinfo_model.dart';
+import 'package:grubngo_app/pages/admin_approve.dart';
+import 'package:grubngo_app/pages/admin_blacklist.dart';
 import 'package:grubngo_app/services/admin_service.dart';
 
 import 'package:provider/provider.dart';
 
+import '../controllers/rider_controller.dart';
 import '../models/admininfo_model.dart';
 
+import '../services/rider_service.dart';
 import '../widgets/admin_drawerappbar.dart';
+import 'admin_approve_success_page.dart';
+import 'admin_reject_success_page.dart';
+import 'color.dart';
 
 class HomePageAdmin extends StatefulWidget {
   @override
@@ -16,6 +24,9 @@ class HomePageAdmin extends StatefulWidget {
 
 class _HomePageAdminState extends State<HomePageAdmin> {
   List<Admin> admin = List.empty();
+  List<Rider> rider = List.empty();
+  List<Rider> newRider = List.empty();
+  RiderController controllerR = RiderController(RiderServices());
 
   final user = FirebaseAuth.instance.currentUser!;
   AdminController controllerAdmin = AdminController(AdminServices());
@@ -27,6 +38,8 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     String UserEmail = user.email.toString();
     print('user $UserEmail');
     _getAdmin(UserEmail);
+    _getRiders(context);
+    setState(() {});
   }
 
   void _getAdmin(String userEmail) async {
@@ -45,6 +58,33 @@ class _HomePageAdminState extends State<HomePageAdmin> {
         ..adminName = admin.first.adminName
         ..adminRole = admin.first.adminRole;
     }
+  }
+
+  void _getRiders(BuildContext context) async {
+    var newRiders = await controllerR.fetchRiders();
+    newRider = newRiders.where((x) => x.statusApprove == '').toList();
+    print('chk ${newRider}');
+
+    context.read<RiderModel>().getListRider = newRider;
+    print('provider ${context.read<RiderModel>().email}');
+
+//Count Status waiting for approve rider
+    var statuswaiting = newRider;
+    int countstatuswaiting = statuswaiting.length;
+    print('count wait $countstatuswaiting');
+
+    context.read<RiderAdminModel>().Statuswaiting = countstatuswaiting;
+
+//Count Status Approved rider
+    var statusApprove = newRiders.where((x) => x.statusApprove == 'Approved');
+    int countstatusApprove = statusApprove.length;
+
+    context.read<RiderAdminModel>().StatusApprove = countstatusApprove;
+
+    var statusBL = newRiders.where((x) => x.statusBL == true);
+    int countstatusBL = statusBL.length;
+
+    context.read<RiderAdminModel>().StatusBL = countstatusBL;
   }
 
   @override
@@ -86,38 +126,122 @@ class _HomePageAdminState extends State<HomePageAdmin> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'จำนวนผู้รับหิ้ว',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(Icons.attach_money),
-                          Text(
-                            'จำนวนผู้ใช้งานทั้งหมด',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ApproveRiderPage()));
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  context
+                                      .watch<RiderAdminModel>()
+                                      .statuswaiting
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'รออนุมัติ',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ),
-                          // Text(context
-                          //     .read<CartItemModel>()
-                          //     .totalCost
-                          //     .toString()),
-
-                          // Consumer<AdminModel>(
-                          //   builder: (context, AdminModel admin, child) {
-                          //     return Text('${admin.adminName}');
-                          //   },
-                          // ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                context
+                                    .watch<RiderAdminModel>()
+                                    .StatusApprove
+                                    .toString(),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'อนุมัติ',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BlacklistPage()));
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  context
+                                      .watch<RiderAdminModel>()
+                                      .StatusBL
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'แบล็คลิส',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 //       Expanded(
@@ -176,52 +300,164 @@ class _HomePageAdminState extends State<HomePageAdmin> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'รายการที่รออนุมัติ',
+              'ผู้รับหิ้ว',
             ),
           ),
-          // Expanded(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Consumer<CartItemModel>(
-          //         builder: (context, CartItemModel data, child) {
-          //       return data.getListCartItem.length != 0
-          //           ? ListView.builder(
-          //               itemCount: data.getListCartItem.length,
-          //               itemBuilder: (context, index) {
-          //                 print(data.getListCartItem.length);
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Consumer<RiderModel>(
+                  builder: (context, RiderModel data, child) {
+                return data.getListRider.length != 0
+                    ? ListView.builder(
+                        itemCount: data.getListRider.length,
+                        itemBuilder: (context, index) {
+                          print(data.getListRider.length);
 
-          //                 return CardList(data.getListCartItem[index], index);
-          //               },
-          //             )
-          //           : GestureDetector(
-          //               child: Center(
-          //                 child: Text(
-          //                   "ไม่มีรายการสั่งซื้อ",
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                   ),
-          //                 ),
-          //               ),
-          //             );
-          //     }),
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Container(
-          //     height: 450,
-          //     child: GridView.builder(
-          //       itemCount: 10,
-          //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //         crossAxisCount: 1,
-          //         childAspectRatio: (6 / 2),
-          //       ),
-          //     //   itemBuilder: (context, index) => Widget(),
-          //     // ),
-          //   ),
-          // ),
+                          return CardList(data.getListRider[index]);
+                        })
+                    : GestureDetector(
+                        child: Center(
+                            child: Text(
+                        "ไม่มีรายการผู้รับหิ้ว",
+                        style: TextStyle(
+                          color: iBlueColor,
+                        ),
+                      )));
+              }),
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class CardList extends StatefulWidget {
+  final Rider riders;
+
+  CardList(this.riders);
+
+  @override
+  State<CardList> createState() => _CardListState();
+}
+
+class _CardListState extends State<CardList> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                topLeft: Radius.circular(10),
+              )),
+          child: Column(
+            children: [
+              ListTile(
+                // value: statusBL,
+                shape: RoundedRectangleBorder(
+                  //<-- SEE HERE
+                  side: BorderSide(width: 1, color: Colors.white),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'ชื่อ - นามสกุล : ',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      widget.riders.FirstName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      ' ',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      widget.riders.LastName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'อีเมล์ : ',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          widget.riders.email,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'เบอร์โทร : ',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          widget.riders.TelNo,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                onTap: () {},
+              ),
+            ],
+          )),
     );
   }
 }

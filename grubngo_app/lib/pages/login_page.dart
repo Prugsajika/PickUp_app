@@ -35,9 +35,15 @@ class _LoginPageState extends State<LoginPage> {
       );
       final emailRider = FirebaseAuth.instance.currentUser?.email!;
       print('print rider $emailRider');
-      var backlistRider = await controllerR.fetchBlacklistByEmail(emailRider!);
-      int rider = backlistRider.length;
-      print('chk rider** $rider');
+
+      var ApproveRider =
+          await controllerR.fetchApproveRiderByEmail(emailRider!);
+      int riderApp = ApproveRider.length;
+      print('chk rider App** $riderApp');
+
+      var backlistRider = await controllerR.fetchBlacklistByEmail(emailRider);
+      int riderBL = backlistRider.length;
+      print('chk rider BL** $riderBL');
 
       // get admin
       var newAdmin = await controllerAdmin.fetchAdminByEmail(emailRider);
@@ -46,25 +52,37 @@ class _LoginPageState extends State<LoginPage> {
       if (admin == 1) {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => HomePageAdmin()));
+      } else if (riderApp == 0) {
+        return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('การลงทะเบียนเข้าใช้งานยังไม่ได้รับการอนุมัติ'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'ตกลง'),
+                    child: const Text('ตกลง'),
+                  ),
+                ],
+              );
+            });
+      } else if (riderBL == 1) {
+        return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('ไม่สามารถเข้าสู่ระบบได้ ติดต่อแอดมิน'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'ตกลง'),
+                    child: const Text('ตกลง'),
+                  ),
+                ],
+              );
+            });
       } else {
-        if (rider == 1) {
-          return showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text('ไม่สามารถเข้าสู่ระบบได้ ติดต่อแอดมิน'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'ตกลง'),
-                      child: const Text('ตกลง'),
-                    ),
-                  ],
-                );
-              });
-        } else {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => HomePage()));
-        }
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
       print(e);

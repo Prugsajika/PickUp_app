@@ -187,6 +187,25 @@ class RiderModel extends ChangeNotifier {
   }
 }
 
+class RiderAdminModel with ChangeNotifier {
+  int statusApprove = 0;
+  int statuswaiting = 0;
+  int statusBL = 0;
+
+  get StatusApprove => this.statusApprove;
+
+  set StatusApprove(statusApprove) => this.statusApprove = statusApprove;
+
+  get Statuswaiting => this.statuswaiting;
+
+  set Statuswaiting(statuswaiting) => this.statuswaiting = statuswaiting;
+
+  get StatusBL => this.statusBL;
+
+  set StatusBL(statusBL) => this.statusBL = statusBL;
+}
+
+
 // class ListRiderModel extends ChangeNotifier {
 //   List<Rider> _listRider = List.empty();
 //   List<Rider> get getListRider => this._listRider;
