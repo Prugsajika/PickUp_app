@@ -32,6 +32,16 @@ class CartController {
     return cartitems;
   }
 
+  Future<List<CartItem>> fetchStatusPaymentByCartId(String cartId) async {
+    // controller status => Start
+    onSyncController.add(true);
+    cartitems = await services.getStatusPaymentByCartId(cartId);
+    // controller status => End
+    onSyncController.add(false);
+
+    return cartitems;
+  }
+
   void addCart(
       String image,
       name,

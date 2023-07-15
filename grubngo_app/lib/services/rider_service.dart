@@ -55,6 +55,17 @@ class RiderServices {
     return riders.riders;
   }
 
+  Future<List<Rider>> getActivateRiders() async {
+    QuerySnapshot snapshotAct = await FirebaseFirestore.instance
+        .collection('rider')
+        .where('statusApprove', isEqualTo: 'Approved')
+        .get();
+
+    AllRiders riders = AllRiders.fromSnapshot(snapshotAct);
+    print("Approve  $riders");
+    return riders.riders;
+  }
+
   void addRider(String FirstName, LastName, Gender, TelNo, email, idCard, UrlQr,
       bool statusBL, String UrlCf) async {
     FirebaseFirestore.instance.collection('rider').add({
@@ -110,6 +121,16 @@ class RiderServices {
     FirebaseFirestore.instance.collection('rider').doc(riderid).update({
       'riderid': riderid,
       'statusApprove': statusApprove,
+    });
+  }
+
+  void updatePrifile(String FirstName, LastName, TelNo, UrlQr, riderid) async {
+    FirebaseFirestore.instance.collection('rider').doc(riderid).update({
+      'FirstName': FirstName,
+      'LastName': LastName,
+      'TelNo': TelNo,
+      'UrlQr': UrlQr,
+      'riderid': riderid
     });
   }
 }

@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/cartitem_model.dart';
 
 class CartServices {
   final CollectionReference _collection =
       FirebaseFirestore.instance.collection('cart');
+  final user = FirebaseAuth.instance.currentUser!;
 
   Future<List<CartItem>> getCart() async {
     QuerySnapshot snapshot = await _collection.get();
@@ -28,13 +30,23 @@ class CartServices {
     return cartitems.cartitems;
   }
 
-  void updatePaystatus(String cartId, status, rejectStatus) async {
+  void updatePaystatus(String cartId, status) async {
     FirebaseFirestore.instance.collection('cart').doc(cartId).update({
       'cartId': cartId,
       'status': status,
-      'rejectStatus': rejectStatus,
     });
     print('cartId for service$cartId');
+  }
+
+  Future<List<CartItem>> getOrderByProduct() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('emailRider', isEqualTo: user.email)
+        .get();
+
+    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
+    print("cartitems  $cartitems");
+    return cartitems.cartitems;
   }
 
   // void addCart(

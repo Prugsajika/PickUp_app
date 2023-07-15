@@ -19,8 +19,8 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
   CartController cartcontroller = CartController(CartServices());
   String? _chosenValue;
 
-  void _updatePayStatus(String cartId, status, rejectStatus) async {
-    cartcontroller.updatePaystatus(cartId, status, rejectStatus);
+  void _updatePayStatus(String cartId, status) async {
+    cartcontroller.updatePaystatus(cartId, status);
     setState(() {});
     print('chk confirm pty####' + cartId);
   }
@@ -71,8 +71,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
-                      _updatePayStatus(
-                          widget.Carts.cartId, 'สลิปไม่ถูกต้อง', _chosenValue);
+                      _updatePayStatus(widget.Carts.cartId, _chosenValue);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
 
@@ -179,8 +178,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                       // ApprovePayStatus();
                       print(
                           'ยืนยันสลิปแล้ว ${context.read<CartItemModel>().cartId}');
-                      _updatePayStatus(
-                          widget.Carts.cartId, "ยืนยันสลิปแล้ว", "");
+                      _updatePayStatus(widget.Carts.cartId, "ยืนยันสลิปแล้ว");
                     },
                     child: const Text(
                       "ยืนยัน",
@@ -198,8 +196,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
 
                       print(
                           'สลิปไม่ถูกต้อง ${context.read<CartItemModel>().cartId}');
-                      _updatePayStatus(
-                          widget.Carts.cartId, 'สลิปไม่ถูกต้อง', "");
+                      _updatePayStatus(widget.Carts.cartId, 'สลิปไม่ถูกต้อง');
                     },
                     child: const Text(
                       "ปฎิเสธ",

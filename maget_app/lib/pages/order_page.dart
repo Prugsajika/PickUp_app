@@ -21,6 +21,8 @@ class _OrderPageState extends State<OrderPage> {
   final user = FirebaseAuth.instance.currentUser!;
   List<CartItem> cartitems = List.empty();
 
+  String get cartId => context.read<CartItemModel>().cartId;
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +39,10 @@ class _OrderPageState extends State<OrderPage> {
     setState(() => cartitems = usercart);
 
     context.read<CartItemModel>().getListCartItem = usercart;
+    //รอถาม จะทำดึง status payment เพื่อใช้ใน if ที่จะแสดง card list ต่างกัน
+    var confirmPayment = await controller.fetchStatusPaymentByCartId(cartId);
+    int CconfirmPayment = confirmPayment.length;
+    print('chk pay ${CconfirmPayment}');
   }
 
   @override

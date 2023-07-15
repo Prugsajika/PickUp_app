@@ -65,7 +65,6 @@ class _EditProductPage extends State<EditProductPage> {
   late int _price = 0;
   late int _stock = 0;
   late int _deliveryFee = 0;
-
   late int _Indexs;
   late String UrlQr = "";
   ProductController controller = ProductController(ProductServices());
@@ -350,6 +349,9 @@ class _EditProductPage extends State<EditProductPage> {
                             child: Text("ของหวาน"), value: "ของหวาน"),
                         DropdownMenuItem(child: Text("ผลไม้"), value: "ผลไม้"),
                       ],
+                      onSaved: (value) {
+                        _typeOfFood = value.toString();
+                      },
                       onChanged: (newVal) {
                         setState(() {
                           _typeOfFood = newVal.toString();

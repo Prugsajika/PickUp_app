@@ -205,6 +205,43 @@ class RiderAdminModel with ChangeNotifier {
   set StatusBL(statusBL) => this.statusBL = statusBL;
 }
 
+class EditProfileModel extends ChangeNotifier {
+  String _FirstName = '';
+  String _LastName = '';
+
+  String _TelNo = '';
+
+  String _UrlQr = '';
+  String _riderid = '';
+  get FirstName => this._FirstName;
+
+  set FirstName(value) => this._FirstName = value;
+
+  get LastName => this._LastName;
+
+  set LastName(value) => this._LastName = value;
+
+  get TelNo => this._TelNo;
+
+  set TelNo(value) => this._TelNo = value;
+
+  get UrlQr => this._UrlQr;
+
+  set UrlQr(value) => this._UrlQr = value;
+
+  get riderid => this._riderid;
+
+  set riderid(value) => this._riderid = value;
+
+  List<Rider> _listEditProfile = List.empty();
+  List<Rider> get getEditListProfile => this._listEditProfile;
+  set getEditListProduct(List<Rider> value) {
+    this._listEditProfile = value;
+    notifyListeners();
+  }
+}
+
+
 
 // class ListRiderModel extends ChangeNotifier {
 //   List<Rider> _listRider = List.empty();

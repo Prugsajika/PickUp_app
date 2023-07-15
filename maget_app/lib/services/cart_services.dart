@@ -28,6 +28,18 @@ class CartServices {
     return cartitems.cartitems;
   }
 
+  Future<List<CartItem>> getStatusPaymentByCartId(String cartId) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('cartId', isEqualTo: cartId)
+        .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
+        .get();
+
+    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
+    print("cartitems  $cartitems");
+    return cartitems.cartitems;
+  }
+
   void addCart(
       String image,
       name,

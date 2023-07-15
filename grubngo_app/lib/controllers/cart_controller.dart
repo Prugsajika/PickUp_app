@@ -33,8 +33,18 @@ class CartController {
     return cartitems;
   }
 
-  void updatePaystatus(String cartId, status, rejectStatus) async {
-    services.updatePaystatus(cartId, status, rejectStatus);
+  void updatePaystatus(String cartId, status) async {
+    services.updatePaystatus(cartId, status);
+  }
+
+  Future<List<CartItem>> fetchOrderByProduct() async {
+    // controller status => Start
+    onSyncController.add(true);
+    cartitems = await services.getOrderByProduct();
+    // controller status => End
+    onSyncController.add(false);
+
+    return cartitems;
   }
 
   // void addCart(

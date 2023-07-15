@@ -68,6 +68,9 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => RiderAdminModel(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => EditProfileModel(),
+      ),
     ],
     child: const MyApp(),
   ));

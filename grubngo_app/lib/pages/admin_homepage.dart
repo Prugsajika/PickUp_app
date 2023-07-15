@@ -24,8 +24,8 @@ class HomePageAdmin extends StatefulWidget {
 
 class _HomePageAdminState extends State<HomePageAdmin> {
   List<Admin> admin = List.empty();
-  List<Rider> rider = List.empty();
-  List<Rider> newRider = List.empty();
+
+  List<Rider> waitRider = List.empty();
   RiderController controllerR = RiderController(RiderServices());
 
   final user = FirebaseAuth.instance.currentUser!;
@@ -40,6 +40,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     _getAdmin(UserEmail);
     _getRiders(context);
     setState(() {});
+    _getRidersWaitingApprove(context);
   }
 
   void _getAdmin(String userEmail) async {
@@ -60,31 +61,42 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     }
   }
 
-  void _getRiders(BuildContext context) async {
-    var newRiders = await controllerR.fetchRiders();
-    newRider = newRiders.where((x) => x.statusApprove == '').toList();
-    print('chk ${newRider}');
+  void _getRidersWaitingApprove(BuildContext context) async {
+    var waitRiders = await controllerR.fetchRiders();
+    waitRider = waitRiders.where((x) => x.statusApprove == '').toList();
+    print('chk ${waitRider}');
 
-    context.read<RiderModel>().getListRider = newRider;
-    print('provider ${context.read<RiderModel>().email}');
+    context.read<RiderModel>().getListRider = waitRiders;
 
 //Count Status waiting for approve rider
-    var statuswaiting = newRider;
+    var statuswaiting = waitRider;
     int countstatuswaiting = statuswaiting.length;
     print('count wait $countstatuswaiting');
 
     context.read<RiderAdminModel>().Statuswaiting = countstatuswaiting;
 
 //Count Status Approved rider
-    var statusApprove = newRiders.where((x) => x.statusApprove == 'Approved');
+    var statusApprove = waitRiders.where((x) => x.statusApprove == 'Approved');
     int countstatusApprove = statusApprove.length;
 
     context.read<RiderAdminModel>().StatusApprove = countstatusApprove;
 
-    var statusBL = newRiders.where((x) => x.statusBL == true);
+    var statusBL = waitRiders.where((x) => x.statusBL == true);
     int countstatusBL = statusBL.length;
 
     context.read<RiderAdminModel>().StatusBL = countstatusBL;
+  }
+
+  void _getRiders(BuildContext context) async {
+    List<Rider> rider = List.empty();
+    print('chk empty $rider');
+    var newRiders = await controllerR.fetchActivateRiders();
+    print('newRider $newRiders');
+
+    print('chk activate user ${newRiders}');
+
+    context.read<RiderModel>().getListRider = newRiders;
+    print(context.read<RiderModel>().getListRider);
   }
 
   @override
@@ -300,7 +312,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'ผู้รับหิ้ว',
+              'รายชื่อผู้รับหิ้ว',
             ),
           ),
           Expanded(
@@ -452,9 +464,31 @@ class _CardListState extends State<CardList> {
                         ),
                       ],
                     ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'สถานนะแบล็คลิส : ',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          widget.riders.statusBL.toString(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-                onTap: () {},
               ),
             ],
           )),

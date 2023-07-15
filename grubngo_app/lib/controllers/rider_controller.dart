@@ -53,6 +53,15 @@ class RiderController {
     return riders;
   }
 
+  Future<List<Rider>> fetchActivateRiders() async {
+    onSyncController.add(true);
+    riders = await services.getActivateRiders();
+    onSyncController.add(false);
+    return riders;
+  }
+
+  fetchRidersinfo(String userEmail) {}
+
   // void addRider(String name, lastName, birthDay, password, bank, bankAccount,
   //     email) async {
   //   services.add(name, lastName, birthDay, password, bank, bankAccount, email);
@@ -77,5 +86,9 @@ class RiderController {
 
   void updateRejectStatus(String riderid, String statusApprove) async {
     services.updateRejectStatus(riderid, statusApprove);
+  }
+
+  void updatePrifile(String FirstName, LastName, TelNo, UrlQr, riderid) async {
+    services.updatePrifile(FirstName, LastName, TelNo, UrlQr, riderid);
   }
 }

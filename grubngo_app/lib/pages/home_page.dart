@@ -311,7 +311,7 @@ class CardList extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -320,7 +320,7 @@ class CardList extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -329,7 +329,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -347,7 +347,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -356,7 +356,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -365,7 +365,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -374,7 +374,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),

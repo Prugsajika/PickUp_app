@@ -23,31 +23,32 @@ class CartItem {
   late String availableDate;
   late String availableTime;
   late String emailRider;
-  late String rejectStatus;
+  // late String rejectStatus;
 
   CartItem(
-      this.cartId,
-      this.image,
-      this.name,
-      this.quantity,
-      this.cost,
-      this.price,
-      this.Productid,
-      this.customerId,
-      this.deliveryFee,
-      this.totalCost,
-      this.UrlQr,
-      this.confirmPayimg,
-      this.paydate,
-      this.paytime,
-      this.email,
-      this.buildName,
-      this.roomNo,
-      this.status,
-      this.availableDate,
-      this.availableTime,
-      this.emailRider,
-      this.rejectStatus);
+    this.cartId,
+    this.image,
+    this.name,
+    this.quantity,
+    this.cost,
+    this.price,
+    this.Productid,
+    this.customerId,
+    this.deliveryFee,
+    this.totalCost,
+    this.UrlQr,
+    this.confirmPayimg,
+    this.paydate,
+    this.paytime,
+    this.email,
+    this.buildName,
+    this.roomNo,
+    this.status,
+    this.availableDate,
+    this.availableTime,
+    this.emailRider,
+    // this.rejectStatus
+  );
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
@@ -72,7 +73,7 @@ class CartItem {
       json['availableDate'] as String,
       json['availableTime'] as String,
       json['emailRider'] as String,
-      json['rejectStatus'] as String,
+      // json['rejectStatus'] as String,
     );
   }
 }
@@ -121,7 +122,7 @@ class CartItemModel extends ChangeNotifier {
   String availableDate = '';
   String availableTime = '';
   String emailRider = '';
-  String rejectStatus = '';
+  // String rejectStatus = '';
 
   get getcartId => this.cartId;
   set setcartId(value) {
@@ -249,11 +250,11 @@ class CartItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get getrejectStatus => this.rejectStatus;
-  set setrejectStatus(value) {
-    this.rejectStatus = value;
-    notifyListeners();
-  }
+  // get getrejectStatus => this.rejectStatus;
+  // set setrejectStatus(value) {
+  //   this.rejectStatus = value;
+  //   notifyListeners();
+  // }
 
   List<CartItem> _listCartItem = List.empty();
   List<CartItem> get getListCartItem => this._listCartItem;
