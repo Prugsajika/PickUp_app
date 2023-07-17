@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
-import 'package:maget_app/pages/findproduct.dart';
+import 'package:maget_app/pages/findproduct_page.dart';
 import 'package:maget_app/pages/products_page.dart';
 import 'package:maget_app/pages/register_page.dart';
 import 'package:provider/provider.dart';
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
     var userCustomer = await custcontroller.fetchCustomersByEmail(userEmail);
     print("userCustomer  $userCustomer");
     setState(() => customer = userCustomer);
-    print('_getCustomer ID : ${customer.first.customerId}');
+    // print('_getCustomer ID : ${customer.first.customerId}');
 
     if (!customer.isEmpty) {
       context.read<ProfileDetailModel>()
@@ -285,7 +285,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -294,7 +294,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -312,7 +312,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -321,7 +321,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -330,7 +330,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
@@ -339,7 +339,7 @@ class CardList extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 )

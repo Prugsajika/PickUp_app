@@ -5,6 +5,7 @@ import 'package:grubngo_app/pages/histories_page.dart';
 
 import 'package:grubngo_app/pages/products_page.dart';
 import 'package:grubngo_app/pages/profilescreen.dart';
+import 'package:grubngo_app/pages/purchaseorder_page.dart';
 import 'package:grubngo_app/pages/statusdelivery_page.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,6 @@ import '../models/riderinfo_model.dart';
 import '../pages/home_page.dart';
 import '../pages/login_page.dart';
 import '../pages/profile_page.dart';
-import '../pages/purchaseorder.dart';
 
 class DrawerBar extends StatefulWidget {
   @override

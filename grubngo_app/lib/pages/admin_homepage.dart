@@ -38,9 +38,9 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     String UserEmail = user.email.toString();
     print('user $UserEmail');
     _getAdmin(UserEmail);
+    _getRidersWaitingApprove(context);
     _getRiders(context);
     setState(() {});
-    _getRidersWaitingApprove(context);
   }
 
   void _getAdmin(String userEmail) async {
@@ -62,7 +62,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   }
 
   void _getRidersWaitingApprove(BuildContext context) async {
-    var waitRiders = await controllerR.fetchRiders();
+    var waitRiders = await controllerR.fetchadminStat();
     waitRider = waitRiders.where((x) => x.statusApprove == '').toList();
     print('chk ${waitRider}');
 
@@ -93,10 +93,10 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     var newRiders = await controllerR.fetchActivateRiders();
     print('newRider $newRiders');
 
-    print('chk activate user ${newRiders}');
+    print('chk activate user ${newRiders.length}');
 
     context.read<RiderModel>().getListRider = newRiders;
-    print(context.read<RiderModel>().getListRider);
+    print('list ${context.read<RiderModel>().getListRider}');
   }
 
   @override
@@ -320,12 +320,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
               padding: const EdgeInsets.all(8.0),
               child: Consumer<RiderModel>(
                   builder: (context, RiderModel data, child) {
+                print(data.getListRider.length);
                 return data.getListRider.length != 0
                     ? ListView.builder(
                         itemCount: data.getListRider.length,
                         itemBuilder: (context, index) {
-                          print(data.getListRider.length);
-
                           return CardList(data.getListRider[index]);
                         })
                     : GestureDetector(

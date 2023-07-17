@@ -78,6 +78,31 @@ class AllRiders {
   }
 }
 
+// class CountRiders {
+//   final List<Rider> riders;
+
+//   CountRiders(this.riders);
+//   factory CountRiders.fromJson(List<dynamic> json) {
+//     List<Rider> riders;
+
+//     riders = json.map((index) => Rider.fromJson(index)).toList();
+
+//     return CountRiders(riders);
+//   }
+// //TODO รอถามอาจารย์
+//   factory CountRiders.fromSnapshot(QuerySnapshot s) {
+//     List<Rider> riders = s.docs.map((DocumentSnapshot ds) {
+//       print("documentsnapshot ${ds.data()}");
+//       Rider rider = Rider.fromJson(ds.data() as Map<String, dynamic>);
+//       rider.Riderid = ds.id;
+//       print("riderdocumentsnapshot ${rider.Riderid}");
+//       return rider;
+//     }).toList();
+
+//     return CountRiders(riders);
+//   }
+// }
+
 class RiderModel extends ChangeNotifier {
   String Riderid = '';
   // String imagerider = '';

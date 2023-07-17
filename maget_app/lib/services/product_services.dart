@@ -9,7 +9,10 @@ class ProductServices {
   final user = FirebaseAuth.instance.currentUser!;
 
   Future<List<Product>> get() async {
-    QuerySnapshot snapshot = await _collection.get();
+    QuerySnapshot snapshot = await _collection
+        .where('availableDate',
+            isGreaterThanOrEqualTo: DateTime.now().toString())
+        .get();
 
     AllProducts snap = AllProducts.fromSnapshot(snapshot);
 

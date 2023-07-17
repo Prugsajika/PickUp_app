@@ -106,8 +106,11 @@ class _FindProductPageState extends State<FindProductPage> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('products').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('products')
+                  .where('availableDate',
+                      isGreaterThanOrEqualTo: DateTime.now().toString())
+                  .snapshots(),
               builder: (context, snapshots) {
                 return (snapshots.connectionState == ConnectionState.waiting)
                     ? Center(
@@ -150,7 +153,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -159,7 +162,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -179,7 +182,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -188,7 +191,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         )
@@ -311,7 +314,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -340,7 +343,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -349,7 +352,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         )

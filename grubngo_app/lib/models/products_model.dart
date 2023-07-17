@@ -349,3 +349,125 @@ class EditProductModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class FechtProductModel extends ChangeNotifier {
+  String Productid = '';
+  String UrlPd = '';
+  String name = '';
+  String description = '';
+  String deliveryLocation = '';
+  String email = '';
+  String typeOfFood = '';
+  String sentDate = '';
+  String sentTime = '';
+  late int price;
+  late int stock;
+  late int deliveryFee;
+  String UrlQr = '';
+  String availableDate = '';
+  String availableTime = '';
+
+  get getProductid => this.Productid;
+  set setProductid(value) {
+    this.Productid = value;
+    notifyListeners();
+  }
+
+  get getUrlPd => this.UrlPd;
+  set setUrlPd(value) {
+    this.UrlPd = value;
+    notifyListeners();
+  }
+
+  get getname => this.name;
+  set setname(value) {
+    this.name = value;
+    notifyListeners();
+  }
+
+  get getdescription => this.description;
+  set setdescription(value) {
+    this.description = value;
+    notifyListeners();
+  }
+
+  get getdeliveryLocation => this.deliveryLocation;
+  set setdeliveryLocation(value) {
+    this.deliveryLocation = value;
+    notifyListeners();
+  }
+
+  get getemail => this.email;
+  set setemail(value) {
+    this.email = value;
+    notifyListeners();
+  }
+
+  get gettypeOfFood => this.typeOfFood;
+  set settypeOfFood(value) {
+    this.typeOfFood = value;
+    notifyListeners();
+  }
+
+  get getsentDate => this.sentDate;
+  set setsentDate(value) {
+    this.sentDate = value;
+    notifyListeners();
+  }
+
+  get getsentTime => this.sentTime;
+  set setsentTime(value) {
+    this.sentTime = value;
+    notifyListeners();
+  }
+
+  get getprice => this.price;
+  set setprice(value) {
+    this.price = value;
+    notifyListeners();
+  }
+
+  get getstock => this.stock;
+  set setstock(value) {
+    this.stock = value;
+    notifyListeners();
+  }
+
+  get getdeliveryFee => this.deliveryFee;
+  set setdeliveryFee(value) {
+    this.deliveryFee = value;
+    notifyListeners();
+  }
+
+  get getUrlQr => this.UrlQr;
+  set setUrlQr(value) {
+    this.UrlQr = value;
+    notifyListeners();
+  }
+
+  get getavailableDate => this.availableDate;
+  set setavailableDate(value) {
+    this.availableDate = value;
+    notifyListeners();
+  }
+
+  get getavailableTime => this.availableTime;
+  set setavailableTime(value) {
+    this.availableTime = value;
+    notifyListeners();
+  }
+
+  List<Product> _listProduct = List.empty();
+  List<Product> get getListProduct => this._listProduct;
+
+  set getListProduct(List<Product> value) {
+    this._listProduct = value;
+    notifyListeners();
+  }
+
+  // get getPassword => this.Password;
+  // set setPassword(value) {
+  //   this.Password = value;
+  //   notifyListeners();
+  // }
+}

@@ -15,7 +15,8 @@ import 'models/customer_model.dart';
 
 import 'pages/checkout_page.dart';
 import 'pages/favourite_page.dart';
-import 'pages/findproduct.dart';
+
+import 'pages/findproduct_page.dart';
 import 'pages/home_page.dart';
 import 'pages/productdetail_page.dart';
 import 'pages/profile_page.dart';

@@ -71,6 +71,9 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => EditProfileModel(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => FechtProductModel(),
+      ),
     ],
     child: const MyApp(),
   ));

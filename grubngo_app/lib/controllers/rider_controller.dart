@@ -32,6 +32,13 @@ class RiderController {
     return riders;
   }
 
+  fetchadminStat() async {
+    onSyncController.add(true);
+    riders = await services.getadminStat();
+    onSyncController.add(false);
+    return riders;
+  }
+
   Future<List<Rider>> fetchRidersByEmail(String email) async {
     onSyncController.add(true);
     riders = await services.getRidersByEmail(email);

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../models/riderinfo_model.dart';
 
@@ -18,6 +19,25 @@ class RiderServices {
 
     print('QuerySnapshot All Riders ${riders.riders.length}');
     return riders.riders;
+  }
+
+// get adminstat
+
+  // final CollectionReference<Map<String, dynamic>> userList =
+  //     FirebaseFirestore.instance.collection('rider');
+
+  // Future<int> getadminStat() async {
+  //   AggregateQuerySnapshot query = await userList.count().get();
+  //   debugPrint('The number of users: ${query.count}');
+  //   return query.count;
+  // }
+  getadminStat() async {
+    var snapshot = await _collection.count().get().then(
+          (res) => print(res.count),
+          onError: (e) => print("Error completing: $e"),
+        );
+
+    // var snapshot = await myRef.count().get();
   }
 
   Future<List<Rider>> getRidersByEmail(String email) async {

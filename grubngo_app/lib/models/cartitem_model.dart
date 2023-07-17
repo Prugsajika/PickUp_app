@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -271,4 +273,42 @@ class CartItemModel extends ChangeNotifier {
   //   cartItems[cartItems.indexOf(cartModel)].quantity--;
   //   notifyListeners();
   // }
+}
+
+class CategoriesProduct {
+  final String productID;
+  late String emailRider;
+  late int Sumquantity;
+  late String name;
+  late int price;
+  CategoriesProduct(
+      this.productID, this.emailRider, this.Sumquantity, this.name, this.price);
+
+  factory CategoriesProduct.fromJson(Map<String, dynamic> json) {
+    return CategoriesProduct(
+      json['productID'],
+      json['emailRider'],
+      json['quantity'],
+      json['name'],
+      json['price'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['productID'] = productID;
+    data['emailRider'] = emailRider;
+    data['quantity'] = Sumquantity;
+    data['name'] = name;
+    data['price'] = price;
+    return data;
+  }
+
+  static List<CategoriesProduct> parseApplList(String responseBody) {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+    List<CategoriesProduct> listData = parsed
+        .map<CategoriesProduct>((json) => CategoriesProduct.fromJson(json))
+        .toList();
+    return listData;
+  }
 }
