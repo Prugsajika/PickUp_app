@@ -39,8 +39,8 @@ class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
     var newProduct = await controller.fetchbyuser();
     print('chk ${newProduct}');
 
-    context.read<FechtProductModel>().getListProduct = newProduct;
-    print('provider ${context.read<FechtProductModel>().Productid}');
+    context.read<FetchProductModel>().getListProduct = newProduct;
+    print('provider ${context.read<FetchProductModel>().Productid}');
 
     List<CategoriesProduct> ad = [];
     newProduct.forEach((element) {
@@ -116,8 +116,8 @@ class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<FechtProductModel>(
-            builder: (context, FechtProductModel data, child) {
+        child: Consumer<FetchProductModel>(
+            builder: (context, FetchProductModel data, child) {
           return data.getListProduct.length != 0
               ? ListView.builder(
                   itemCount: data.getListProduct.length,

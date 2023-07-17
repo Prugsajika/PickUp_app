@@ -65,7 +65,7 @@ class _EditProfilePage extends State<EditProfilePage> {
   }
 
   void _updateProfile(String FirstName, LastName, TelNo, UrlQr, riderid) async {
-    controllerR.updatePrifile(FirstName, LastName, TelNo, UrlQr, riderid);
+    controllerR.updateProfile(FirstName, LastName, TelNo, UrlQr, riderid);
   }
 
   File? _imageQR;
@@ -145,40 +145,7 @@ class _EditProfilePage extends State<EditProfilePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  Container(
-                    width: 300,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 6.0,
-                          spreadRadius: 2.0,
-                          color: Colors.grey,
-                          offset: Offset(0.0, 0.0),
-                        )
-                      ],
-                    ),
-                    child: _imageQR != null
-                        ? Image.file(
-                            _imageQR!,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.network(
-                            _UrlQr = rider.UrlQr,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _showPickerQR(context);
-                    },
-                    child: Text("เปลี่ยน QR Code สำหรับชำระเงิน"),
-                  ),
+
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
@@ -282,10 +249,45 @@ class _EditProfilePage extends State<EditProfilePage> {
                       },
                     ),
                   ),
+                  Container(
+                    width: 300,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: Colors.white,
+                      ),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 6.0,
+                          spreadRadius: 2.0,
+                          color: Colors.grey,
+                          offset: Offset(0.0, 0.0),
+                        )
+                      ],
+                    ),
+                    child: _imageQR != null
+                        ? Image.file(
+                            _imageQR!,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            _UrlQr = rider.UrlQr,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _showPickerQR(context);
+                    },
+                    child: Text("เปลี่ยน QR Code สำหรับชำระเงิน"),
+                  ),
 
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
@@ -317,6 +319,7 @@ class _EditProfilePage extends State<EditProfilePage> {
                           child: Text('บันทึก'),
                         ),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(primary: Colors.grey),
                           onPressed: () {
                             Navigator.pop(context);
                           },

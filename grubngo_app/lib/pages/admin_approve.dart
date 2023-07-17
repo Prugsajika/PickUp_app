@@ -206,7 +206,8 @@ class _CardListState extends State<CardList> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.green),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(

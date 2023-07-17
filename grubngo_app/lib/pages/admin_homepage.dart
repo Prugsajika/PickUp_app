@@ -62,9 +62,9 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   }
 
   void _getRidersWaitingApprove(BuildContext context) async {
-    var waitRiders = await controllerR.fetchadminStat();
+    var waitRiders = await controllerR.fetchRiders();
     waitRider = waitRiders.where((x) => x.statusApprove == '').toList();
-    print('chk ${waitRider}');
+    print('chk ${waitRider.length}');
 
     context.read<RiderModel>().getListRider = waitRiders;
 
@@ -73,18 +73,18 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     int countstatuswaiting = statuswaiting.length;
     print('count wait $countstatuswaiting');
 
-    context.read<RiderAdminModel>().Statuswaiting = countstatuswaiting;
+    context.read<CountRiderAdminModel>().Statuswaiting = countstatuswaiting;
 
 //Count Status Approved rider
     var statusApprove = waitRiders.where((x) => x.statusApprove == 'Approved');
     int countstatusApprove = statusApprove.length;
 
-    context.read<RiderAdminModel>().StatusApprove = countstatusApprove;
+    context.read<CountRiderAdminModel>().StatusApprove = countstatusApprove;
 
     var statusBL = waitRiders.where((x) => x.statusBL == true);
     int countstatusBL = statusBL.length;
 
-    context.read<RiderAdminModel>().StatusBL = countstatusBL;
+    context.read<CountRiderAdminModel>().StatusBL = countstatusBL;
   }
 
   void _getRiders(BuildContext context) async {
@@ -171,7 +171,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                               children: [
                                 Text(
                                   context
-                                      .watch<RiderAdminModel>()
+                                      .watch<CountRiderAdminModel>()
                                       .statuswaiting
                                       .toString(),
                                   style: TextStyle(
@@ -199,7 +199,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                             children: [
                               Text(
                                 context
-                                    .watch<RiderAdminModel>()
+                                    .watch<CountRiderAdminModel>()
                                     .StatusApprove
                                     .toString(),
                                 style: TextStyle(
@@ -208,7 +208,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                'อนุมัติ',
+                                'อนุมัติแล้ว',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
@@ -233,7 +233,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                               children: [
                                 Text(
                                   context
-                                      .watch<RiderAdminModel>()
+                                      .watch<CountRiderAdminModel>()
                                       .StatusBL
                                       .toString(),
                                   style: TextStyle(
@@ -475,8 +475,14 @@ class _CardListState extends State<CardList> {
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
+                        // if (widget.riders.statusBL = false) {
+                        //   Text('แบล็คลิส'),
+
+                        // } else{
+                        //   TextBox()
+                        // },
                         Text(
-                          widget.riders.statusBL.toString(),
+                          widget.riders.statusBL ? 'แบล็คลิส' : 'ปกติ',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

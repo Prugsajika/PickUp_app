@@ -13,22 +13,23 @@ class BlacklistPage extends StatefulWidget {
 }
 
 class _BlacklistPageState extends State<BlacklistPage> {
-  List<Rider> rider = List.empty();
+  List<AdminRider> rider = List.empty();
   RiderController controllerR = RiderController(RiderServices());
 
   @override
   void initState() {
     super.initState();
-    _getRiders(context);
+    _getAdminRiders(context);
+
     setState(() {});
   }
 
-  void _getRiders(BuildContext context) async {
-    var newRider = await controllerR.fetchRiders();
-    print('chk ${newRider}');
+  void _getAdminRiders(BuildContext context) async {
+    var newRider = await controllerR.fetchAdminRiders();
+    print('chk ${newRider.length}');
 
-    context.read<RiderModel>().getListRider = newRider;
-    print('provider ${context.read<RiderModel>().email}');
+    context.read<AdminRiderModel>().getListRider = newRider;
+    print('provider ${context.read<AdminRiderModel>().email}');
   }
 
   @override
@@ -40,12 +41,13 @@ class _BlacklistPageState extends State<BlacklistPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<RiderModel>(builder: (context, RiderModel data, child) {
+        child: Consumer<AdminRiderModel>(
+            builder: (context, AdminRiderModel data, child) {
           return data.getListRider.length != 0
               ? ListView.builder(
                   itemCount: data.getListRider.length,
                   itemBuilder: (context, index) {
-                    print(data.getListRider.length);
+                    // print(data.getListRider.length);
 
                     return CardList(data.getListRider[index]);
                   })
@@ -71,7 +73,7 @@ class _BlacklistPageState extends State<BlacklistPage> {
 }
 
 class CardList extends StatefulWidget {
-  final Rider riders;
+  final AdminRider riders;
 
   CardList(this.riders);
 
@@ -94,7 +96,7 @@ class _CardListState extends State<CardList> {
   void _updateBLStatus(String Riderid, bool statusBL) async {
     controller.updateBLStatus(Riderid, statusBL);
     setState(() {});
-    print('chk confirm BL status' + Riderid);
+    print('chk confirm BL status ' + Riderid);
   }
 
   @override
@@ -183,6 +185,11 @@ class _CardListState extends State<CardList> {
             setState(() {
               statusBL = value;
               _updateBLStatus(widget.riders.Riderid, statusBL);
+
+              context.read<AdminRiderModel>()
+                // ..Riderid = widget.riders.toString()
+                ..statusBL = statusBL;
+              print('${context.read<AdminRiderModel>().statusBL}  chk status');
             });
 
             print('BL Status $statusBL');

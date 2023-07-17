@@ -182,7 +182,7 @@ class _EditProductPage extends State<EditProductPage> {
     setState(() {
       if (pickedFile != null) {
         _imagePD = File(pickedFile.path);
-        uploadFileQR();
+        uploadFilePd();
       } else {
         print('No image selected.');
       }
@@ -195,14 +195,14 @@ class _EditProductPage extends State<EditProductPage> {
     setState(() {
       if (pickedFile != null) {
         _imagePD = File(pickedFile.path);
-        uploadFileQR();
+        uploadFilePd();
       } else {
         print('No image selected.');
       }
     });
   }
 
-  Future uploadFileQR() async {
+  Future uploadFilePd() async {
     if (_imagePD == null) return;
     final fileName = Path.basename(_imagePD!.path);
     final destination = 'imagePD/$fileName';

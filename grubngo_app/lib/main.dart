@@ -56,9 +56,9 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => AdminModel(),
       ),
-      // ChangeNotifierProvider(
-      //   create: (context) => Blacklist(),
-      // ),
+      ChangeNotifierProvider(
+        create: (context) => AdminRiderModel(),
+      ),
       ChangeNotifierProvider(
         create: (context) => CartItemModel(),
       ),
@@ -66,13 +66,13 @@ void main() async {
         create: (context) => EditProductModel(),
       ),
       ChangeNotifierProvider(
-        create: (context) => RiderAdminModel(),
+        create: (context) => CountRiderAdminModel(),
       ),
       ChangeNotifierProvider(
         create: (context) => EditProfileModel(),
       ),
       ChangeNotifierProvider(
-        create: (context) => FechtProductModel(),
+        create: (context) => FetchProductModel(),
       ),
     ],
     child: const MyApp(),

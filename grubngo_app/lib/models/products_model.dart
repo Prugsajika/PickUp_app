@@ -350,7 +350,7 @@ class EditProductModel extends ChangeNotifier {
   }
 }
 
-class FechtProductModel extends ChangeNotifier {
+class FetchProductModel extends ChangeNotifier {
   String Productid = '';
   String UrlPd = '';
   String name = '';

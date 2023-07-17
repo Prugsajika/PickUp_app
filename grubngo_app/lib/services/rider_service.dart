@@ -21,6 +21,15 @@ class RiderServices {
     return riders.riders;
   }
 
+  Future<List<AdminRider>> getAdminRiders() async {
+    QuerySnapshot snapshot = await _collection.get();
+
+    AdminAllRiders riders = AdminAllRiders.fromSnapshot(snapshot);
+
+    print('QuerySnapshot All Riders ${riders.adminriders.length}');
+    return riders.adminriders;
+  }
+
 // get adminstat
 
   // final CollectionReference<Map<String, dynamic>> userList =
@@ -144,7 +153,7 @@ class RiderServices {
     });
   }
 
-  void updatePrifile(String FirstName, LastName, TelNo, UrlQr, riderid) async {
+  void updateProfile(String FirstName, LastName, TelNo, UrlQr, riderid) async {
     FirebaseFirestore.instance.collection('rider').doc(riderid).update({
       'FirstName': FirstName,
       'LastName': LastName,

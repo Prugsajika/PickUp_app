@@ -40,8 +40,8 @@ class _PurchaseOrderDetailPageState extends State<PurchaseOrderDetailPage> {
     var newProduct = await controller.fetchbyuser();
     print('chk ${newProduct}');
 
-    context.read<FechtProductModel>().getListProduct = newProduct;
-    print('provider ${context.read<FechtProductModel>().Productid}');
+    context.read<FetchProductModel>().getListProduct = newProduct;
+    print('provider ${context.read<FetchProductModel>().Productid}');
   }
 
   // void _getOrderByProduct() async {

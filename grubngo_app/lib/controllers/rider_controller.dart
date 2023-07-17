@@ -8,6 +8,7 @@ class RiderController {
   // final HttpServices services;
   final RiderServices services;
   List<Rider> riders = List.empty();
+  List<AdminRider> adminriders = List.empty();
 
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
@@ -30,6 +31,13 @@ class RiderController {
     riders = await services.getRiders();
     onSyncController.add(false);
     return riders;
+  }
+
+  Future<List<AdminRider>> fetchAdminRiders() async {
+    onSyncController.add(true);
+    adminriders = await services.getAdminRiders();
+    onSyncController.add(false);
+    return adminriders;
   }
 
   fetchadminStat() async {
@@ -95,7 +103,7 @@ class RiderController {
     services.updateRejectStatus(riderid, statusApprove);
   }
 
-  void updatePrifile(String FirstName, LastName, TelNo, UrlQr, riderid) async {
-    services.updatePrifile(FirstName, LastName, TelNo, UrlQr, riderid);
+  void updateProfile(String FirstName, LastName, TelNo, UrlQr, riderid) async {
+    services.updateProfile(FirstName, LastName, TelNo, UrlQr, riderid);
   }
 }
