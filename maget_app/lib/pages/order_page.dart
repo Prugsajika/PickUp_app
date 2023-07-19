@@ -109,7 +109,7 @@ class CardList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  carts.name,
+                  carts.nameProduct,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

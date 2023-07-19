@@ -62,7 +62,11 @@ class CartController {
       status,
       availableDate,
       availableTime,
-      emailRider) async {
+      emailRider,
+      sentDate,
+      sentTime,
+      bool productStatus,
+      String orderDate) async {
     services.addCart(
         image,
         name,
@@ -83,7 +87,11 @@ class CartController {
         status,
         availableDate,
         availableTime,
-        emailRider);
+        emailRider,
+        sentDate,
+        sentTime,
+        productStatus,
+        orderDate);
   }
 
   void updateProcessPayment(

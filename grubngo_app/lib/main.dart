@@ -74,6 +74,15 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => FetchProductModel(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => AllWaitingRiderModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => SumCartItemAllModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => CountCartItemModel(),
+      ),
     ],
     child: const MyApp(),
   ));

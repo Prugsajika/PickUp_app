@@ -95,6 +95,15 @@ class RiderServices {
     return riders.riders;
   }
 
+  Future<List<WaitingRider>> getWaitingRiders() async {
+    QuerySnapshot snapshotAct =
+        await FirebaseFirestore.instance.collection('rider').get();
+
+    AllWaitingRider waitingriders = AllWaitingRider.fromSnapshot(snapshotAct);
+    print("Approve  $waitingriders");
+    return waitingriders.waitingriders;
+  }
+
   void addRider(String FirstName, LastName, Gender, TelNo, email, idCard, UrlQr,
       bool statusBL, String UrlCf) async {
     FirebaseFirestore.instance.collection('rider').add({

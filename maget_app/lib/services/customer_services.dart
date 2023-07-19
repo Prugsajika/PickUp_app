@@ -47,4 +47,14 @@ class CustomerServices {
           'customerId': value.id,
         }));
   }
+
+  void updateProfile(String name, lastName, telNo, idCard, customerId) async {
+    FirebaseFirestore.instance.collection('customer').doc(customerId).update({
+      'name': name,
+      'lastName': lastName,
+      'telNo': telNo,
+      'idCard': idCard,
+      'customerId': customerId
+    });
+  }
 }

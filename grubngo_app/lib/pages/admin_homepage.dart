@@ -25,7 +25,7 @@ class HomePageAdmin extends StatefulWidget {
 class _HomePageAdminState extends State<HomePageAdmin> {
   List<Admin> admin = List.empty();
 
-  List<Rider> waitRider = List.empty();
+  List<WaitingRider> waitRider = List.empty();
   RiderController controllerR = RiderController(RiderServices());
 
   final user = FirebaseAuth.instance.currentUser!;
@@ -62,11 +62,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   }
 
   void _getRidersWaitingApprove(BuildContext context) async {
-    var waitRiders = await controllerR.fetchRiders();
+    var waitRiders = await controllerR.fetchWaitingRiders();
     waitRider = waitRiders.where((x) => x.statusApprove == '').toList();
     print('chk ${waitRider.length}');
 
-    context.read<RiderModel>().getListRider = waitRiders;
+    context.read<AllWaitingRiderModel>().getListRider = waitRiders;
 
 //Count Status waiting for approve rider
     var statuswaiting = waitRider;

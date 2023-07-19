@@ -64,7 +64,11 @@ class _PaymentPageState extends State<PaymentPage> {
       status,
       availableDate,
       availableTime,
-      emailRider) async {
+      emailRider,
+      sentDate,
+      sentTime,
+      bool productStatus,
+      String orderDate) async {
     cartcontroller.addCart(
         image,
         name,
@@ -85,7 +89,11 @@ class _PaymentPageState extends State<PaymentPage> {
         status,
         availableDate,
         availableTime,
-        emailRider);
+        emailRider,
+        sentDate,
+        sentTime,
+        productStatus,
+        orderDate);
   }
 
   File? _confirmPayimg;
@@ -353,7 +361,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   }
                   _addtoCart(
                     context.read<CartItemModel>().image,
-                    context.read<CartItemModel>().name,
+                    context.read<CartItemModel>().nameProduct,
                     context.read<CartItemModel>().Productid,
                     context.read<CartItemModel>().customerId,
                     context.read<CartItemModel>().quantity,
@@ -372,6 +380,10 @@ class _PaymentPageState extends State<PaymentPage> {
                     context.read<CartItemModel>().availableDate,
                     context.read<CartItemModel>().availableTime,
                     context.read<CartItemModel>().email,
+                    context.read<CartItemModel>().sentDate,
+                    context.read<CartItemModel>().sentTime,
+                    context.read<CartItemModel>().productStatus,
+                    context.read<CartItemModel>().orderDate,
                   );
 
                   Navigator.pushNamed(context, '/7');

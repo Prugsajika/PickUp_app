@@ -133,7 +133,7 @@ class CardList extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  carts.name,
+                  carts.nameProduct,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

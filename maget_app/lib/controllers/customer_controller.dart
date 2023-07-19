@@ -35,4 +35,8 @@ class CustomerController {
       String name, lastName, Gender, password, telNo, idCard, email) async {
     services.add(name, lastName, Gender, password, telNo, idCard, email);
   }
+
+  void updateProfile(String name, lastName, telNo, idCard, customerId) async {
+    services.updateProfile(name, lastName, telNo, idCard, customerId);
+  }
 }

@@ -49,6 +49,17 @@ class CartServices {
     return cartitems.cartitems;
   }
 
+  Future<List<CountCartItem>> getCartItemsAll() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('emailRider', isEqualTo: user.email)
+        .get();
+
+    AllCountCartItem cartitems = AllCountCartItem.fromSnapshot(snapshot);
+    print("cartitems  $cartitems");
+    return cartitems.countcartitems;
+  }
+
   // void addCart(
   //     String image,
   //     name,

@@ -10,6 +10,8 @@ class RiderController {
   List<Rider> riders = List.empty();
   List<AdminRider> adminriders = List.empty();
 
+  List<WaitingRider> waitingriders = List.empty();
+
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
 
@@ -75,7 +77,12 @@ class RiderController {
     return riders;
   }
 
-  fetchRidersinfo(String userEmail) {}
+  Future<List<WaitingRider>> fetchWaitingRiders() async {
+    onSyncController.add(true);
+    waitingriders = await services.getWaitingRiders();
+    onSyncController.add(false);
+    return waitingriders;
+  }
 
   // void addRider(String name, lastName, birthDay, password, bank, bankAccount,
   //     email) async {

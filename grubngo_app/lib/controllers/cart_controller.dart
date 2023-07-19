@@ -7,6 +7,7 @@ import '../models/cartitem_model.dart';
 class CartController {
   final CartServices services;
   List<CartItem> cartitems = List.empty();
+  List<CountCartItem> countcartitems = List.empty();
 
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
@@ -45,6 +46,13 @@ class CartController {
     onSyncController.add(false);
 
     return cartitems;
+  }
+
+  Future<List<CountCartItem>> fetchCartItemsAll() async {
+    onSyncController.add(true);
+    countcartitems = await services.getCartItemsAll();
+    onSyncController.add(false);
+    return countcartitems;
   }
 
   // void addCart(

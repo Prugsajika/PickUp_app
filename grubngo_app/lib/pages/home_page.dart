@@ -28,15 +28,17 @@ class _HomePageState extends State<HomePage> {
   RiderController controllerR = RiderController(RiderServices());
   CartController controller = CartController(CartServices());
 
+  int countstatusNotComplete = 0;
+
   void initState() {
     super.initState();
-    // _getEmail(context);
 
     final user = FirebaseAuth.instance.currentUser!;
     String UserEmail = user.email.toString();
     print('user $UserEmail');
     _getuserRider(UserEmail);
     _getCartByEmail(UserEmail);
+    _getCartItemsAll(context);
   }
 
   void _getuserRider(String userEmail) async {
@@ -46,7 +48,6 @@ class _HomePageState extends State<HomePage> {
     print("userRider  $userRider");
     setState(() => rider = userRider);
     print('_getuserRider UrlQr : ${rider.first.UrlQr}');
-    //UrlQr = rider.first.UrlQr;
 
     if (!rider.isEmpty) {
       context.read<RiderModel>()
@@ -62,10 +63,30 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // void _getEmail(BuildContext context) async {
-  //   // get data  MedicalDashboard
-  //   context.read<emailProvider>().email = user.email!;
-  // }
+  void _getCartItemsAll(BuildContext context) async {
+    var Allcartitems = await controller.fetchCartItemsAll();
+
+    var statusNotComplete = Allcartitems;
+    int countstatusNotCompletes = 0;
+
+    Allcartitems.forEach((b) {
+      countstatusNotCompletes += int.parse(b.totalCost.toString());
+
+      // if (a.name == b.department) {
+      // if (b.status == "อนุมัติ") {
+      //   a.amountApprove += int.parse(b.payamount);
+      // } else if (b.status == "ร้องขอ") {
+      //   a.amountRequest += int.parse(b.receiptamount);
+      // } else {
+      //   a.amountReject += int.parse(b.receiptamount);
+      // }
+      // }
+    });
+    print('countstatusNotComplete ${countstatusNotComplete}');
+    setState(() {
+      countstatusNotComplete = countstatusNotCompletes;
+    });
+  }
 
   void _getCartByEmail(String emailRider) async {
     List<CartItem> items = List.empty();
@@ -109,12 +130,6 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Consumer<RiderModel>(builder: (context, value, child) {
-            //     return Text('สวัสดี!!' ' : ${value.FirstName}');
-            //   }),
-            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text('สวัสดี!! ' +
@@ -122,8 +137,6 @@ class _HomePageState extends State<HomePage> {
                   ' ' +
                   context.read<RiderModel>().LastName),
             ),
-
-            // Text('สวัสดี!! XXXXXXXXX'),
             IconButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
@@ -149,7 +162,6 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(Icons.attach_money),
                           Text(
                             'ยอดขายทั้งหมด',
                             style: TextStyle(
@@ -161,67 +173,18 @@ class _HomePageState extends State<HomePage> {
                           //     .read<CartItemModel>()
                           //     .totalCost
                           //     .toString()),
-
-                          Consumer<CartItemModel>(
-                            builder: (context, CartItemModel cart, child) {
-                              return Text('${cart.totalCost}');
-                            },
+                          Text(
+                            countstatusNotComplete.toString(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                //       Expanded(
-                //         child: Card(
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(8.0),
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //               children: [
-                //                 Text('ยอดขายเดือนนี้'),
-                //                 Text('0.00฿'),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(15.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //     children: [
-                //       Expanded(
-                //         child: Card(
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(8.0),
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //               children: [
-                //                 Text('โอนเงินแล้ว'),
-                //                 Text('- ราย'),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                // Expanded(
-                //   child: Card(
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(8.0),
-                //       child: Column(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           Text('รอโอนเงิน'),
-                //           Text('- ราย'),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -315,7 +278,7 @@ class CardList extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  carts.name,
+                  carts.nameProduct,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

@@ -60,7 +60,11 @@ class CartServices {
       status,
       availableDate,
       availableTime,
-      emailRider) async {
+      emailRider,
+      sentDate,
+      sentTime,
+      bool productStatus,
+      String orderDate) async {
     FirebaseFirestore.instance.collection('cart').add({
       'cartId': '',
       'image': image,
@@ -83,6 +87,10 @@ class CartServices {
       'availableDate': availableDate,
       'availableTime': availableTime,
       'emailRider': emailRider,
+      'sentDate': sentDate,
+      'sentTime': sentTime,
+      'productStatus': productStatus,
+      'orderDate': orderDate
     }).then((value) =>
         FirebaseFirestore.instance.collection('cart').doc(value.id).update({
           // 'id': value.id,

@@ -118,7 +118,7 @@ class _CheckOutPageState extends State<CheckOutPage>
                                   return Row(
                                     children: [
                                       Text(
-                                        '${value.name}',
+                                        '${value.nameProduct}',
                                         textAlign: TextAlign.end,
                                       )
                                     ],

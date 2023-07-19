@@ -295,11 +295,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
                           border: OutlineInputBorder(),
-                          labelText: 'ชื่อตึก',
+                          labelText: 'สถานที่รับอาหาร',
+                          hintText: 'ชื่อตึก/หมู่บ้าน',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'กรุณาใส่ชื่อตึก';
+                            return 'กรุณาใส่สถานที่รับอาหาร';
                           }
                           return null;
                         },
@@ -319,11 +320,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
                           border: OutlineInputBorder(),
-                          labelText: 'เลขห้อง',
+                          labelText: 'เลขบ้าน/เลขห้อง',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'กรุณาใส่เลขห้อง';
+                            return 'กรุณาใส่เลขบ้าน/เลขห้อง';
                           }
                           return null;
                         },
@@ -352,7 +353,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                   context.read<CartItemModel>()
                     ..image = widget.Products.UrlPd
-                    ..name = widget.Products.name
+                    ..nameProduct = widget.Products.name
                     ..quantity = _quantity
                     ..price = widget.Products.price
                     ..cost = _quantity * widget.Products.price
@@ -366,7 +367,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ..roomNo = _roomNo
                     ..availableDate = widget.Products.availableDate
                     ..availableTime = widget.Products.availableTime
-                    ..email = widget.Products.email;
+                    ..email = widget.Products.email
+                    ..sentDate = widget.Products.sentDate
+                    ..sentTime = widget.Products.sentTime
+                    ..productStatus = widget.Products.productStatus
+                    ..orderDate = DateTime.now().toString();
 
                   print('check cart ${context.read<CartItemModel>().image}');
                   print('check cost ${context.read<CartItemModel>().cost}');
@@ -377,7 +382,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   print(
                       'check quantitys ${context.read<CartItemModel>().deliveryFee}');
                   print(
-                      'check customerId ${context.read<ProfileDetailModel>().customerId}');
+                      'check orderDate ${context.read<CartItemModel>().orderDate}');
                 },
                 child: Text("สั่งซื้อสินค้า"),
               ),

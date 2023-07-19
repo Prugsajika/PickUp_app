@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CartItem {
   late String cartId;
   late String image;
-  late String name;
+  late String nameProduct;
   late int quantity;
   late int cost;
   late int price;
@@ -23,11 +23,15 @@ class CartItem {
   late String availableDate;
   late String availableTime;
   late String emailRider;
+  late String sentDate;
+  late String sentTime;
+  bool productStatus;
+  late String orderDate;
 
   CartItem(
       this.cartId,
       this.image,
-      this.name,
+      this.nameProduct,
       this.quantity,
       this.cost,
       this.price,
@@ -45,7 +49,11 @@ class CartItem {
       this.status,
       this.availableDate,
       this.availableTime,
-      this.emailRider);
+      this.emailRider,
+      this.sentDate,
+      this.sentTime,
+      this.productStatus,
+      this.orderDate);
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
@@ -70,6 +78,10 @@ class CartItem {
       json['availableDate'] as String,
       json['availableTime'] as String,
       json['emailRider'] as String,
+      json['sentDate'] as String,
+      json['sentTime'] as String,
+      json['productStatus'] as bool,
+      json['orderDate'] as String,
     );
   }
 }
@@ -99,7 +111,7 @@ class AllCartItems extends ChangeNotifier {
 class CartItemModel extends ChangeNotifier {
   String cartId = '';
   String image = '';
-  String name = '';
+  String nameProduct = '';
   int quantity = 0;
   int cost = 0;
   int price = 0;
@@ -118,6 +130,10 @@ class CartItemModel extends ChangeNotifier {
   String availableDate = '';
   String availableTime = '';
   String emailRider = '';
+  String sentDate = '';
+  String sentTime = '';
+  late bool productStatus;
+  String orderDate = '';
 
   get getcartId => this.cartId;
   set setcartId(value) {
@@ -131,9 +147,9 @@ class CartItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get getname => this.name;
-  set setname(value) {
-    this.name = value;
+  get getnameProduct => this.nameProduct;
+  set setnameProduct(value) {
+    this.nameProduct = value;
     notifyListeners();
   }
 
@@ -245,6 +261,22 @@ class CartItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  get getSentDate => this.sentDate;
+
+  set setSentDate(sentDate) => this.sentDate = sentDate;
+
+  get getSentTime => this.sentTime;
+
+  set setSentTime(sentTime) => this.sentTime = sentTime;
+
+  get getProductStatus => this.productStatus;
+
+  set setProductStatus(productStatus) => this.productStatus = productStatus;
+
+  get getOrderDate => this.orderDate;
+
+  set setOrderDate(orderDate) => this.orderDate = orderDate;
+
   List<CartItem> _listCartItem = List.empty();
   List<CartItem> get getListCartItem => this._listCartItem;
 
@@ -252,12 +284,4 @@ class CartItemModel extends ChangeNotifier {
     this._listCartItem = value;
     notifyListeners();
   }
-
-  // void decreaseItem(CartItem cartModel) {
-  //   if (cartItems[cartItems.indexOf(cartModel)].quantity <= 1) {
-  //     return;
-  //   }
-  //   cartItems[cartItems.indexOf(cartModel)].quantity--;
-  //   notifyListeners();
-  // }
 }
