@@ -18,6 +18,7 @@ import 'pages/productdetail_page.dart';
 import 'pages/home_page.dart';
 
 import 'pages/profilescreen.dart';
+import 'pages/purchaseorder_page.dart';
 import 'pages/register_page.dart';
 import 'pages/register_success_page.dart';
 import 'widgets/image_upload.dart';
@@ -82,6 +83,15 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => CountCartItemModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => CartItemPerProductModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => OrderByProductModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => CartItemWaitStatusModel(),
       ),
     ],
     child: const MyApp(),

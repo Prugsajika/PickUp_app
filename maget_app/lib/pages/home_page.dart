@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   final searchController = TextEditingController();
+  final CarouselController _controller = CarouselController();
+
   List<Product> filteredData = [];
   List<Product> data = List.empty();
 
@@ -54,6 +57,8 @@ class _HomePageState extends State<HomePage> {
   // DateTime _endDate = DateTime.now();
   // TimeOfDay _endTime = TimeOfDay.now();
   String searchvalue = "";
+
+  int _current = 0;
 
   void initState() {
     _getProduct(context);
@@ -201,27 +206,19 @@ class _HomePageState extends State<HomePage> {
       drawer: DrawerBar(),
       body: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Container(
-          //     height: 60,
-          //     child: TextField(
-          //       focusNode: _searchFocusNode,
-          //       controller: _searchController,
-          //       decoration: InputDecoration(
-          //         hintText: 'ค้นหา...',
-          //         border: OutlineInputBorder(),
-          //         suffixIcon: Icon(Icons.search),
-          //       ),
-          //       onTap: () {
-          //         Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //                 builder: (context) => FindProductPage()));
-          //       },
-          //     ),
-          //   ),
-          // ),
+          CarouselSlider(
+            items: imageSliders,
+            carouselController: _controller,
+            options: CarouselOptions(
+                autoPlay: true,
+                enlargeCenterPage: true,
+                aspectRatio: 2.5,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                }),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -317,7 +314,7 @@ class CardList extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  products.deliveryLocation,
+                  'ส่งที่ ${products.deliveryLocation}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -365,3 +362,51 @@ class CardList extends StatelessWidget {
     );
   }
 }
+
+final List<String> imgList = [
+  'assets/images/FastFood.jpg',
+  'assets/images/Grilled.jpg',
+  'assets/images/Hamburger.jpg',
+];
+
+final List<Widget> imageSliders = imgList
+    .map((item) => Container(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.asset(item, fit: BoxFit.cover, width: 800.0),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        // padding: EdgeInsets.symmetric(
+                        //     vertical: 10.0, horizontal: 20.0),
+                        // child: Text(
+                        //   'No. ${imgList.indexOf(item)} image',
+                        //   style: TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 15.0,
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        // ),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        ))
+    .toList();

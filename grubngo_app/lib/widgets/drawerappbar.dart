@@ -119,14 +119,14 @@ Widget buildMenuItems(BuildContext context) {
                 builder: (context) => PurchaseOrderPage(),
               ));
             }),
-        // ListTile(
-        //     leading: const Icon(Icons.wrap_text_outlined),
-        //     title: Text('สถานะการจัดส่ง'),
-        //     onTap: () {
-        //       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        //         builder: (context) => StatusDeliveryPage(),
-        //       ));
-        //     }),
+        ListTile(
+            leading: const Icon(Icons.wrap_text_outlined),
+            title: Text('สถานะการจัดส่ง'),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => StatusDeliveryPage(),
+              ));
+            }),
         ListTile(
             leading: const Icon(Icons.history),
             title: Text('ประวัติ'),

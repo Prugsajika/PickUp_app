@@ -29,6 +29,7 @@ class CartItem {
   late String sentTime;
   bool productStatus;
   late String orderDate;
+  late String deliveryLocation;
 
   // late String rejectStatus;
 
@@ -57,7 +58,8 @@ class CartItem {
       this.sentDate,
       this.sentTime,
       this.productStatus,
-      this.orderDate
+      this.orderDate,
+      this.deliveryLocation
       // this.rejectStatus
       );
 
@@ -88,7 +90,7 @@ class CartItem {
       json['sentTime'] as String,
       json['productStatus'] as bool,
       json['orderDate'] as String,
-      // json['rejectStatus'] as String,
+      json['deliveryLocation'] as String,
     );
   }
 }
@@ -142,7 +144,7 @@ class CartItemModel extends ChangeNotifier {
   late bool productStatus;
   String orderDate = '';
 
-  // String rejectStatus = '';
+  String deliveryLocation = '';
 
   get getcartId => this.cartId;
   set setcartId(value) {
@@ -286,11 +288,11 @@ class CartItemModel extends ChangeNotifier {
 
   set setOrderDate(orderDate) => this.orderDate = orderDate;
 
-  // get getrejectStatus => this.rejectStatus;
-  // set setrejectStatus(value) {
-  //   this.rejectStatus = value;
-  //   notifyListeners();
-  // }
+  get getdeliveryLocation => this.deliveryLocation;
+  set setdeliveryLocation(value) {
+    this.deliveryLocation = value;
+    notifyListeners();
+  }
 
   List<CartItem> _listCartItem = List.empty();
   List<CartItem> get getListCartItem => this._listCartItem;
@@ -369,32 +371,32 @@ class CountCartItem {
   late String availableDate;
   late String availableTime;
   late String emailRider;
+  late String deliveryLocation;
   // late String rejectStatus;
 
   CountCartItem(
-    this.cartId,
-    this.image,
-    this.nameProduct,
-    this.quantity,
-    this.cost,
-    this.price,
-    this.Productid,
-    this.customerId,
-    this.deliveryFee,
-    this.totalCost,
-    this.UrlQr,
-    this.confirmPayimg,
-    this.paydate,
-    this.paytime,
-    this.email,
-    this.buildName,
-    this.roomNo,
-    this.status,
-    this.availableDate,
-    this.availableTime,
-    this.emailRider,
-    // this.rejectStatus
-  );
+      this.cartId,
+      this.image,
+      this.nameProduct,
+      this.quantity,
+      this.cost,
+      this.price,
+      this.Productid,
+      this.customerId,
+      this.deliveryFee,
+      this.totalCost,
+      this.UrlQr,
+      this.confirmPayimg,
+      this.paydate,
+      this.paytime,
+      this.email,
+      this.buildName,
+      this.roomNo,
+      this.status,
+      this.availableDate,
+      this.availableTime,
+      this.emailRider,
+      this.deliveryLocation);
 
   factory CountCartItem.fromJson(Map<String, dynamic> json) {
     return CountCartItem(
@@ -419,7 +421,7 @@ class CountCartItem {
       json['availableDate'] as String,
       json['availableTime'] as String,
       json['emailRider'] as String,
-      // json['rejectStatus'] as String,
+      json['deliveryLocation'] as String,
     );
   }
 }
@@ -470,7 +472,7 @@ class CountCartItemModel extends ChangeNotifier {
   String availableDate = '';
   String availableTime = '';
   String emailRider = '';
-  // String rejectStatus = '';
+  String deliveryLocation = '';
 
   get getcartId => this.cartId;
   set setcartId(value) {
@@ -598,11 +600,11 @@ class CountCartItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // get getrejectStatus => this.rejectStatus;
-  // set setrejectStatus(value) {
-  //   this.rejectStatus = value;
-  //   notifyListeners();
-  // }
+  get getdeliveryLocation => this.deliveryLocation;
+  set setdeliveryLocation(value) {
+    this.deliveryLocation = value;
+    notifyListeners();
+  }
 
   List<CountCartItem> _listCountCartItem = List.empty();
   List<CountCartItem> get getListCountCartItem => this._listCountCartItem;
@@ -637,4 +639,519 @@ class SumCartItemAllModel with ChangeNotifier {
   get getTotalCost => this.totalCost;
 
   set setTotalCost(totalCost) => this.totalCost = totalCost;
+}
+
+class CartItemPerProduct {
+  late String cartId;
+  late String image;
+  late String nameProduct;
+  late int quantity;
+  late int cost;
+  late int price;
+  late String Productid;
+  late String customerId;
+  late int deliveryFee;
+  late int totalCost;
+  late String UrlQr;
+  late String confirmPayimg;
+  late String paydate;
+  late String paytime;
+  late String email;
+  late String buildName;
+  late String roomNo;
+  late String status;
+  late String availableDate;
+  late String availableTime;
+  late String emailRider;
+  late String sentDate;
+  late String sentTime;
+  bool productStatus;
+  late String orderDate;
+
+  late String deliveryLocation;
+
+  CartItemPerProduct(
+      this.cartId,
+      this.image,
+      this.nameProduct,
+      this.quantity,
+      this.cost,
+      this.price,
+      this.Productid,
+      this.customerId,
+      this.deliveryFee,
+      this.totalCost,
+      this.UrlQr,
+      this.confirmPayimg,
+      this.paydate,
+      this.paytime,
+      this.email,
+      this.buildName,
+      this.roomNo,
+      this.status,
+      this.availableDate,
+      this.availableTime,
+      this.emailRider,
+      this.sentDate,
+      this.sentTime,
+      this.productStatus,
+      this.orderDate,
+      this.deliveryLocation);
+
+  factory CartItemPerProduct.fromJson(Map<String, dynamic> json) {
+    return CartItemPerProduct(
+      json['cartId'] as String,
+      json['image'] as String,
+      json['name'] as String,
+      json['quantity'] as int,
+      json['cost'] as int,
+      json['price'] as int,
+      json['Productid'] as String,
+      json['customerId'] as String,
+      json['deliveryFee'] as int,
+      json['totalCost'] as int,
+      json['UrlQr'] as String,
+      json['confirmPayimg'] as String,
+      json['paydate'] as String,
+      json['paytime'] as String,
+      json['email'] as String,
+      json['buildName'] as String,
+      json['roomNo'] as String,
+      json['status'] as String,
+      json['availableDate'] as String,
+      json['availableTime'] as String,
+      json['emailRider'] as String,
+      json['sentDate'] as String,
+      json['sentTime'] as String,
+      json['productStatus'] as bool,
+      json['orderDate'] as String,
+      json['deliveryLocation'] as String,
+    );
+  }
+}
+
+class AllCartItemPerProduct extends ChangeNotifier {
+  final List<CartItemPerProduct> cartitemperproducts;
+
+  AllCartItemPerProduct(this.cartitemperproducts);
+  factory AllCartItemPerProduct.fromJson(List<dynamic> json) {
+    List<CartItemPerProduct> cartitemperproducts;
+    cartitemperproducts =
+        json.map((index) => CartItemPerProduct.fromJson(index)).toList();
+    return AllCartItemPerProduct(cartitemperproducts);
+  }
+
+  factory AllCartItemPerProduct.fromSnapshot(QuerySnapshot s) {
+    List<CartItemPerProduct> cartitemperproducts =
+        s.docs.map((DocumentSnapshot ds) {
+      print("documentsnapshot : CartItemPerProduct ${ds.data()}");
+      CartItemPerProduct cartitem =
+          CartItemPerProduct.fromJson(ds.data() as Map<String, dynamic>);
+      cartitem.cartId = ds
+          .id; //after mapping from firevase can insert or replace value before return list
+      return cartitem;
+    }).toList();
+    return AllCartItemPerProduct(cartitemperproducts);
+  }
+}
+
+class CartItemPerProductModel extends ChangeNotifier {
+  String cartId = '';
+  String image = '';
+  String nameProduct = '';
+  int quantity = 0;
+  int cost = 0;
+  int price = 0;
+  String Productid = '';
+  String customerId = '';
+  int deliveryFee = 0;
+  int totalCost = 0;
+  String UrlQr = '';
+  String confirmPayimg = '';
+  String paydate = '';
+  String paytime = '';
+  String email = '';
+  String buildName = '';
+  String roomNo = '';
+  String status = '';
+  String availableDate = '';
+  String availableTime = '';
+  String emailRider = '';
+  String sentDate = '';
+  String sentTime = '';
+  late bool productStatus;
+  String orderDate = '';
+  String deliveryLocation = '';
+
+  get getCartId => this.cartId;
+
+  set setCartId(cartId) => this.cartId = cartId;
+
+  get getImage => this.image;
+
+  set setImage(image) => this.image = image;
+
+  get getNameProduct => this.nameProduct;
+
+  set setNameProduct(nameProduct) => this.nameProduct = nameProduct;
+
+  get getQuantity => this.quantity;
+
+  set setQuantity(quantity) => this.quantity = quantity;
+
+  get getCost => this.cost;
+
+  set setCost(cost) => this.cost = cost;
+
+  get getPrice => this.price;
+
+  set setPrice(price) => this.price = price;
+
+  get getProductid => this.Productid;
+
+  set setProductid(Productid) => this.Productid = Productid;
+
+  get getCustomerId => this.customerId;
+
+  set setCustomerId(customerId) => this.customerId = customerId;
+
+  get getDeliveryFee => this.deliveryFee;
+
+  set setDeliveryFee(deliveryFee) => this.deliveryFee = deliveryFee;
+
+  get getTotalCost => this.totalCost;
+
+  set setTotalCost(totalCost) => this.totalCost = totalCost;
+
+  get getUrlQr => this.UrlQr;
+
+  set setUrlQr(UrlQr) => this.UrlQr = UrlQr;
+
+  get getConfirmPayimg => this.confirmPayimg;
+
+  set setConfirmPayimg(confirmPayimg) => this.confirmPayimg = confirmPayimg;
+
+  get getPaydate => this.paydate;
+
+  set setPaydate(paydate) => this.paydate = paydate;
+
+  get getPaytime => this.paytime;
+
+  set setPaytime(paytime) => this.paytime = paytime;
+
+  get getEmail => this.email;
+
+  set setEmail(email) => this.email = email;
+
+  get getBuildName => this.buildName;
+
+  set setBuildName(buildName) => this.buildName = buildName;
+
+  get getRoomNo => this.roomNo;
+
+  set setRoomNo(roomNo) => this.roomNo = roomNo;
+
+  get getStatus => this.status;
+
+  set setStatus(status) => this.status = status;
+
+  get getAvailableDate => this.availableDate;
+
+  set setAvailableDate(availableDate) => this.availableDate = availableDate;
+
+  get getAvailableTime => this.availableTime;
+
+  set setAvailableTime(availableTime) => this.availableTime = availableTime;
+
+  get getEmailRider => this.emailRider;
+
+  set setEmailRider(emailRider) => this.emailRider = emailRider;
+
+  get getSentDate => this.sentDate;
+
+  set setSentDate(sentDate) => this.sentDate = sentDate;
+
+  get getSentTime => this.sentTime;
+
+  set setSentTime(sentTime) => this.sentTime = sentTime;
+
+  get getProductStatus => this.productStatus;
+
+  set setProductStatus(productStatus) => this.productStatus = productStatus;
+
+  get getOrderDate => this.orderDate;
+
+  set setOrderDate(orderDate) => this.orderDate = orderDate;
+
+  get getdeliveryLocation => this.deliveryLocation;
+  set setdeliveryLocation(value) {
+    this.deliveryLocation = value;
+    notifyListeners();
+  }
+
+  List<CartItemPerProduct> _listCartItemPerProduct = List.empty();
+  List<CartItemPerProduct> get getListCartItemPerProduct =>
+      this._listCartItemPerProduct;
+
+  set getListCartItemPerProduct(List<CartItemPerProduct> value) {
+    this._listCartItemPerProduct = value;
+    notifyListeners();
+  }
+}
+
+class CartItemWaitStatus {
+  late String cartId;
+  late String image;
+  late String nameProduct;
+  late int quantity;
+  late int cost;
+  late int price;
+  late String Productid;
+  late String customerId;
+  late int deliveryFee;
+  late int totalCost;
+  late String UrlQr;
+  late String confirmPayimg;
+  late String paydate;
+  late String paytime;
+  late String email;
+  late String buildName;
+  late String roomNo;
+  late String status;
+  late String availableDate;
+  late String availableTime;
+  late String emailRider;
+  late String sentDate;
+  late String sentTime;
+  bool productStatus;
+  late String orderDate;
+
+  late String deliveryLocation;
+
+  CartItemWaitStatus(
+      this.cartId,
+      this.image,
+      this.nameProduct,
+      this.quantity,
+      this.cost,
+      this.price,
+      this.Productid,
+      this.customerId,
+      this.deliveryFee,
+      this.totalCost,
+      this.UrlQr,
+      this.confirmPayimg,
+      this.paydate,
+      this.paytime,
+      this.email,
+      this.buildName,
+      this.roomNo,
+      this.status,
+      this.availableDate,
+      this.availableTime,
+      this.emailRider,
+      this.sentDate,
+      this.sentTime,
+      this.productStatus,
+      this.orderDate,
+      this.deliveryLocation);
+
+  factory CartItemWaitStatus.fromJson(Map<String, dynamic> json) {
+    return CartItemWaitStatus(
+      json['cartId'] as String,
+      json['image'] as String,
+      json['name'] as String,
+      json['quantity'] as int,
+      json['cost'] as int,
+      json['price'] as int,
+      json['Productid'] as String,
+      json['customerId'] as String,
+      json['deliveryFee'] as int,
+      json['totalCost'] as int,
+      json['UrlQr'] as String,
+      json['confirmPayimg'] as String,
+      json['paydate'] as String,
+      json['paytime'] as String,
+      json['email'] as String,
+      json['buildName'] as String,
+      json['roomNo'] as String,
+      json['status'] as String,
+      json['availableDate'] as String,
+      json['availableTime'] as String,
+      json['emailRider'] as String,
+      json['sentDate'] as String,
+      json['sentTime'] as String,
+      json['productStatus'] as bool,
+      json['orderDate'] as String,
+      json['deliveryLocation'] as String,
+    );
+  }
+}
+
+// class AllCartItemPerProduct extends ChangeNotifier {
+//   final List<CartItemPerProduct> cartitemperproducts;
+
+//   AllCartItemPerProduct(this.cartitemperproducts);
+//   factory AllCartItemPerProduct.fromJson(List<dynamic> json) {
+//     List<CartItemPerProduct> cartitemperproducts;
+//     cartitemperproducts =
+//         json.map((index) => CartItemPerProduct.fromJson(index)).toList();
+//     return AllCartItemPerProduct(cartitemperproducts);
+//   }
+
+//   factory AllCartItemPerProduct.fromSnapshot(QuerySnapshot s) {
+//     List<CartItemPerProduct> cartitemperproducts =
+//         s.docs.map((DocumentSnapshot ds) {
+//       print("documentsnapshot : CartItemPerProduct ${ds.data()}");
+//       CartItemPerProduct cartitem =
+//           CartItemPerProduct.fromJson(ds.data() as Map<String, dynamic>);
+//       cartitem.cartId = ds
+//           .id; //after mapping from firevase can insert or replace value before return list
+//       return cartitem;
+//     }).toList();
+//     return AllCartItemPerProduct(cartitemperproducts);
+//   }
+// }
+
+class CartItemWaitStatusModel extends ChangeNotifier {
+  String cartId = '';
+  String image = '';
+  String nameProduct = '';
+  int quantity = 0;
+  int cost = 0;
+  int price = 0;
+  String Productid = '';
+  String customerId = '';
+  int deliveryFee = 0;
+  int totalCost = 0;
+  String UrlQr = '';
+  String confirmPayimg = '';
+  String paydate = '';
+  String paytime = '';
+  String email = '';
+  String buildName = '';
+  String roomNo = '';
+  String status = '';
+  String availableDate = '';
+  String availableTime = '';
+  String emailRider = '';
+  String sentDate = '';
+  String sentTime = '';
+  late bool productStatus;
+  String orderDate = '';
+  String deliveryLocation = '';
+
+  get getCartId => this.cartId;
+
+  set setCartId(cartId) => this.cartId = cartId;
+
+  get getImage => this.image;
+
+  set setImage(image) => this.image = image;
+
+  get getNameProduct => this.nameProduct;
+
+  set setNameProduct(nameProduct) => this.nameProduct = nameProduct;
+
+  get getQuantity => this.quantity;
+
+  set setQuantity(quantity) => this.quantity = quantity;
+
+  get getCost => this.cost;
+
+  set setCost(cost) => this.cost = cost;
+
+  get getPrice => this.price;
+
+  set setPrice(price) => this.price = price;
+
+  get getProductid => this.Productid;
+
+  set setProductid(Productid) => this.Productid = Productid;
+
+  get getCustomerId => this.customerId;
+
+  set setCustomerId(customerId) => this.customerId = customerId;
+
+  get getDeliveryFee => this.deliveryFee;
+
+  set setDeliveryFee(deliveryFee) => this.deliveryFee = deliveryFee;
+
+  get getTotalCost => this.totalCost;
+
+  set setTotalCost(totalCost) => this.totalCost = totalCost;
+
+  get getUrlQr => this.UrlQr;
+
+  set setUrlQr(UrlQr) => this.UrlQr = UrlQr;
+
+  get getConfirmPayimg => this.confirmPayimg;
+
+  set setConfirmPayimg(confirmPayimg) => this.confirmPayimg = confirmPayimg;
+
+  get getPaydate => this.paydate;
+
+  set setPaydate(paydate) => this.paydate = paydate;
+
+  get getPaytime => this.paytime;
+
+  set setPaytime(paytime) => this.paytime = paytime;
+
+  get getEmail => this.email;
+
+  set setEmail(email) => this.email = email;
+
+  get getBuildName => this.buildName;
+
+  set setBuildName(buildName) => this.buildName = buildName;
+
+  get getRoomNo => this.roomNo;
+
+  set setRoomNo(roomNo) => this.roomNo = roomNo;
+
+  get getStatus => this.status;
+
+  set setStatus(status) => this.status = status;
+
+  get getAvailableDate => this.availableDate;
+
+  set setAvailableDate(availableDate) => this.availableDate = availableDate;
+
+  get getAvailableTime => this.availableTime;
+
+  set setAvailableTime(availableTime) => this.availableTime = availableTime;
+
+  get getEmailRider => this.emailRider;
+
+  set setEmailRider(emailRider) => this.emailRider = emailRider;
+
+  get getSentDate => this.sentDate;
+
+  set setSentDate(sentDate) => this.sentDate = sentDate;
+
+  get getSentTime => this.sentTime;
+
+  set setSentTime(sentTime) => this.sentTime = sentTime;
+
+  get getProductStatus => this.productStatus;
+
+  set setProductStatus(productStatus) => this.productStatus = productStatus;
+
+  get getOrderDate => this.orderDate;
+
+  set setOrderDate(orderDate) => this.orderDate = orderDate;
+
+  get getdeliveryLocation => this.deliveryLocation;
+  set setdeliveryLocation(value) {
+    this.deliveryLocation = value;
+    notifyListeners();
+  }
+
+  List<CartItem> _listCartItemWaitStatus = List.empty();
+  List<CartItem> get getListCartItemWaitStatus => this._listCartItemWaitStatus;
+
+  set getListCartItemWaitStatus(List<CartItem> value) {
+    this._listCartItemWaitStatus = value;
+    notifyListeners();
+  }
 }

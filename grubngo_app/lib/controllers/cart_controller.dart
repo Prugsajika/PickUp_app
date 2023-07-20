@@ -8,6 +8,7 @@ class CartController {
   final CartServices services;
   List<CartItem> cartitems = List.empty();
   List<CountCartItem> countcartitems = List.empty();
+  List<CartItemPerProduct> cartitemperproducts = List.empty();
 
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
@@ -38,14 +39,14 @@ class CartController {
     services.updatePaystatus(cartId, status);
   }
 
-  Future<List<CartItem>> fetchOrderByProduct() async {
+  Future<List<CartItemPerProduct>> fetchOrderByProductWithCFPay() async {
     // controller status => Start
     onSyncController.add(true);
-    cartitems = await services.getOrderByProduct();
+    cartitemperproducts = await services.getOrderByProductWithCFPay();
     // controller status => End
     onSyncController.add(false);
 
-    return cartitems;
+    return cartitemperproducts;
   }
 
   Future<List<CountCartItem>> fetchCartItemsAll() async {
@@ -55,47 +56,23 @@ class CartController {
     return countcartitems;
   }
 
-  // void addCart(
-  //     String image,
-  //     name,
-  //     Productid,
-  //     customerId,
-  //     int quantity,
-  //     cost,
-  //     price,
-  //     deliveryFee,
-  //     totalCost,
-  //     String _paydate,
-  //     _paytime,
-  //     confirmPayimg,
-  //     email,
-  //     UrlQr,
-  //     buildName,
-  //     roomNo,
-  //     status,
-  //     availableDate,
-  //     availableTime,
-  //     emailRider) async {
-  //   services.addCart(
-  //       image,
-  //       name,
-  //       Productid,
-  //       customerId,
-  //       quantity,
-  //       cost,
-  //       price,
-  //       deliveryFee,
-  //       totalCost,
-  //       _paydate,
-  //       _paytime,
-  //       confirmPayimg,
-  //       email,
-  //       UrlQr,
-  //       buildName,
-  //       roomNo,
-  //       status,
-  //       availableDate,
-  //       availableTime,
-  //       emailRider);
-  // }
+  Future<List<CartItemPerProduct>> fetchOrderByProductid(Productid) async {
+    // controller status => Start
+    onSyncController.add(true);
+    cartitemperproducts = await services.getOrderByProductid(Productid);
+    // controller status => End
+    onSyncController.add(false);
+
+    return cartitemperproducts;
+  }
+
+  Future<List<CartItem>> fetchCartItemsSuccessByEmail(String emailRider) async {
+    // controller status => Start
+    onSyncController.add(true);
+    cartitems = await services.getCartItemsSuccessByEmail(emailRider);
+    // controller status => End
+    onSyncController.add(false);
+
+    return cartitems;
+  }
 }

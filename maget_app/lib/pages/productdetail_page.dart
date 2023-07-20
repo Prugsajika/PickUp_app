@@ -295,12 +295,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
                           border: OutlineInputBorder(),
-                          labelText: 'สถานที่รับอาหาร',
+                          labelText: 'จุดรับอาหาร',
                           hintText: 'ชื่อตึก/หมู่บ้าน',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'กรุณาใส่สถานที่รับอาหาร';
+                            return 'กรุณาใส่จุดรับอาหาร';
                           }
                           return null;
                         },
@@ -371,7 +371,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ..sentDate = widget.Products.sentDate
                     ..sentTime = widget.Products.sentTime
                     ..productStatus = widget.Products.productStatus
-                    ..orderDate = DateTime.now().toString();
+                    ..orderDate = DateTime.now().toString()
+                    ..deliveryLocation = widget.Products.deliveryLocation;
 
                   print('check cart ${context.read<CartItemModel>().image}');
                   print('check cost ${context.read<CartItemModel>().cost}');

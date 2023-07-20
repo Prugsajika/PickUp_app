@@ -24,11 +24,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Rider> rider = List.empty();
   List<CartItem> cartitems = List.empty();
+
   final user = FirebaseAuth.instance.currentUser!;
   RiderController controllerR = RiderController(RiderServices());
   CartController controller = CartController(CartServices());
 
-  int countstatusNotComplete = 0;
+  int countstatusComplete = 0;
 
   void initState() {
     super.initState();
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     print('user $UserEmail');
     _getuserRider(UserEmail);
     _getCartByEmail(UserEmail);
-    _getCartItemsAll(context);
+    _getCartItemsAll(UserEmail);
   }
 
   void _getuserRider(String userEmail) async {
@@ -63,14 +64,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _getCartItemsAll(BuildContext context) async {
-    var Allcartitems = await controller.fetchCartItemsAll();
+  void _getCartItemsAll(String UserEmail) async {
+    var Allcartitems = await controller.fetchCartItemsSuccessByEmail(UserEmail);
 
-    var statusNotComplete = Allcartitems;
-    int countstatusNotCompletes = 0;
+    var statusComplete = Allcartitems;
+    int countstatusCompletes = 0;
 
     Allcartitems.forEach((b) {
-      countstatusNotCompletes += int.parse(b.totalCost.toString());
+      countstatusCompletes += int.parse(b.totalCost.toString());
 
       // if (a.name == b.department) {
       // if (b.status == "อนุมัติ") {
@@ -82,20 +83,23 @@ class _HomePageState extends State<HomePage> {
       // }
       // }
     });
-    print('countstatusNotComplete ${countstatusNotComplete}');
+    print('countstatusComplete ${countstatusComplete}');
     setState(() {
-      countstatusNotComplete = countstatusNotCompletes;
+      countstatusComplete = countstatusCompletes;
     });
   }
 
   void _getCartByEmail(String emailRider) async {
-    List<CartItem> items = List.empty();
-    var usercart = await controller.fetchCartItemsByEmail(emailRider);
-    setState(() => items = usercart);
+    List<CartItem> waitcart = List.empty();
+
+    var cartitems = await controller.fetchCartItemsByEmail(emailRider);
+    waitcart = cartitems.where((x) => x.status == 'รอยืนยันสลิป').toList();
+    setState(() => waitcart = waitcart);
     print('emailRider $emailRider');
 
-    context.read<CartItemModel>().getListCartItem = usercart;
-    print('cart chk ${context.read<CartItemModel>().cartId}');
+    context.read<CartItemWaitStatusModel>().getListCartItemWaitStatus =
+        waitcart;
+    print('cart chk ${context.read<CartItemWaitStatusModel>().cartId}');
 
     // if (!cartitems.isEmpty) {
     //   context.read<CartItemModel>()
@@ -156,31 +160,46 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'ยอดขายทั้งหมด',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          // Text(context
-                          //     .read<CartItemModel>()
-                          //     .totalCost
-                          //     .toString()),
-                          Text(
-                            countstatusNotComplete.toString(),
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                  child: InkWell(
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'ยอดขายทั้งหมด',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            // Text(context
+                            //     .read<CartItemModel>()
+                            //     .totalCost
+                            //     .toString()),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  countstatusComplete.toString(),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  ' บาท',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -191,27 +210,28 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'รายการสินค้าที่ต้องจัดส่ง',
+              'รายการคำสั่งซื้อรอยืนยัน',
             ),
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Consumer<CartItemModel>(
-                  builder: (context, CartItemModel data, child) {
-                return data.getListCartItem.length != 0
+              child: Consumer<CartItemWaitStatusModel>(
+                  builder: (context, CartItemWaitStatusModel data, child) {
+                return data.getListCartItemWaitStatus.length != 0
                     ? ListView.builder(
-                        itemCount: data.getListCartItem.length,
+                        itemCount: data.getListCartItemWaitStatus.length,
                         itemBuilder: (context, index) {
-                          print(data.getListCartItem.length);
+                          print(data.getListCartItemWaitStatus.length);
 
-                          return CardList(data.getListCartItem[index], index);
+                          return CardList(
+                              data.getListCartItemWaitStatus[index], index);
                         },
                       )
                     : GestureDetector(
                         child: Center(
                           child: Text(
-                            "ไม่มีรายการสั่งซื้อ",
+                            "ไม่มีรายการคำสั่งซื้อรอยืนยัน",
                             style: TextStyle(
                               color: Colors.black,
                             ),

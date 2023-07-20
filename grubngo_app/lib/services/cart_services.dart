@@ -38,15 +38,17 @@ class CartServices {
     print('cartId for service$cartId');
   }
 
-  Future<List<CartItem>> getOrderByProduct() async {
+  Future<List<CartItemPerProduct>> getOrderByProductWithCFPay() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('cart')
         .where('emailRider', isEqualTo: user.email)
+        .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
         .get();
 
-    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
-    print("cartitems  $cartitems");
-    return cartitems.cartitems;
+    AllCartItemPerProduct cartitemperproducts =
+        AllCartItemPerProduct.fromSnapshot(snapshot);
+    print("cartitems  $cartitemperproducts");
+    return cartitemperproducts.cartitemperproducts;
   }
 
   Future<List<CountCartItem>> getCartItemsAll() async {
@@ -55,9 +57,35 @@ class CartServices {
         .where('emailRider', isEqualTo: user.email)
         .get();
 
-    AllCountCartItem cartitems = AllCountCartItem.fromSnapshot(snapshot);
+    AllCountCartItem countcartitems = AllCountCartItem.fromSnapshot(snapshot);
+    print("cartitems  $countcartitems");
+    return countcartitems.countcartitems;
+  }
+
+  Future<List<CartItemPerProduct>> getOrderByProductid(Productid) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('Productid', isEqualTo: Productid)
+        .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
+        .get();
+
+    AllCartItemPerProduct cartitemperproducts =
+        AllCartItemPerProduct.fromSnapshot(snapshot);
+    print("cartitems  $cartitemperproducts");
+    return cartitemperproducts.cartitemperproducts;
+  }
+
+  // รอเปลี่ยน status to "สำเร็จ"
+  Future<List<CartItem>> getCartItemsSuccessByEmail(String emailRider) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
+        .where('status', isEqualTo: "ยืนยันสลิปแล้ว")
+        .get();
+
+    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
     print("cartitems  $cartitems");
-    return cartitems.countcartitems;
+    return cartitems.cartitems;
   }
 
   // void addCart(

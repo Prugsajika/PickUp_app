@@ -5,21 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
-import 'package:maget_app/models/products_model.dart';
+
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/cart_controller.dart';
 import '../models/cartitem_model.dart';
-import '../models/customer_model.dart';
+
 import '../services/cart_services.dart';
 
-class PaymentPage extends StatefulWidget {
+class PurchaseOrderNotCompletePage extends StatefulWidget {
+  const PurchaseOrderNotCompletePage({super.key, required this.Carts});
+  final CartItemPerProduct Carts;
+
   @override
-  State<PaymentPage> createState() => _PaymentPageState();
+  State<PurchaseOrderNotCompletePage> createState() =>
+      _PurchaseOrderNotCompletePageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _PurchaseOrderNotCompletePageState
+    extends State<PurchaseOrderNotCompletePage> {
   final _formkey = GlobalKey<FormState>();
   TextEditingController _dateC = TextEditingController();
   TextEditingController _timeC = TextEditingController();
@@ -44,59 +49,23 @@ class _PaymentPageState extends State<PaymentPage> {
     super.initState();
   }
 
-  void _addtoCart(
-      String image,
-      name,
-      Productid,
-      customerId,
-      int quantity,
-      cost,
-      price,
-      deliveryFee,
-      totalCost,
-      _paydate,
-      _paytime,
-      confirmPayimg,
-      email,
-      UrlQr,
-      buildName,
-      roomNo,
-      status,
-      availableDate,
-      availableTime,
-      emailRider,
-      sentDate,
-      sentTime,
-      bool productStatus,
-      String orderDate,
-      deliveryLocation) async {
-    cartcontroller.addCart(
-        image,
-        name,
-        Productid,
-        customerId,
-        quantity,
-        cost,
-        price,
-        deliveryFee,
-        totalCost,
-        _paydate,
-        _paytime,
-        confirmPayimg,
-        email,
-        UrlQr,
-        buildName,
-        roomNo,
-        status,
-        availableDate,
-        availableTime,
-        emailRider,
-        sentDate,
-        sentTime,
-        productStatus,
-        orderDate,
-        deliveryLocation);
-  }
+  // void _updateProcessPayment(
+  //   String cartId,
+  //   status,
+  //   _paydate,
+  //   _paytime,
+  //   confirmPayimg,
+  // ) async {
+  //   cartcontroller.updateProcessPayment(
+  //     cartId,
+  //     status,
+  //     _paydate,
+  //     _paytime,
+  //     confirmPayimg,
+  //   );
+  //   setState(() {});
+  //   print('chk confirm pty####' + cartId);
+  // }
 
   File? _confirmPayimg;
   final ImagePicker _picker = ImagePicker();
@@ -157,7 +126,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ชำระเงิน'),
+        title: Text('คืนเงิน'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -165,7 +134,7 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Column(
             children: [
               Text(
-                "QR Code สำหรับชำระเงิน",
+                "หมายเลขพร้อมเพย์สำหรับคืนเงิน",
                 style: TextStyle(
                   color: Colors.black87,
                   fontWeight: FontWeight.bold,
@@ -175,24 +144,14 @@ class _PaymentPageState extends State<PaymentPage> {
               SizedBox(
                 height: 10,
               ),
-              Consumer<CartItemModel>(builder: (context, value, child) {
-                return Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 232, 237, 243),
-                        image: DecorationImage(
-                          image: NetworkImage(value.UrlQr),
-                          fit: BoxFit.cover,
-                        ),
-                        border: Border.all(
-                            width: 1.0,
-                            color: Color.fromARGB(255, 232, 237, 243)),
-                        borderRadius: BorderRadius.circular(10)),
-                    width: 297,
-                    height: 288,
-                  ),
-                );
-              }),
+              Text(
+                'widget.Customer.idCard',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                ),
+              ),
               SizedBox(
                 height: 15,
               ),
@@ -209,7 +168,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                     ),
                     Text(
-                      value.totalCost.toString(),
+                      widget.Carts.totalCost.toString(),
                       style: TextStyle(
                         color: Colors.black87,
                         fontWeight: FontWeight.bold,
@@ -361,37 +320,12 @@ class _PaymentPageState extends State<PaymentPage> {
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
                   }
-                  _addtoCart(
-                    context.read<CartItemModel>().image,
-                    context.read<CartItemModel>().nameProduct,
-                    context.read<CartItemModel>().Productid,
-                    context.read<CartItemModel>().customerId,
-                    context.read<CartItemModel>().quantity,
-                    context.read<CartItemModel>().cost,
-                    context.read<CartItemModel>().price,
-                    context.read<CartItemModel>().deliveryFee,
-                    context.read<CartItemModel>().totalCost,
-                    _paydate,
-                    _paytime,
-                    confirmPayimg,
-                    user.email,
-                    context.read<CartItemModel>().UrlQr,
-                    context.read<CartItemModel>().buildName,
-                    context.read<CartItemModel>().roomNo,
-                    _status = "รอยืนยันสลิป",
-                    context.read<CartItemModel>().availableDate,
-                    context.read<CartItemModel>().availableTime,
-                    context.read<CartItemModel>().email,
-                    context.read<CartItemModel>().sentDate,
-                    context.read<CartItemModel>().sentTime,
-                    context.read<CartItemModel>().productStatus,
-                    context.read<CartItemModel>().orderDate,
-                    context.read<CartItemModel>().deliveryLocation,
-                  );
+                  // _updateProcessPayment(widget.Carts.cartId, 'รอยืนยันสลิป',
+                  //     _paydate, _paytime, confirmPayimg);
 
                   Navigator.pushNamed(context, '/7');
                 },
-                child: Text("ยืนยันการชำระเงิน"),
+                child: Text("ยืนยันการคืนเงิน"),
               ),
             ],
           ),

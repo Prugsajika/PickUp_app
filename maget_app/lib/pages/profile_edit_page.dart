@@ -32,9 +32,6 @@ class _EditProfilePage extends State<EditProfilePage> {
   late String _Gender = '';
   late String _TelNo = '';
   late String _idCard = '';
-  late String _UrlQr = '';
-
-  late String UrlQr = "";
 
   CustomerController controllerC = CustomerController(CustomerServices());
   List<Customer> CustomerInfo = List.empty();
@@ -56,9 +53,9 @@ class _EditProfilePage extends State<EditProfilePage> {
   void _getuserCustomerinfo(String userEmail) async {
     print('_getuserCustomer : $userEmail');
 
-    var userRider = await controllerC.fetchCustomersByEmail(userEmail);
+    var userCustomer = await controllerC.fetchCustomersByEmail(userEmail);
     setState(() {
-      CustomerInfo = userRider;
+      CustomerInfo = userCustomer;
       _GenderController.text = '${CustomerInfo[0].Gender}';
     });
   }
@@ -217,7 +214,7 @@ class _EditProfilePage extends State<EditProfilePage> {
                               ..name = _FirstName
                               ..lastName = _LastName
                               ..telNo = _TelNo
-                              ..idCard = _UrlQr
+                              ..idCard = _idCard
                               ..customerId = customer.customerId;
                           },
                           child: Text('บันทึก'),
