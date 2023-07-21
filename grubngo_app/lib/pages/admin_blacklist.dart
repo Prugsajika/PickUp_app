@@ -20,7 +20,6 @@ class _BlacklistPageState extends State<BlacklistPage> {
   void initState() {
     super.initState();
     _getAdminRiders(context);
-
     setState(() {});
   }
 

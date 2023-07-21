@@ -80,7 +80,7 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
 }
 
 class CardList extends StatefulWidget {
-  final CartItemPerProduct carts;
+  final CartItem carts;
   int index;
   CardList(this.carts, this.index);
 
@@ -344,10 +344,9 @@ class _CardListState extends State<CardList> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => StatusDeliveryPage()));
+                              builder: (context) => PurchaseOrderPage()));
 
-                      print(
-                          'ยืนยันสลิปแล้ว ${context.read<CartItemModel>().cartId}');
+                      print('รอจัดส่ง ${context.read<CartItemModel>().cartId}');
                       _updateOrderStatus(widget.carts.cartId, "รอจัดส่ง");
                     },
                   ),

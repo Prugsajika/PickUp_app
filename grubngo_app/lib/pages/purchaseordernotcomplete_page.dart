@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grubngo_app/pages/purchaseorder_page.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +17,7 @@ import '../services/cart_services.dart';
 
 class PurchaseOrderNotCompletePage extends StatefulWidget {
   const PurchaseOrderNotCompletePage({super.key, required this.Carts});
-  final CartItemPerProduct Carts;
+  final CartItem Carts;
 
   @override
   State<PurchaseOrderNotCompletePage> createState() =>
@@ -33,11 +34,11 @@ class _PurchaseOrderNotCompletePageState
   late AnimationController animationController;
   final user = FirebaseAuth.instance.currentUser!;
 
-  String _paydate = '';
-  String _paytime = '';
-  late String confirmPayimg;
+  String _refunddate = '';
+  String _refundtime = '';
+  late String refundPayimg;
   String customerId = '';
-  String _status = '';
+  String _refundStatus = '';
 
   TimeOfDay timeOfDay = TimeOfDay.now();
 
@@ -49,25 +50,25 @@ class _PurchaseOrderNotCompletePageState
     super.initState();
   }
 
-  // void _updateProcessPayment(
-  //   String cartId,
-  //   status,
-  //   _paydate,
-  //   _paytime,
-  //   confirmPayimg,
-  // ) async {
-  //   cartcontroller.updateProcessPayment(
-  //     cartId,
-  //     status,
-  //     _paydate,
-  //     _paytime,
-  //     confirmPayimg,
-  //   );
-  //   setState(() {});
-  //   print('chk confirm pty####' + cartId);
-  // }
+  void _updateRefundPayment(
+    String cartId,
+    refundStatus,
+    _refunddate,
+    _refundtime,
+    refundPayimg,
+  ) async {
+    cartcontroller.updateRefundPayment(
+      cartId,
+      refundStatus,
+      _refunddate,
+      _refundtime,
+      refundPayimg,
+    );
+    setState(() {});
+    print('PurchaseOrderNotCompletePage refund pty####' + cartId);
+  }
 
-  File? _confirmPayimg;
+  File? _refundPayimg;
   final ImagePicker _picker = ImagePicker();
 
   Future imgFromGallery() async {
@@ -75,7 +76,7 @@ class _PurchaseOrderNotCompletePageState
 
     setState(() {
       if (pickedFile != null) {
-        _confirmPayimg = File(pickedFile.path);
+        _refundPayimg = File(pickedFile.path);
         uploadFile();
       } else {
         print('No image selected.');
@@ -84,17 +85,17 @@ class _PurchaseOrderNotCompletePageState
   }
 
   Future uploadFile() async {
-    if (_confirmPayimg == null) return;
-    final fileName = basename(_confirmPayimg!.path);
-    final destination = 'confirmPayimg/$fileName';
+    if (_refundPayimg == null) return;
+    final fileName = basename(_refundPayimg!.path);
+    final destination = 'refundPayimg/$fileName';
 
     try {
       final ref = firebase_storage.FirebaseStorage.instance
           .ref(destination)
-          .child('confirmPay/');
-      await ref.putFile(_confirmPayimg!);
-      confirmPayimg = await ref.getDownloadURL();
-      print("confirmPayimg*************** ${confirmPayimg}");
+          .child('refundPayimg/');
+      await ref.putFile(_refundPayimg!);
+      refundPayimg = await ref.getDownloadURL();
+      print("refundPayimg*************** ${refundPayimg}");
     } catch (e) {
       print('error occured');
     }
@@ -145,7 +146,7 @@ class _PurchaseOrderNotCompletePageState
                 height: 10,
               ),
               Text(
-                'widget.Customer.idCard',
+                widget.Carts.promtPay,
                 style: TextStyle(
                   color: Colors.black87,
                   fontWeight: FontWeight.normal,
@@ -239,7 +240,7 @@ class _PurchaseOrderNotCompletePageState
                           return null;
                         },
                         onSaved: (newValue) {
-                          _paydate = newValue!;
+                          _refunddate = newValue!;
                         },
                       ),
                     ),
@@ -282,8 +283,8 @@ class _PurchaseOrderNotCompletePageState
                           return null;
                         },
                         onSaved: (newValue) {
-                          _paytime = newValue!;
-                          print(_paytime + _paydate);
+                          _refundtime = newValue!;
+                          print(_refundtime + _refunddate);
                         },
                       ),
                     ),
@@ -297,9 +298,9 @@ class _PurchaseOrderNotCompletePageState
                     child: Container(
                         width: 200,
                         height: 200,
-                        child: _confirmPayimg != null
+                        child: _refundPayimg != null
                             ? Image.file(
-                                _confirmPayimg!,
+                                _refundPayimg!,
                                 fit: BoxFit.cover,
                               )
                             : Text('กรุณาแนบรูป Slip สำหรับชำระเงิน')),
@@ -320,10 +321,13 @@ class _PurchaseOrderNotCompletePageState
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
                   }
-                  // _updateProcessPayment(widget.Carts.cartId, 'รอยืนยันสลิป',
-                  //     _paydate, _paytime, confirmPayimg);
+                  _updateRefundPayment(widget.Carts.cartId, 'คืนเงินสำเร็จ',
+                      _refunddate, _refundtime, refundPayimg);
 
-                  Navigator.pushNamed(context, '/7');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PurchaseOrderPage()));
                 },
                 child: Text("ยืนยันการคืนเงิน"),
               ),

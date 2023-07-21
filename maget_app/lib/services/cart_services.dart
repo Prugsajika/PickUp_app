@@ -65,7 +65,9 @@ class CartServices {
       sentTime,
       bool productStatus,
       String orderDate,
-      deliveryLocation) async {
+      deliveryLocation,
+      promtPay,
+      refundStatus) async {
     FirebaseFirestore.instance.collection('cart').add({
       'cartId': '',
       'image': image,
@@ -93,6 +95,8 @@ class CartServices {
       'productStatus': productStatus,
       'orderDate': orderDate,
       'deliveryLocation': deliveryLocation,
+      'promtPay': promtPay,
+      'refundStatus': refundStatus
     }).then((value) =>
         FirebaseFirestore.instance.collection('cart').doc(value.id).update({
           // 'id': value.id,

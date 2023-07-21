@@ -15,6 +15,7 @@ import 'color.dart';
 import '../models/riderinfo_model.dart';
 import '../widgets/drawerappbar.dart';
 import 'products_page.dart';
+import 'purchaseorder_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   CartController controller = CartController(CartServices());
 
   int countstatusComplete = 0;
+  int countstatusWait = 0;
 
   void initState() {
     super.initState();
@@ -39,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     print('user $UserEmail');
     _getuserRider(UserEmail);
     _getCartByEmail(UserEmail);
-    _getCartItemsAll(UserEmail);
+    _getCartItemsCount(UserEmail);
   }
 
   void _getuserRider(String userEmail) async {
@@ -64,13 +66,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _getCartItemsAll(String UserEmail) async {
-    var Allcartitems = await controller.fetchCartItemsSuccessByEmail(UserEmail);
+  void _getCartItemsCount(String UserEmail) async {
+    var Successcartitems =
+        await controller.fetchCartItemsSuccessByEmail(UserEmail);
 
-    var statusComplete = Allcartitems;
+    var statusComplete = Successcartitems;
     int countstatusCompletes = 0;
 
-    Allcartitems.forEach((b) {
+    Successcartitems.forEach((b) {
       countstatusCompletes += int.parse(b.totalCost.toString());
 
       // if (a.name == b.department) {
@@ -86,6 +89,28 @@ class _HomePageState extends State<HomePage> {
     print('countstatusComplete ${countstatusComplete}');
     setState(() {
       countstatusComplete = countstatusCompletes;
+    });
+
+    var Waitcartitems = await controller.fetchCartItemsWaitByEmail(UserEmail);
+    var statusWait = Waitcartitems;
+    int countstatusWaits = 0;
+
+    Waitcartitems.forEach((b) {
+      countstatusWaits += int.parse(b.totalCost.toString());
+
+      // if (a.name == b.department) {
+      // if (b.status == "อนุมัติ") {
+      //   a.amountApprove += int.parse(b.payamount);
+      // } else if (b.status == "ร้องขอ") {
+      //   a.amountRequest += int.parse(b.receiptamount);
+      // } else {
+      //   a.amountReject += int.parse(b.receiptamount);
+      // }
+      // }
+    });
+    print('countstatusWait ${countstatusWait}');
+    setState(() {
+      countstatusWait = countstatusWaits;
     });
   }
 
@@ -155,58 +180,115 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: InkWell(
-                    child: Container(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              'ยอดขายทั้งหมด',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            // Text(context
-                            //     .read<CartItemModel>()
-                            //     .totalCost
-                            //     .toString()),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  countstatusComplete.toString(),
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  ' บาท',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ],
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'ยอดขายทั้งหมด',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'จัดส่งสำเร็จ',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    countstatusComplete.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    ' บาท',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'รอจัดส่ง',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    countstatusWait.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    ' บาท',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -230,13 +312,45 @@ class _HomePageState extends State<HomePage> {
                       )
                     : GestureDetector(
                         child: Center(
-                          child: Text(
-                            "ไม่มีรายการคำสั่งซื้อรอยืนยัน",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "ไม่มีรายการคำสั่งซื้อรอยืนยัน",
+                                style: TextStyle(
+                                  color: iBlueColor,
+                                ),
+                              ),
+                              ElevatedButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Text('ดูรายการคำสั่งซื้อ'),
+                                    ],
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PurchaseOrderPage()));
+                                  });
+                                },
+                              ),
+                            ],
                           ),
                         ),
+                        // child: Center(
+                        //   child: Text(
+                        //     "ไม่มีรายการคำสั่งซื้อรอยืนยัน",
+                        //     style: TextStyle(
+                        //       color: Colors.black,
+                        //     ),
+                        //   ),
+                        // ),
                       );
               }),
             ),

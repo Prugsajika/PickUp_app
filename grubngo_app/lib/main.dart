@@ -93,6 +93,15 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => CartItemWaitStatusModel(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => OrderWaitSentStatus(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => OrderSuccessSentStatus(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => OrderRefundStatus(),
+      ),
     ],
     child: const MyApp(),
   ));

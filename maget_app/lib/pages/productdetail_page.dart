@@ -372,7 +372,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ..sentTime = widget.Products.sentTime
                     ..productStatus = widget.Products.productStatus
                     ..orderDate = DateTime.now().toString()
-                    ..deliveryLocation = widget.Products.deliveryLocation;
+                    ..deliveryLocation = widget.Products.deliveryLocation
+                    ..promtPay = context.read<ProfileDetailModel>().idCard;
 
                   print('check cart ${context.read<CartItemModel>().image}');
                   print('check cost ${context.read<CartItemModel>().cost}');

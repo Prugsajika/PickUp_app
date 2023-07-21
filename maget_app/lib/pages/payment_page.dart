@@ -69,7 +69,9 @@ class _PaymentPageState extends State<PaymentPage> {
       sentTime,
       bool productStatus,
       String orderDate,
-      deliveryLocation) async {
+      deliveryLocation,
+      promtPay,
+      refundStatus) async {
     cartcontroller.addCart(
         image,
         name,
@@ -95,7 +97,9 @@ class _PaymentPageState extends State<PaymentPage> {
         sentTime,
         productStatus,
         orderDate,
-        deliveryLocation);
+        deliveryLocation,
+        promtPay,
+        refundStatus);
   }
 
   File? _confirmPayimg;
@@ -362,32 +366,33 @@ class _PaymentPageState extends State<PaymentPage> {
                     _formkey.currentState!.save();
                   }
                   _addtoCart(
-                    context.read<CartItemModel>().image,
-                    context.read<CartItemModel>().nameProduct,
-                    context.read<CartItemModel>().Productid,
-                    context.read<CartItemModel>().customerId,
-                    context.read<CartItemModel>().quantity,
-                    context.read<CartItemModel>().cost,
-                    context.read<CartItemModel>().price,
-                    context.read<CartItemModel>().deliveryFee,
-                    context.read<CartItemModel>().totalCost,
-                    _paydate,
-                    _paytime,
-                    confirmPayimg,
-                    user.email,
-                    context.read<CartItemModel>().UrlQr,
-                    context.read<CartItemModel>().buildName,
-                    context.read<CartItemModel>().roomNo,
-                    _status = "รอยืนยันสลิป",
-                    context.read<CartItemModel>().availableDate,
-                    context.read<CartItemModel>().availableTime,
-                    context.read<CartItemModel>().email,
-                    context.read<CartItemModel>().sentDate,
-                    context.read<CartItemModel>().sentTime,
-                    context.read<CartItemModel>().productStatus,
-                    context.read<CartItemModel>().orderDate,
-                    context.read<CartItemModel>().deliveryLocation,
-                  );
+                      context.read<CartItemModel>().image,
+                      context.read<CartItemModel>().nameProduct,
+                      context.read<CartItemModel>().Productid,
+                      context.read<CartItemModel>().customerId,
+                      context.read<CartItemModel>().quantity,
+                      context.read<CartItemModel>().cost,
+                      context.read<CartItemModel>().price,
+                      context.read<CartItemModel>().deliveryFee,
+                      context.read<CartItemModel>().totalCost,
+                      _paydate,
+                      _paytime,
+                      confirmPayimg,
+                      user.email,
+                      context.read<CartItemModel>().UrlQr,
+                      context.read<CartItemModel>().buildName,
+                      context.read<CartItemModel>().roomNo,
+                      _status = "รอยืนยันสลิป",
+                      context.read<CartItemModel>().availableDate,
+                      context.read<CartItemModel>().availableTime,
+                      context.read<CartItemModel>().email,
+                      context.read<CartItemModel>().sentDate,
+                      context.read<CartItemModel>().sentTime,
+                      context.read<CartItemModel>().productStatus,
+                      context.read<CartItemModel>().orderDate,
+                      context.read<CartItemModel>().deliveryLocation,
+                      context.read<CartItemModel>().promtPay,
+                      '');
 
                   Navigator.pushNamed(context, '/7');
                 },

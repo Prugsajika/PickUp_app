@@ -12,6 +12,7 @@ import '../services/cart_services.dart';
 import '../services/product_services.dart';
 import '../widgets/drawerappbar.dart';
 import 'color.dart';
+import 'statusdelivery_page.dart';
 
 class PurchaseOrderPage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class PurchaseOrderPage extends StatefulWidget {
 class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
   // CartController controller = CartController(CartServices());
   List<Product> products = List.empty();
-  List<CartItemPerProduct> cart = List.empty();
+  List<CartItem> cart = List.empty();
   ProductController controller = ProductController(ProductServices());
   CartController controllerCart = CartController(CartServices());
   List<CategoriesProduct> CategoriesChilds = List.empty();
@@ -183,12 +184,38 @@ class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
                   })
               : GestureDetector(
                   child: Center(
-                      child: Text(
-                  "ไม่มีรายการสินค้า",
-                  style: TextStyle(
-                    color: iBlueColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "ไม่มีรายการสินค้า",
+                          style: TextStyle(
+                            color: iBlueColor,
+                          ),
+                        ),
+                        ElevatedButton(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text('ดูรายการที่ต้องจัดส่ง'),
+                              ],
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          StatusDeliveryPage()));
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                )));
+                );
         }),
       ),
     );

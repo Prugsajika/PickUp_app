@@ -28,6 +28,8 @@ class CartItem {
   bool productStatus;
   late String orderDate;
   late String deliveryLocation;
+  late String promtPay;
+  late String refundStatus;
 
   CartItem(
       this.cartId,
@@ -55,7 +57,9 @@ class CartItem {
       this.sentTime,
       this.productStatus,
       this.orderDate,
-      this.deliveryLocation);
+      this.deliveryLocation,
+      this.promtPay,
+      this.refundStatus);
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
@@ -85,6 +89,8 @@ class CartItem {
       json['productStatus'] as bool,
       json['orderDate'] as String,
       json['deliveryLocation'] as String,
+      json['promtPay'] as String,
+      json['refundStatus'] as String,
     );
   }
 }
@@ -138,6 +144,16 @@ class CartItemModel extends ChangeNotifier {
   late bool productStatus;
   String orderDate = '';
   String deliveryLocation = '';
+
+  String promtPay = '';
+  get getPromtPay => this.promtPay;
+
+  set setPromtPay(promtPay) => this.promtPay = promtPay;
+
+  String refundStatus = '';
+  get getRefundStatus => this.refundStatus;
+
+  set setRefundStatus(refundStatus) => this.refundStatus = refundStatus;
 
   get getcartId => this.cartId;
   set setcartId(value) {

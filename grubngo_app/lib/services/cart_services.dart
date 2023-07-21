@@ -18,8 +18,6 @@ class CartServices {
   }
 
   Future<List<CartItem>> getCartItemsByEmail(String emailRider) async {
-    String emaillowC = emailRider.toLowerCase().toString();
-    print(" getCartItemsByEmail $emaillowC");
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('cart')
         .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
@@ -38,49 +36,11 @@ class CartServices {
     print('cartId for service$cartId');
   }
 
-  Future<List<CartItemPerProduct>> getOrderByProductWithCFPay() async {
+  Future<List<CartItem>> getOrderByProductWithCFPay() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('cart')
         .where('emailRider', isEqualTo: user.email)
         .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
-        .get();
-
-    AllCartItemPerProduct cartitemperproducts =
-        AllCartItemPerProduct.fromSnapshot(snapshot);
-    print("cartitems  $cartitemperproducts");
-    return cartitemperproducts.cartitemperproducts;
-  }
-
-  Future<List<CountCartItem>> getCartItemsAll() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('cart')
-        .where('emailRider', isEqualTo: user.email)
-        .get();
-
-    AllCountCartItem countcartitems = AllCountCartItem.fromSnapshot(snapshot);
-    print("cartitems  $countcartitems");
-    return countcartitems.countcartitems;
-  }
-
-  Future<List<CartItemPerProduct>> getOrderByProductid(Productid) async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('cart')
-        .where('Productid', isEqualTo: Productid)
-        .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
-        .get();
-
-    AllCartItemPerProduct cartitemperproducts =
-        AllCartItemPerProduct.fromSnapshot(snapshot);
-    print("cartitems  $cartitemperproducts");
-    return cartitemperproducts.cartitemperproducts;
-  }
-
-  // รอเปลี่ยน status to "สำเร็จ"
-  Future<List<CartItem>> getCartItemsSuccessByEmail(String emailRider) async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('cart')
-        .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
-        .where('status', isEqualTo: "ยืนยันสลิปแล้ว")
         .get();
 
     AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
@@ -88,53 +48,69 @@ class CartServices {
     return cartitems.cartitems;
   }
 
-  // void addCart(
-  //     String image,
-  //     name,
-  //     Productid,
-  //     customerId,
-  //     int quantity,
-  //     cost,
-  //     price,
-  //     deliveryFee,
-  //     totalCost,
-  //     _paydate,
-  //     _paytime,
-  //     confirmPayimg,
-  //     email,
-  //     UrlQr,
-  //     buildName,
-  //     roomNo,
-  //     status,
-  //     availableDate,
-  //     availableTime,
-  //     emailRider) async {
-  //   FirebaseFirestore.instance.collection('cart').add({
-  //     'cartId': '',
-  //     'image': image,
-  //     'name': name,
-  //     'quantity': quantity,
-  //     'cost': cost,
-  //     'price': price,
-  //     'Productid': Productid,
-  //     'deliveryFee': deliveryFee,
-  //     'totalCost': totalCost,
-  //     'customerId': customerId,
-  //     'paydate': _paydate,
-  //     'paytime': _paytime,
-  //     'confirmPayimg': confirmPayimg,
-  //     'email': email,
-  //     'UrlQr': UrlQr,
-  //     'buildName': buildName,
-  //     'roomNo': roomNo,
-  //     'status': status,
-  //     'availableDate': availableDate,
-  //     'availableTime': availableTime,
-  //     'emailRider': emailRider,
-  //   }).then((value) =>
-  //       FirebaseFirestore.instance.collection('cart').doc(value.id).update({
-  //         // 'id': value.id,
-  //         'cartId': value.id,
-  //       }));
-  // }
+  Future<List<CartItem>> getCartItemsAll() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('emailRider', isEqualTo: user.email)
+        .get();
+
+    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
+    print("cartitems  $cartitems");
+    return cartitems.cartitems;
+  }
+
+  Future<List<CartItem>> getOrderByProductid(Productid) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('Productid', isEqualTo: Productid)
+        .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
+        .get();
+
+    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
+    print("cartitems  $cartitems");
+    return cartitems.cartitems;
+  }
+
+  // รอเปลี่ยน status to "สำเร็จ"
+  Future<List<CartItem>> getCartItemsSuccessByEmail(String emailRider) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
+        .where('status', isEqualTo: "จัดส่งสำเร็จ")
+        .get();
+
+    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
+    print("cartitems  $cartitems");
+    return cartitems.cartitems;
+  }
+
+  // รอเปลี่ยน status to "รอจัดส่ง"
+  Future<List<CartItem>> getCartItemsWaitByEmail(String emailRider) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('cart')
+        .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
+        .where('status', isEqualTo: "รอจัดส่ง")
+        .get();
+
+    AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
+    print("cartitems  $cartitems");
+    return cartitems.cartitems;
+  }
+
+  void updateRefundPayment(
+    String cartId,
+    refundStatus,
+    _refunddate,
+    _refundtime,
+    refundPayimg,
+  ) async {
+    FirebaseFirestore.instance.collection('cart').doc(cartId).update({
+      'cartId': cartId,
+      'refundStatus': refundStatus,
+      'paydate': _refunddate,
+      'paytime': _refundtime,
+      'confirmPayimg': refundPayimg,
+    });
+    print('cartId for service$cartId');
+  }
 }
