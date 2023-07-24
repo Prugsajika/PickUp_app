@@ -51,29 +51,49 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
       appBar: AppBar(
         title: Text(widget.Products.nameProduct),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Consumer<CartItemPerProductModel>(
-            builder: (context, CartItemPerProductModel data, child) {
-          return data.getListCartItemPerProduct.length != 0
-              ? ListView.builder(
-                  itemCount: data.getListCartItemPerProduct.length,
-                  itemBuilder: (context, index) {
-                    print('data');
-                    print(data.getListCartItemPerProduct.length);
+      body: Column(
+        children: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'เมื่อทำรายการแล้วจะไม่สามารถเปลี่ยนแปลงได้ ',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Consumer<CartItemPerProductModel>(
+                  builder: (context, CartItemPerProductModel data, child) {
+                return data.getListCartItemPerProduct.length != 0
+                    ? ListView.builder(
+                        itemCount: data.getListCartItemPerProduct.length,
+                        itemBuilder: (context, index) {
+                          print('data');
+                          print(data.getListCartItemPerProduct.length);
 
-                    return CardList(
-                        data.getListCartItemPerProduct[index], index);
-                  })
-              : GestureDetector(
-                  child: Center(
-                      child: Text(
-                  "ไม่มีรายการสินค้า",
-                  style: TextStyle(
-                    color: iBlueColor,
-                  ),
-                )));
-        }),
+                          return CardList(
+                              data.getListCartItemPerProduct[index], index);
+                        })
+                    : GestureDetector(
+                        child: Center(
+                            child: Text(
+                        "ไม่มีรายการสินค้า",
+                        style: TextStyle(
+                          color: iBlueColor,
+                        ),
+                      )));
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }

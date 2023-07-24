@@ -109,7 +109,8 @@ class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
           element.sentDate,
           element.sentTime,
           element.image,
-          element.deliveryLocation));
+          element.deliveryLocation,
+          element.quantity));
     });
     // print(jsonEncode(ad));
 
@@ -233,11 +234,12 @@ class CardList extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              topLeft: Radius.circular(10),
-            )),
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            topLeft: Radius.circular(10),
+          ),
+        ),
         child: ListTile(
           shape: RoundedRectangleBorder(
             //<-- SEE HERE
@@ -418,9 +420,10 @@ class OrderByProduct {
   late String sentTime;
   late String image;
   late String deliveryLocation;
+  late int quantity;
 
   OrderByProduct(this.nameProduct, this.price, this.Productid, this.sentDate,
-      this.sentTime, this.image, this.deliveryLocation);
+      this.sentTime, this.image, this.deliveryLocation, this.quantity);
 
   factory OrderByProduct.fromJson(Map<String, dynamic> json) {
     return OrderByProduct(
@@ -431,6 +434,7 @@ class OrderByProduct {
       json['sentTime'],
       json['image'],
       json['deliveryLocation'],
+      json['quantity'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -442,6 +446,7 @@ class OrderByProduct {
     data['sentTime'] = sentTime;
     data['image'] = image;
     data['deliveryLocation'] = deliveryLocation;
+    data['quantity'] = quantity;
     return data;
   }
 
@@ -462,6 +467,7 @@ class OrderByProductModel extends ChangeNotifier {
   String sentTime = '';
   String image = '';
   String deliveryLocation = '';
+  String quantity = '';
 
   get getNameProduct => this.nameProduct;
 
@@ -492,6 +498,10 @@ class OrderByProductModel extends ChangeNotifier {
     this.deliveryLocation = value;
     notifyListeners();
   }
+
+  get getQuantity => this.quantity;
+
+  set setQuantity(quantity) => this.quantity = quantity;
 
   List<OrderByProduct> _listOrderByProduct = List.empty();
   List<OrderByProduct> get getListOrderByProduct => this._listOrderByProduct;

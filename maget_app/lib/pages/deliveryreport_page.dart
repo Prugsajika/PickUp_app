@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:grubngo_app/pages/purchaseorder_page.dart';
+
 import 'package:provider/provider.dart';
 
 import '../controllers/cart_controller.dart';
@@ -8,14 +8,15 @@ import '../models/cartitem_model.dart';
 import '../services/cart_services.dart';
 import '../widgets/drawerappbar.dart';
 import 'color.dart';
+import 'order_page.dart';
 
-class StatusDeliveryPage extends StatefulWidget {
-  const StatusDeliveryPage({Key? key}) : super(key: key);
+class DeliveryReportPage extends StatefulWidget {
+  const DeliveryReportPage({Key? key}) : super(key: key);
   @override
-  State<StatusDeliveryPage> createState() => _StatusDeliveryPageState();
+  State<DeliveryReportPage> createState() => _DeliveryReportPageState();
 }
 
-class _StatusDeliveryPageState extends State<StatusDeliveryPage> {
+class _DeliveryReportPageState extends State<DeliveryReportPage> {
   CartController controller = CartController(CartServices());
 
   @override
@@ -34,6 +35,7 @@ class _StatusDeliveryPageState extends State<StatusDeliveryPage> {
     List<CartItem> successorder = List.empty();
     List<CartItem> refundorder = List.empty();
     List<CartItem> cartitems = List.empty();
+    List<CartItem> waitconfirm = List.empty();
 
     var Newcartitems = await controller.fetchCartItemsByEmail(emailRider);
     print('cartitemsstatusdeli ${Newcartitems.length}');
@@ -41,6 +43,13 @@ class _StatusDeliveryPageState extends State<StatusDeliveryPage> {
       (a, b) => a.email.compareTo(b.email),
     );
     cartitems = Newcartitems.reversed.toList();
+    //status รอยืนยัน
+    waitconfirm = cartitems.where((x) => x.status == 'รอยืนยันสลิป').toList();
+
+    setState(() => waitconfirm = waitconfirm);
+
+    context.read<OrderWaitConfirmStatus>().getListOrderWaitConfirmStatus =
+        waitconfirm;
 
     //status รอจัดส่ง
     waitorder = cartitems.where((x) => x.status == 'รอจัดส่ง').toList();
@@ -51,10 +60,6 @@ class _StatusDeliveryPageState extends State<StatusDeliveryPage> {
 
     //status จัดส่งสำเร็จ
     successorder = cartitems.where((x) => x.status == 'จัดส่งสำเร็จ').toList();
-    ////sort วันที่ล่าสุดขึ้นก่อน
-    // successorder.sort(
-    //   (a, b) => a.sentDate.compareTo(b.sentDate),
-    // );
     setState(() => successorder = successorder);
 
     context.read<OrderSuccessSentStatus>().getListOrderSuccessSentStatus =
@@ -71,14 +76,18 @@ class _StatusDeliveryPageState extends State<StatusDeliveryPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         drawer: DrawerBar(),
         appBar: AppBar(
           title: const Text("สถานะการจัดส่ง"),
-          backgroundColor: Colors.red[500],
+          backgroundColor: Colors.amber,
           bottom: const TabBar(
             tabs: [
+              Tab(
+                icon: Icon(Icons.check_circle_outline),
+                text: "รอยืนยัน",
+              ),
               Tab(
                 icon: Icon(Icons.watch_later_outlined),
                 text: "รอจัดส่ง",
@@ -97,6 +106,9 @@ class _StatusDeliveryPageState extends State<StatusDeliveryPage> {
         body: TabBarView(
           children: [
             Center(
+              child: buildCardListWaitConfirm(context),
+            ),
+            Center(
               child: buildCardListWait(context),
             ),
             Center(
@@ -112,6 +124,58 @@ class _StatusDeliveryPageState extends State<StatusDeliveryPage> {
   }
 }
 
+Widget buildCardListWaitConfirm(BuildContext context) {
+  return Scaffold(
+    body: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Consumer<OrderWaitConfirmStatus>(
+          builder: (context, OrderWaitConfirmStatus data, child) {
+        return data.getListOrderWaitConfirmStatus.length != 0
+            ? ListView.builder(
+                itemCount: data.getListOrderWaitConfirmStatus.length,
+                itemBuilder: (context, index) {
+                  print('getListOrderWaitConfirmStatus');
+                  print(data.getListOrderWaitConfirmStatus.length);
+
+                  return CardList(
+                      data.getListOrderWaitConfirmStatus[index], index);
+                })
+            : GestureDetector(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "ไม่มีรายการที่ต้องได้รับ",
+                        style: TextStyle(
+                          color: iBlueColor,
+                        ),
+                      ),
+                      ElevatedButton(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text('ดูรายการคำสั่งซื้อ'),
+                            ],
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderPage()));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+      }),
+    ),
+  );
+}
+
 Widget buildCardListWait(BuildContext context) {
   return Scaffold(
     body: Padding(
@@ -125,7 +189,7 @@ Widget buildCardListWait(BuildContext context) {
                   print('getListOrderWaitSentStatus');
                   print(data.getListOrderWaitSentStatus.length);
 
-                  return CardListWaitDelivery(
+                  return CardList(
                       data.getListOrderWaitSentStatus[index], index);
                 })
             : GestureDetector(
@@ -152,7 +216,7 @@ Widget buildCardListWait(BuildContext context) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PurchaseOrderPage()));
+                                  builder: (context) => OrderPage()));
                         },
                       ),
                     ],
@@ -177,7 +241,7 @@ Widget buildCardListSuccess(BuildContext context) {
                   print('getListOrderWaitSentStatus');
                   print(data.getListOrderSuccessSentStatus.length);
 
-                  return CardListSuccess(
+                  return CardList(
                       data.getListOrderSuccessSentStatus[index], index);
                 })
             : GestureDetector(
@@ -204,7 +268,7 @@ Widget buildCardListSuccess(BuildContext context) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PurchaseOrderPage()));
+                                  builder: (context) => OrderPage()));
                         },
                       ),
                     ],
@@ -256,7 +320,7 @@ Widget buildCardListRefund(BuildContext context) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PurchaseOrderPage()));
+                                  builder: (context) => OrderPage()));
                         },
                       ),
                     ],
@@ -268,259 +332,10 @@ Widget buildCardListRefund(BuildContext context) {
   );
 }
 
-class CardListWaitDelivery extends StatefulWidget {
+class CardList extends StatelessWidget {
   final CartItem carts;
   int index;
-  CardListWaitDelivery(this.carts, this.index);
-
-  @override
-  State<CardListWaitDelivery> createState() => _CardListWaitDeliveryState();
-}
-
-class _CardListWaitDeliveryState extends State<CardListWaitDelivery> {
-  CartController cartcontroller = CartController(CartServices());
-
-  void initState() {
-    super.initState();
-    setState(() {});
-  }
-
-  void _updateDeliveryStatus(String cartId, status) async {
-    cartcontroller.updatePaystatus(cartId, status);
-    setState(() {});
-    print('chkDeliveryStatus' + cartId);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              topLeft: Radius.circular(10),
-            )),
-        child: ListTile(
-          shape: RoundedRectangleBorder(
-            //<-- SEE HERE
-            side: BorderSide(width: 1, color: Colors.white),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.carts.email,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      widget.carts.nameProduct,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'จำนวน  ${widget.carts.quantity.toString()}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'สถานที่จัดส่ง : ',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      widget.carts.deliveryLocation,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'จุดรับของตึก/หมู่บ้าน: ',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      widget.carts.buildName,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'เลขที่บ้าน/เลขห้อง : ',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      widget.carts.roomNo,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ],
-                ),
-                // Text(
-                //   'ราคา ${carts.price.toString()} บาท',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // ),
-              ],
-            ),
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Text(
-                //   'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // ),
-                Text(
-                  'วันที่ต้องจัดส่ง ${widget.carts.availableDate.toString()}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'เวลา ${widget.carts.availableTime.toString()} น.',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.green),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          // Icon(Icons.check),
-                          Text('ส่งของ'),
-                        ],
-                      ),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _updateDeliveryStatus(
-                            widget.carts.cartId, 'จัดส่งสำเร็จ');
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => StatusDeliveryPage(),
-                          ),
-                        );
-                      });
-                    },
-                  ),
-                ),
-                // Text(
-                //   'สถานะ >> ${carts.status.toString()} ',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.blue,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // )
-              ],
-            ),
-          ),
-
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(widget.carts.image),
-          ),
-          // trailing: const Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            print('#######################carts ID ${widget.carts.cartId}');
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => ConfirmPaymentPage(Carts: carts)));
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class CardListSuccess extends StatelessWidget {
-  final CartItem carts;
-  int index;
-  CardListSuccess(this.carts, this.index);
+  CardList(this.carts, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -690,15 +505,15 @@ class CardListSuccess extends StatelessWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
-                // Text(
-                //   'สถานะ >> ${carts.status.toString()} ',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.blue,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // )
+                Text(
+                  'สถานะ >> ${carts.status.toString()} ',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                )
               ],
             ),
           ),
@@ -895,6 +710,15 @@ class CardListRefund extends StatelessWidget {
                 ),
                 Text(
                   'สถานะ >> ${carts.status.toString()} ',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'สถานะการคืนเงิน >> ${carts.refundStatus.toString()} ',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

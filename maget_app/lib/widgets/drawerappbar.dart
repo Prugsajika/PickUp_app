@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/customer_model.dart';
+import '../pages/deliveryreport_page.dart';
 import '../pages/favourite_page.dart';
 import '../pages/home_page.dart';
 import '../pages/login_page.dart';
@@ -101,11 +102,19 @@ Widget buildMenuItems(BuildContext context) {
         //     onTap: () {
         //     }),
         ListTile(
-            leading: const Icon(Icons.receipt_rounded),
-            title: Text('รายการสั่งซื้อ'),
+            leading: const Icon(Icons.attach_money),
+            title: Text('การชำระเงิน'),
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => OrderPage(),
+              ));
+            }),
+        ListTile(
+            leading: const Icon(Icons.delivery_dining_outlined),
+            title: Text('สถานะการจัดส่ง'),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => DeliveryReportPage(),
               ));
             }),
         const Divider(

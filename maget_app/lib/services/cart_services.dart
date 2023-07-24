@@ -16,8 +16,6 @@ class CartServices {
   }
 
   Future<List<CartItem>> getCartItemsByEmail(String email) async {
-    String emaillowC = email.toLowerCase().toString();
-    print(" getCartItemsByEmail $emaillowC");
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('cart')
         .where('email', isEqualTo: email.toLowerCase().toString())

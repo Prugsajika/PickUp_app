@@ -50,6 +50,21 @@ void main() async {
         // ChangeNotifierProvider(create: (context) => MyCart()),
         ChangeNotifierProvider(create: (context) => CartItemModel()),
         ChangeNotifierProvider(create: (context) => ListProfileProvider()),
+        ChangeNotifierProvider(
+          create: (context) => OrderWaitSentStatus(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderSuccessSentStatus(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderRefundStatus(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderWaitConfirmStatus(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartItemWaitConfirm(),
+        ),
       ],
       child: const MyApp(),
     ),

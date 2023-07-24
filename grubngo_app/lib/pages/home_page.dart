@@ -292,7 +292,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'รายการคำสั่งซื้อรอยืนยัน',
+              'รายการคำสั่งซื้อรอยืนยันสลิป',
             ),
           ),
           Expanded(

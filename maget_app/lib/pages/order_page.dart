@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maget_app/controllers/cart_controller.dart';
 import 'package:maget_app/models/cartitem_model.dart';
-import 'package:maget_app/pages/checkout_page.dart';
-import 'package:maget_app/pages/home_page.dart';
-import 'package:maget_app/pages/payment_page.dart';
+
 import 'package:maget_app/services/cart_services.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +17,7 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   CartController controller = CartController(CartServices());
   final user = FirebaseAuth.instance.currentUser!;
-  List<CartItem> cartitems = List.empty();
+  // List<CartItem> cartitems = List.empty();
 
   String get cartId => context.read<CartItemModel>().cartId;
 
@@ -34,15 +32,35 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   void _getCartByEmail(String userEmail) async {
-    List<CartItem> items = List.empty();
-    var usercart = await controller.fetchCartItemsByEmail(userEmail);
-    setState(() => cartitems = usercart);
+    // List<CartItem> items = List.empty();
+    List<CartItem> waitconfirm = List.empty();
+    List<CartItem> cartitems = List.empty();
 
-    context.read<CartItemModel>().getListCartItem = usercart;
+    var Newcartitems = await controller.fetchCartItemsByEmail(userEmail);
+    print('waitconfirm cartitem ${Newcartitems.length}');
+    setState(() => cartitems = Newcartitems);
+
+    // status รอยืนยัน
+    waitconfirm = cartitems
+        .where((x) =>
+            x.status == 'รอยืนยันสลิป' ||
+            x.status == 'จำนวนเงินไม่ถูกต้อง' ||
+            x.status == 'สลิปไม่ถูกต้อง' ||
+            x.status == 'ไม่พบรายการโอนเงิน' ||
+            x.status == 'อื่นๆ')
+        .toList();
+
+    setState(() => waitconfirm = waitconfirm);
+
+    context.read<CartItemWaitConfirm>().getListCartItemWaitConfirm =
+        waitconfirm;
+
+    // context.read<CartItemWaitConfirm>().getListCartItemWaitConfirm =
+    //     waitconfirm;
     //รอถาม จะทำดึง status payment เพื่อใช้ใน if ที่จะแสดง card list ต่างกัน
-    var confirmPayment = await controller.fetchStatusPaymentByCartId(cartId);
-    int CconfirmPayment = confirmPayment.length;
-    print('chk pay ${CconfirmPayment}');
+    // var confirmPayment = await controller.fetchStatusPaymentByCartId(cartId);
+    // int CconfirmPayment = confirmPayment.length;
+    // print('chk pay ${CconfirmPayment}');
   }
 
   @override
@@ -50,18 +68,19 @@ class _OrderPageState extends State<OrderPage> {
     return Scaffold(
       drawer: DrawerBar(),
       appBar: AppBar(
-        title: const Text('สถานะรายการสั่งซื้อ'),
-        backgroundColor: Colors.amber[100],
+        title: const Text('สถานะการชำระเงิน'),
+        backgroundColor: Colors.amber,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<CartItemModel>(
-            builder: (context, CartItemModel data, child) {
-          return data.getListCartItem.length != 0
+        child: Consumer<CartItemWaitConfirm>(
+            builder: (context, CartItemWaitConfirm data, child) {
+          print(data.status + ' Order page');
+          return data.getListCartItemWaitConfirm.length != 0
               ? ListView.builder(
-                  itemCount: data.getListCartItem.length,
+                  itemCount: data.getListCartItemWaitConfirm.length,
                   itemBuilder: (context, index) {
-                    print(data.getListCartItem.length);
+                    print(data.getListCartItemWaitConfirm.length);
 
                     // if (data.status == 'ยืนยันสลิปแล้ว') {
                     //   print('order page.status ${data.status}');
@@ -72,15 +91,36 @@ class _OrderPageState extends State<OrderPage> {
                     //       data.getListCartItem[index], index);
                     // }
 
-                    return CardList(data.getListCartItem[index], index);
+                    return CardList(
+                        data.getListCartItemWaitConfirm[index], index);
                   })
               : GestureDetector(
                   child: Center(
-                    child: Text(
-                      "ไม่มีรายการสั่งซื้อ",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "ไม่มีรายการสั่งซื้อรอยืนยัน",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        ElevatedButton(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text('ดูสถานะการจัดส่ง'),
+                              ],
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OrderPage()));
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -97,7 +137,10 @@ class CardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (carts.status == 'ยืนยันสลิปแล้ว') {
+    if (carts.status != 'จำนวนเงินไม่ถูกต้อง' &&
+        carts.status != 'สลิปไม่ถูกต้อง' &&
+        carts.status != 'ไม่พบรายการโอนเงิน' &&
+        carts.status != 'อื่นๆ') {
       return Padding(
         padding: const EdgeInsets.all(2.0),
         child: Container(
