@@ -8,7 +8,6 @@ class RiderController {
   // final HttpServices services;
   final RiderServices services;
   List<Rider> riders = List.empty();
-  List<AdminRider> adminriders = List.empty();
 
   List<WaitingRider> waitingriders = List.empty();
 
@@ -35,11 +34,11 @@ class RiderController {
     return riders;
   }
 
-  Future<List<AdminRider>> fetchAdminRiders() async {
+  Future<List<Rider>> fetchAdminRiders() async {
     onSyncController.add(true);
-    adminriders = await services.getAdminRiders();
+    riders = await services.getAdminRiders();
     onSyncController.add(false);
-    return adminriders;
+    return riders;
   }
 
   fetchadminStat() async {

@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grubngo_app/models/products_model.dart';
 import 'package:grubngo_app/pages/confirmpayment.dart';
+import 'package:grubngo_app/pages/report_sale_page.dart';
+import 'package:grubngo_app/pages/statusdelivery_page.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/cart_controller.dart';
@@ -118,37 +120,18 @@ class _HomePageState extends State<HomePage> {
     List<CartItem> waitcart = List.empty();
 
     var cartitems = await controller.fetchCartItemsByEmail(emailRider);
-    waitcart = cartitems.where((x) => x.status == 'รอยืนยันสลิป').toList();
+    waitcart = cartitems
+        .where((x) =>
+            x.status == 'รอยืนยันสลิป' ||
+            x.status == 'รอจัดส่ง' ||
+            x.status == 'ยืนยันสลิปแล้ว')
+        .toList();
     setState(() => waitcart = waitcart);
     print('emailRider $emailRider');
 
     context.read<CartItemWaitStatusModel>().getListCartItemWaitStatus =
         waitcart;
     print('cart chk ${context.read<CartItemWaitStatusModel>().cartId}');
-
-    // if (!cartitems.isEmpty) {
-    //   context.read<CartItemModel>()
-    //     ..cartId = cartitems.first.cartId
-    //     ..image = cartitems.first.image
-    //     ..name = cartitems.first.name
-    //     ..quantity = cartitems.first.quantity
-    //     ..cost = cartitems.first.cost
-    //     ..Productid = cartitems.first.Productid
-    //     ..customerId = cartitems.first.customerId
-    //     ..deliveryFee = cartitems.first.deliveryFee
-    //     ..totalCost = cartitems.first.totalCost
-    //     ..UrlQr = cartitems.first.UrlQr
-    //     ..confirmPayimg = cartitems.first.confirmPayimg
-    //     ..paydate = cartitems.first.paydate
-    //     ..paytime = cartitems.first.paytime
-    //     ..email = cartitems.first.email
-    //     ..buildName = cartitems.first.buildName
-    //     ..roomNo = cartitems.first.roomNo
-    //     ..status = cartitems.first.status
-    //     ..availableDate = cartitems.first.availableDate
-    //     ..availableTime = cartitems.first.availableTime
-    //     ..emailRider = cartitems.first.emailRider;
-    // }
   }
 
   @override
@@ -235,6 +218,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
+                      onTap: () {
+                        setState(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SaleReportPage()));
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -282,6 +273,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
+                      onTap: () {
+                        setState(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StatusDeliveryPage()));
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -292,7 +291,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'รายการคำสั่งซื้อรอยืนยันสลิป',
+              'รายการคำสั่งซื้อ',
             ),
           ),
           Expanded(
@@ -306,7 +305,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           print(data.getListCartItemWaitStatus.length);
 
-                          return CardList(
+                          return CardListWait(
                               data.getListCartItemWaitStatus[index], index);
                         },
                       )
@@ -316,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "ไม่มีรายการคำสั่งซื้อรอยืนยัน",
+                                "ไม่มีรายการคำสั่งซื้อที่ต้องดำเนินการ",
                                 style: TextStyle(
                                   color: iBlueColor,
                                 ),
@@ -375,131 +374,372 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class CardList extends StatelessWidget {
+class CardListWait extends StatelessWidget {
   final CartItem carts;
   int index;
-  CardList(this.carts, this.index);
+  CardListWait(this.carts, this.index);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              topLeft: Radius.circular(10),
-            )),
-        child: ListTile(
-          shape: RoundedRectangleBorder(
-            //<-- SEE HERE
-            side: BorderSide(width: 1, color: Colors.white),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  carts.email,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  carts.nameProduct,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'ราคา ${carts.price.toString()} บาท',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
+    if (carts.status == 'รอยืนยันสลิป') {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                topLeft: Radius.circular(10),
+              )),
+          child: ListTile(
+            shape: RoundedRectangleBorder(
+              //<-- SEE HERE
+              side: BorderSide(width: 1, color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'จำนวนที่สั่ง ${carts.quantity.toString()}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'วันที่ต้องจัดส่ง ${carts.availableDate.toString()}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'เวลา ${carts.availableTime.toString()} น.',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'สถานะ >> ${carts.status.toString()} ',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    carts.email,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    carts.nameProduct,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'ราคา ${carts.price.toString()} บาท',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
-          ),
+            subtitle: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'จำนวนที่สั่ง ${carts.quantity.toString()}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'วันที่ต้องจัดส่ง ${carts.availableDate.toString()}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'เวลา ${carts.availableTime.toString()} น.',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'สถานะ >> ${carts.status.toString()} ',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
 
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(carts.image),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(carts.image),
+            ),
+            // trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              print('#######################carts ID ${carts.cartId}');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ConfirmPaymentPage(Carts: carts)));
+            },
           ),
-          // trailing: const Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            print('#######################carts ID ${carts.cartId}');
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ConfirmPaymentPage(Carts: carts)));
-          },
         ),
-      ),
-    );
+      );
+    }
+    if (carts.status == 'ยืนยันสลิปแล้ว') {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                topLeft: Radius.circular(10),
+              )),
+          child: ListTile(
+            shape: RoundedRectangleBorder(
+              //<-- SEE HERE
+              side: BorderSide(width: 1, color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    carts.email,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    carts.nameProduct,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'ราคา ${carts.price.toString()} บาท',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'จำนวนที่สั่ง ${carts.quantity.toString()}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'วันที่ต้องจัดส่ง ${carts.availableDate.toString()}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'เวลา ${carts.availableTime.toString()} น.',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'สถานะ >> ${carts.status.toString()} ',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
+
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(carts.image),
+            ),
+            // trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              print('#######################carts ID ${carts.cartId}');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PurchaseOrderPage()));
+            },
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                topLeft: Radius.circular(10),
+              )),
+          child: ListTile(
+            shape: RoundedRectangleBorder(
+              //<-- SEE HERE
+              side: BorderSide(width: 1, color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    carts.email,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    carts.nameProduct,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'ราคา ${carts.price.toString()} บาท',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'จำนวนที่สั่ง ${carts.quantity.toString()}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'วันที่ต้องจัดส่ง ${carts.availableDate.toString()}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'เวลา ${carts.availableTime.toString()} น.',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'สถานะ >> ${carts.status.toString()} ',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
+
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(carts.image),
+            ),
+            // trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              print('#######################carts ID ${carts.cartId}');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => StatusDeliveryPage()));
+            },
+          ),
+        ),
+      );
+    }
   }
 }

@@ -54,6 +54,8 @@ class _FindProductPageState extends State<FindProductPage> {
 
   String searchvalue = "";
 
+  DateFormat dateFormat = DateFormat("dd/MM/yyy");
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +111,7 @@ class _FindProductPageState extends State<FindProductPage> {
               stream: FirebaseFirestore.instance
                   .collection('products')
                   .where('availableDate',
-                      isGreaterThanOrEqualTo: DateTime.now().toString())
+                      isGreaterThanOrEqualTo: dateFormat.format(DateTime.now()))
                   .snapshots(),
               builder: (context, snapshots) {
                 return (snapshots.connectionState == ConnectionState.waiting)

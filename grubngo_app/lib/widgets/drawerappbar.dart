@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:grubngo_app/models/products_model.dart';
-import 'package:grubngo_app/pages/histories_page.dart';
 
 import 'package:grubngo_app/pages/products_page.dart';
-import 'package:grubngo_app/pages/profilescreen.dart';
 import 'package:grubngo_app/pages/purchaseorder_page.dart';
+import 'package:grubngo_app/pages/report_sale_page.dart';
 import 'package:grubngo_app/pages/statusdelivery_page.dart';
 import 'package:provider/provider.dart';
 
@@ -129,10 +127,10 @@ Widget buildMenuItems(BuildContext context) {
             }),
         ListTile(
             leading: const Icon(Icons.history),
-            title: Text('ประวัติ'),
+            title: Text('รายงาน'),
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => HistoryPage(),
+                builder: (context) => SaleReportPage(),
               ));
             }),
         const Divider(

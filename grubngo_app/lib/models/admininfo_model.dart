@@ -3,33 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Admin {
   late String adminId;
-  // //late String imagerider;
   late String adminName;
   late String adminLastname;
-  // late String Gender;
-  // late String TelNo;
   late String adminEmail;
-  // late String password;
-  // late String idCard;
-  // late String UrlQr;
-  // late bool status;
-  // late String UrlCf;
   late String adminRole;
 
   Admin(
     this.adminId,
-    // this.imagerider,
-    // this.Riderid,
     this.adminName,
     this.adminLastname,
-    // this.Gender,
-    // this.TelNo,
     this.adminEmail,
-    // this.password,
-    // this.idCard,
-    // this.UrlQr,
-    // this.status,
-    // this.UrlCf,
     this.adminRole,
   );
   factory Admin.fromJson(Map<String, dynamic> json) {
@@ -37,14 +20,7 @@ class Admin {
       json['adminId'] as String,
       json['adminName'] as String,
       json['adminLastname'] as String,
-      // json['Gender'] as String,
-      // json['TelNo'] as String,
       json['adminEmail'] as String,
-      // json['password'] as String,
-      // json['idCard'] as String,
-      // json['UrlQr'] as String,
-      // json['status'] as bool,
-      // json['UrlCf'] as String,
       json['adminRole'] as String,
     );
   }

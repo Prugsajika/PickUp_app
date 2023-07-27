@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:grubngo_app/pages/admin_approve.dart';
 import 'package:grubngo_app/pages/admin_blacklist.dart';
 import 'package:grubngo_app/pages/admin_homepage.dart';
+import 'package:grubngo_app/pages/admin_salereport_page.dart';
 
 import 'package:provider/provider.dart';
 
 import '../models/admininfo_model.dart';
 import '../models/riderinfo_model.dart';
+import '../pages/admin_userreport_page.dart';
 import '../pages/login_page.dart';
 
 class AdminDrawerBar extends StatefulWidget {
@@ -115,6 +117,22 @@ Widget buildMenuItems(BuildContext context) {
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => BlacklistPage(),
+              ));
+            }),
+        ListTile(
+            leading: const Icon(Icons.attach_money),
+            title: Text('รายงานการขาย'),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => AdminSaleReportPage(),
+              ));
+            }),
+        ListTile(
+            leading: const Icon(Icons.people_alt_rounded),
+            title: Text('รายงานผู้ใช้งานระบบ'),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => AdminUserReportPage(),
               ));
             }),
         const Divider(

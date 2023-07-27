@@ -21,13 +21,13 @@ class RiderServices {
     return riders.riders;
   }
 
-  Future<List<AdminRider>> getAdminRiders() async {
+  Future<List<Rider>> getAdminRiders() async {
     QuerySnapshot snapshot = await _collection.get();
 
-    AdminAllRiders riders = AdminAllRiders.fromSnapshot(snapshot);
+    AllRiders riders = AllRiders.fromSnapshot(snapshot);
 
-    print('QuerySnapshot All Riders ${riders.adminriders.length}');
-    return riders.adminriders;
+    print('QuerySnapshot All Riders ${riders.riders.length}');
+    return riders.riders;
   }
 
 // get adminstat

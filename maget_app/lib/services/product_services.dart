@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 import '../models/products_model.dart';
 
@@ -8,10 +9,12 @@ class ProductServices {
       FirebaseFirestore.instance.collection('products');
   final user = FirebaseAuth.instance.currentUser!;
 
+  DateFormat dateFormat = DateFormat("dd/MM/yyy");
+
   Future<List<Product>> get() async {
     QuerySnapshot snapshot = await _collection
         .where('availableDate',
-            isGreaterThanOrEqualTo: DateTime.now().toString())
+            isGreaterThanOrEqualTo: dateFormat.format(DateTime.now()))
         .get();
 
     AllProducts snap = AllProducts.fromSnapshot(snapshot);

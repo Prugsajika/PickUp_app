@@ -13,13 +13,14 @@ class BlacklistPage extends StatefulWidget {
 }
 
 class _BlacklistPageState extends State<BlacklistPage> {
-  List<AdminRider> rider = List.empty();
+  List<Rider> rider = List.empty();
   RiderController controllerR = RiderController(RiderServices());
 
   @override
   void initState() {
     super.initState();
     _getAdminRiders(context);
+
     setState(() {});
   }
 
@@ -27,7 +28,7 @@ class _BlacklistPageState extends State<BlacklistPage> {
     var newRider = await controllerR.fetchAdminRiders();
     print('chk ${newRider.length}');
 
-    context.read<AdminRiderModel>().getListRider = newRider;
+    context.read<AdminRiderModel>().getListAdminRiderModel = newRider;
     print('provider ${context.read<AdminRiderModel>().email}');
   }
 
@@ -42,13 +43,13 @@ class _BlacklistPageState extends State<BlacklistPage> {
         padding: const EdgeInsets.all(8.0),
         child: Consumer<AdminRiderModel>(
             builder: (context, AdminRiderModel data, child) {
-          return data.getListRider.length != 0
+          return data.getListAdminRiderModel.length != 0
               ? ListView.builder(
-                  itemCount: data.getListRider.length,
+                  itemCount: data.getListAdminRiderModel.length,
                   itemBuilder: (context, index) {
                     // print(data.getListRider.length);
 
-                    return CardList(data.getListRider[index]);
+                    return CardList(data.getListAdminRiderModel[index]);
                   })
               : GestureDetector(
                   child: Center(
@@ -72,7 +73,7 @@ class _BlacklistPageState extends State<BlacklistPage> {
 }
 
 class CardList extends StatefulWidget {
-  final AdminRider riders;
+  final Rider riders;
 
   CardList(this.riders);
 
@@ -87,13 +88,26 @@ class _CardListState extends State<CardList> {
 
   void initState() {
     super.initState();
+
     statusBL = widget.riders.statusBL;
     print('BL rider status start $statusBL');
-    setState(() {});
+    // _getAdminRiders(context);
+    setState(() {
+      // statusBL = context.read<AdminRiderBL>().statusBL;
+    });
   }
+
+  // void _getAdminRiders(BuildContext context) async {
+  //   var newRider = await controller.fetchAdminRiders();
+  //   print('chk New ${newRider.length}');
+
+  //   context.read<AdminRiderBL>().getListAdminRiderBL = newRider;
+  //   print('provider ${context.read<AdminRiderBL>().email}');
+  // }
 
   void _updateBLStatus(String Riderid, bool statusBL) async {
     controller.updateBLStatus(Riderid, statusBL);
+
     setState(() {});
     print('chk confirm BL status ' + Riderid);
   }
@@ -182,15 +196,15 @@ class _CardListState extends State<CardList> {
           ),
           onChanged: (bool value) {
             setState(() {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => BlacklistPage()));
               statusBL = value;
               _updateBLStatus(widget.riders.Riderid, statusBL);
-
-              context.read<AdminRiderModel>()
-                // ..Riderid = widget.riders.toString()
-                ..statusBL = statusBL;
-              print('${context.read<AdminRiderModel>().statusBL}  chk status');
             });
-
+            context.read<AdminRiderBL>()
+              // ..Riderid = widget.riders.toString()
+              ..statusBL = statusBL;
+            print('${context.read<AdminRiderBL>().statusBL}  chk status');
             print('BL Status $statusBL');
           },
         ),

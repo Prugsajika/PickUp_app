@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:maget_app/models/cartitem_model.dart';
 import 'package:maget_app/models/customer_model.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   late String _buildName = '';
   late String _roomNo = '';
   late int _cost = 0;
+
+  DateFormat dateFormat = DateFormat("dd/MM/yyy");
 
   @override
   Widget build(BuildContext context) {
@@ -371,7 +374,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ..sentDate = widget.Products.sentDate
                     ..sentTime = widget.Products.sentTime
                     ..productStatus = widget.Products.productStatus
-                    ..orderDate = DateTime.now().toString()
+                    ..orderDate = dateFormat.format(DateTime.now())
                     ..deliveryLocation = widget.Products.deliveryLocation
                     ..promtPay = context.read<ProfileDetailModel>().idCard;
 

@@ -160,7 +160,7 @@ class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('รายการคำสั่งซื้อ'),
+            Text('ยืนยันรายการคำสั่งซื้อ'),
             IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/home');

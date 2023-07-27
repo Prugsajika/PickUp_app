@@ -165,9 +165,22 @@ class CardList extends StatelessWidget {
               ),
             ],
           ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(products.UrlPd),
+          leading: Container(
+            width: 100,
+            height: 150,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                image: NetworkImage('${products.UrlPd}'),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
+
+          // Image.network(
+          //   '${products.UrlPd}',
+          //   fit: BoxFit.fill,
+          // ),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
             Navigator.push(
