@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grubngo_app/pages/admin_approve.dart';
 import 'package:grubngo_app/pages/admin_blacklist.dart';
 import 'package:grubngo_app/pages/admin_homepage.dart';
+import 'package:grubngo_app/pages/admin_productreport_page.dart';
 import 'package:grubngo_app/pages/admin_salereport_page.dart';
 
 import 'package:provider/provider.dart';
@@ -133,6 +134,14 @@ Widget buildMenuItems(BuildContext context) {
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => AdminUserReportPage(),
+              ));
+            }),
+        ListTile(
+            leading: const Icon(Icons.list_alt),
+            title: Text('รายงานสินค้า'),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => AdminProductReportPage(),
               ));
             }),
         const Divider(

@@ -4,6 +4,7 @@ import 'package:grubngo_app/controllers/admin_controller.dart';
 import 'package:grubngo_app/models/riderinfo_model.dart';
 import 'package:grubngo_app/pages/admin_approve.dart';
 import 'package:grubngo_app/pages/admin_blacklist.dart';
+
 import 'package:grubngo_app/services/admin_service.dart';
 
 import 'package:provider/provider.dart';
@@ -13,8 +14,8 @@ import '../models/admininfo_model.dart';
 
 import '../services/rider_service.dart';
 import '../widgets/admin_drawerappbar.dart';
-import 'admin_approve_success_page.dart';
-import 'admin_reject_success_page.dart';
+
+import 'admin_userreport_page.dart';
 import 'color.dart';
 
 class HomePageAdmin extends StatefulWidget {
@@ -191,32 +192,40 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                           ),
                         ),
                       ),
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                context
-                                    .watch<CountRiderAdminModel>()
-                                    .StatusApprove
-                                    .toString(),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'อนุมัติแล้ว',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                      InkWell(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  context
+                                      .watch<CountRiderAdminModel>()
+                                      .StatusApprove
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'อนุมัติแล้ว',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminUserReportPage()));
+                        },
                       ),
                       InkWell(
                         onTap: () {
@@ -256,56 +265,6 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ],
                   ),
                 ),
-                //       Expanded(
-                //         child: Card(
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(8.0),
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //               children: [
-                //                 Text('ยอดขายเดือนนี้'),
-                //                 Text('0.00฿'),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(15.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //     children: [
-                //       Expanded(
-                //         child: Card(
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(8.0),
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //               children: [
-                //                 Text('โอนเงินแล้ว'),
-                //                 Text('- ราย'),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                // Expanded(
-                //   child: Card(
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(8.0),
-                //       child: Column(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           Text('รอโอนเงิน'),
-                //           Text('- ราย'),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

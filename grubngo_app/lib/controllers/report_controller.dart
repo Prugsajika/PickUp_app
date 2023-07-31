@@ -1,87 +1,90 @@
 import 'dart:async';
 
 import '../models/cartitem_model.dart';
+import '../models/products_model.dart';
+import '../models/report_model.dart';
+import '../models/riderinfo_model.dart';
 import '../services/report_services.dart';
 
 class ReportController {
   final ReportServices services;
   List<CartItem> cartitems = List.empty();
-  List<CartItem> countcartitems = List.empty();
-  List<CartItem> cartitemperproducts = List.empty();
+  List<Rider> riders = List.empty();
+  List<ReportCustomer> customers = List.empty();
+  List<Product> products = List.empty();
 
   StreamController<bool> onSyncController = StreamController();
   Stream<bool> get onSync => onSyncController.stream;
 
   ReportController(this.services);
 
-  Future<List<CartItem>> fetchReport() async {
+  Future<List<CartItem>> fetchReportCartItem() async {
     // controller status => Start
     onSyncController.add(true);
-    cartitems = await services.getReport();
+    cartitems = await services.getReportCartItem();
     // controller status => End
     onSyncController.add(false);
 
     return cartitems;
   }
 
-  Future<List<CartItem>> fetchReportByEmail(String emailRider) async {
+  Future<List<CartItem>> fetchReportCartItemByEmail(String emailRider) async {
     // controller status => Start
     onSyncController.add(true);
-    cartitems = await services.getReportByEmail(emailRider);
+    cartitems = await services.getReportCartItemByEmail(emailRider);
     // controller status => End
     onSyncController.add(false);
 
     return cartitems;
   }
 
-  // void updatePaystatus(String cartId, status) async {
-  //   services.updatePaystatus(cartId, status);
-  // }
+  Future<List<Rider>> fetchReportRider() async {
+    // controller status => Start
+    onSyncController.add(true);
+    riders = await services.getReportRider();
+    // controller status => End
+    onSyncController.add(false);
 
-  // Future<List<CartItem>> fetchOrderByProductWithCFPay() async {
-  //   // controller status => Start
-  //   onSyncController.add(true);
-  //   cartitemperproducts = await services.getOrderByProductWithCFPay();
-  //   // controller status => End
-  //   onSyncController.add(false);
+    return riders;
+  }
 
-  //   return cartitemperproducts;
-  // }
+  Future<List<ReportCustomer>> fetchReportCustomer() async {
+    // controller status => Start
+    onSyncController.add(true);
+    customers = await services.getReportCustomer();
+    // controller status => End
+    onSyncController.add(false);
 
-  // Future<List<CartItem>> fetchCartItemsAll() async {
-  //   onSyncController.add(true);
-  //   countcartitems = await services.getCartItemsAll();
-  //   onSyncController.add(false);
-  //   return countcartitems;
-  // }
+    return customers;
+  }
 
-  // Future<List<CartItem>> fetchOrderByProductid(Productid) async {
-  //   // controller status => Start
-  //   onSyncController.add(true);
-  //   cartitemperproducts = await services.getOrderByProductid(Productid);
-  //   // controller status => End
-  //   onSyncController.add(false);
+  Future<List<Product>> fetchReportProductActive() async {
+    // controller status => Start
+    onSyncController.add(true);
+    products = await services.getReportProductActivate();
+    // controller status => End
+    onSyncController.add(false);
 
-  //   return cartitemperproducts;
-  // }
+    return products;
+  }
 
-  // Future<List<CartItem>> fetchCartItemsSuccessByEmail(String emailRider) async {
-  //   // controller status => Start
-  //   onSyncController.add(true);
-  //   cartitems = await services.getCartItemsSuccessByEmail(emailRider);
-  //   // controller status => End
-  //   onSyncController.add(false);
+  Future<List<Product>> fetchReportProductNotActive() async {
+    // controller status => Start
+    onSyncController.add(true);
+    products = await services.getReportProductNotActivate();
+    // controller status => End
+    onSyncController.add(false);
 
-  //   return cartitems;
-  // }
+    return products;
+  }
 
-  // Future<List<CartItem>> fetchCartItemsWaitByEmail(String emailRider) async {
-  //   // controller status => Start
-  //   onSyncController.add(true);
-  //   cartitems = await services.getCartItemsWaitByEmail(emailRider);
-  //   // controller status => End
-  //   onSyncController.add(false);
+  Future<List<Product>> fetchReportProductAll() async {
+    // controller status => Start
+    onSyncController.add(true);
+    products = await services.getReportProductAll();
+    // controller status => End
+    onSyncController.add(false);
 
-  //   return cartitems;
-  // }
+    return products;
+  }
 }

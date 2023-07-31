@@ -20,7 +20,6 @@ class _BlacklistPageState extends State<BlacklistPage> {
   void initState() {
     super.initState();
     _getAdminRiders(context);
-
     setState(() {});
   }
 
@@ -47,7 +46,8 @@ class _BlacklistPageState extends State<BlacklistPage> {
               ? ListView.builder(
                   itemCount: data.getListAdminRiderModel.length,
                   itemBuilder: (context, index) {
-                    // print(data.getListRider.length);
+                    print(
+                        '${data.getListAdminRiderModel[index].statusBL} BLPAge');
 
                     return CardList(data.getListAdminRiderModel[index]);
                   })
@@ -91,10 +91,18 @@ class _CardListState extends State<CardList> {
 
     statusBL = widget.riders.statusBL;
     print('BL rider status start $statusBL');
-    // _getAdminRiders(context);
+
     setState(() {
       // statusBL = context.read<AdminRiderBL>().statusBL;
     });
+  }
+
+  void _getAdminRiders(BuildContext context) async {
+    var newRider = await controller.fetchAdminRiders();
+    print('chk ${newRider.length}');
+
+    context.read<AdminRiderModel>().getListAdminRiderModel = newRider;
+    print('provider ${context.read<AdminRiderModel>().email}');
   }
 
   // void _getAdminRiders(BuildContext context) async {
@@ -195,16 +203,12 @@ class _CardListState extends State<CardList> {
             ],
           ),
           onChanged: (bool value) {
-            setState(() {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => BlacklistPage()));
-              statusBL = value;
-              _updateBLStatus(widget.riders.Riderid, statusBL);
-            });
-            context.read<AdminRiderBL>()
-              // ..Riderid = widget.riders.toString()
-              ..statusBL = statusBL;
-            print('${context.read<AdminRiderBL>().statusBL}  chk status');
+            statusBL = value;
+            _updateBLStatus(widget.riders.Riderid, statusBL);
+
+            _getAdminRiders(context);
+
+            print('${context.read<AdminRiderModel>().statusBL}  chk status');
             print('BL Status $statusBL');
           },
         ),

@@ -112,6 +112,31 @@ void main() async {
       ChangeNotifierProvider(
         create: (context) => AdminRiderBL(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => AdminOrderSuccessSentStatus(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AdminOrderRefundStatus(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AdminReportCustomer(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AdminReportRider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AdminReportProductActive(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AdminReportProductNotActive(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AdminReportProductAll(),
+      ),
+
+      ChangeNotifierProvider(
+        create: (context) => CountAdminModel(),
+      ),
     ],
     child: const MyApp(),
   ));

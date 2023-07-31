@@ -32,7 +32,7 @@ class _SaleReportPageState extends State<SaleReportPage> {
     List<CartItem> cartitems = List.empty();
     List<CartItem> reportcart = List.empty();
 
-    var Newcartitems = await controller.fetchReportByEmail(emailRider);
+    var Newcartitems = await controller.fetchReportCartItemByEmail(emailRider);
     Newcartitems.sort((a, b) => a.orderDate.compareTo(b.orderDate));
     cartitems = Newcartitems.reversed.toList();
     reportcart = cartitems.where((x) => x.status == 'จัดส่งสำเร็จ').toList();
@@ -220,18 +220,6 @@ class CardList extends StatelessWidget {
               ],
             ),
           ),
-
-          // leading: CircleAvatar(
-          //   backgroundImage: NetworkImage(carts.image),
-          // ),
-          // trailing: const Icon(Icons.arrow_forward_ios),
-          // onTap: () {
-          //   print('#######################carts ID ${carts.cartId}');
-          //   Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) => ConfirmPaymentPage(Carts: carts)));
-          // },
         ),
       ),
     );

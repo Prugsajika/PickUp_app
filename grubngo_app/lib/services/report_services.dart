@@ -1,116 +1,91 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+
+import 'package:grubngo_app/models/products_model.dart';
+import 'package:grubngo_app/models/riderinfo_model.dart';
 
 import '../models/cartitem_model.dart';
+import '../models/report_model.dart';
 
 class ReportServices {
-  final CollectionReference _collection =
+  final CollectionReference _collectionCart =
       FirebaseFirestore.instance.collection('cart');
+
+  final CollectionReference _collectionRider =
+      FirebaseFirestore.instance.collection('rider');
+
+  final CollectionReference _collectionProduct =
+      FirebaseFirestore.instance.collection('products');
+
+  final CollectionReference _collectionCustomer =
+      FirebaseFirestore.instance.collection('customer');
+
   final user = FirebaseAuth.instance.currentUser!;
 
-  Future<List<CartItem>> getReport() async {
-    QuerySnapshot snapshot = await _collection.get();
+  DateFormat dateFormat = DateFormat("dd/MM/yyy");
+
+  Future<List<CartItem>> getReportCartItem() async {
+    QuerySnapshot snapshot = await _collectionCart.get();
 
     AllCartItems snap = AllCartItems.fromSnapshot(snapshot);
 
-    print('QuerySnapshot ${snap.cartitems.length}');
     return snap.cartitems;
   }
 
-  Future<List<CartItem>> getReportByEmail(String emailRider) async {
+  Future<List<CartItem>> getReportCartItemByEmail(String emailRider) async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('cart')
         .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
         .get();
 
     AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
-    print("cartitems  $cartitems");
+
     return cartitems.cartitems;
   }
 
-  // void updatePaystatus(String cartId, status) async {
-  //   FirebaseFirestore.instance.collection('cart').doc(cartId).update({
-  //     'cartId': cartId,
-  //     'status': status,
-  //   });
-  //   print('cartId for service$cartId');
-  // }
+  Future<List<Rider>> getReportRider() async {
+    QuerySnapshot snapshot = await _collectionRider.get();
 
-  // Future<List<CartItem>> getOrderByProductWithCFPay() async {
-  //   QuerySnapshot snapshot = await FirebaseFirestore.instance
-  //       .collection('cart')
-  //       .where('emailRider', isEqualTo: user.email)
-  //       .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
-  //       .get();
+    AllRiders snap = AllRiders.fromSnapshot(snapshot);
 
-  //   AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
-  //   print("cartitems  $cartitems");
-  //   return cartitems.cartitems;
-  // }
+    return snap.riders;
+  }
 
-  // Future<List<CartItem>> getCartItemsAll() async {
-  //   QuerySnapshot snapshot = await FirebaseFirestore.instance
-  //       .collection('cart')
-  //       .where('emailRider', isEqualTo: user.email)
-  //       .get();
+  Future<List<ReportCustomer>> getReportCustomer() async {
+    QuerySnapshot snapshot = await _collectionCustomer.get();
 
-  //   AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
-  //   print("cartitems  $cartitems");
-  //   return cartitems.cartitems;
-  // }
+    AllCustomers snap = AllCustomers.fromSnapshot(snapshot);
 
-  // Future<List<CartItem>> getOrderByProductid(Productid) async {
-  //   QuerySnapshot snapshot = await FirebaseFirestore.instance
-  //       .collection('cart')
-  //       .where('Productid', isEqualTo: Productid)
-  //       .where('status', isEqualTo: 'ยืนยันสลิปแล้ว')
-  //       .get();
+    return snap.customers;
+  }
 
-  //   AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
-  //   print("cartitems  $cartitems");
-  //   return cartitems.cartitems;
-  // }
+  Future<List<Product>> getReportProductActivate() async {
+    QuerySnapshot snapshot = await _collectionProduct
+        .where('availableDate',
+            isGreaterThanOrEqualTo: dateFormat.format(DateTime.now()))
+        .get();
 
-  // // รอเปลี่ยน status to "สำเร็จ"
-  // Future<List<CartItem>> getCartItemsSuccessByEmail(String emailRider) async {
-  //   QuerySnapshot snapshot = await FirebaseFirestore.instance
-  //       .collection('cart')
-  //       .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
-  //       .where('status', isEqualTo: "จัดส่งสำเร็จ")
-  //       .get();
+    AllProducts snap = AllProducts.fromSnapshot(snapshot);
 
-  //   AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
-  //   print("cartitems  $cartitems");
-  //   return cartitems.cartitems;
-  // }
+    return snap.products;
+  }
 
-  // // รอเปลี่ยน status to "รอจัดส่ง"
-  // Future<List<CartItem>> getCartItemsWaitByEmail(String emailRider) async {
-  //   QuerySnapshot snapshot = await FirebaseFirestore.instance
-  //       .collection('cart')
-  //       .where('emailRider', isEqualTo: emailRider.toLowerCase().toString())
-  //       .where('status', isEqualTo: "รอจัดส่ง")
-  //       .get();
+  Future<List<Product>> getReportProductNotActivate() async {
+    QuerySnapshot snapshot = await _collectionProduct
+        .where('availableDate', isLessThan: dateFormat.format(DateTime.now()))
+        .get();
 
-  //   AllCartItems cartitems = AllCartItems.fromSnapshot(snapshot);
-  //   print("cartitems  $cartitems");
-  //   return cartitems.cartitems;
-  // }
+    AllProducts snap = AllProducts.fromSnapshot(snapshot);
 
-  // void updateRefundPayment(
-  //   String cartId,
-  //   refundStatus,
-  //   _refunddate,
-  //   _refundtime,
-  //   refundPayimg,
-  // ) async {
-  //   FirebaseFirestore.instance.collection('cart').doc(cartId).update({
-  //     'cartId': cartId,
-  //     'refundStatus': refundStatus,
-  //     'paydate': _refunddate,
-  //     'paytime': _refundtime,
-  //     'confirmPayimg': refundPayimg,
-  //   });
-  //   print('cartId for service$cartId');
-  // }
+    return snap.products;
+  }
+
+  Future<List<Product>> getReportProductAll() async {
+    QuerySnapshot snapshot = await _collectionProduct.get();
+
+    AllProducts snap = AllProducts.fromSnapshot(snapshot);
+
+    return snap.products;
+  }
 }
