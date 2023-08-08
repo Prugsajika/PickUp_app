@@ -173,10 +173,6 @@ class _CardListState extends State<CardList> {
                                   PurchaseOrderNotCompletePage(
                                     Carts: widget.carts,
                                   )));
-
-                      // print(
-                      //     'สลิปไม่ถูกต้อง ${context.read<CartItemModel>().cartId}');
-                      // _updatePayStatus(widget.Carts.cartId, 'สลิปไม่ถูกต้อง');
                     },
                     child: const Text(
                       "ตกลง",

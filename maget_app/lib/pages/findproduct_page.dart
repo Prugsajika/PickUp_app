@@ -23,10 +23,6 @@ import 'productdetail_page.dart';
 import 'profile_page.dart';
 
 class FindProductPage extends StatefulWidget {
-  // final Product products;
-  // int index;
-  // FindProductPage(this.products, this.index);
-
   @override
   State<FindProductPage> createState() => _FindProductPageState();
 }
@@ -54,7 +50,7 @@ class _FindProductPageState extends State<FindProductPage> {
 
   String searchvalue = "";
 
-  DateFormat dateFormat = DateFormat("dd/MM/yyy");
+  DateFormat dateFormat = DateFormat('yyyy/MM/dd');
 
   @override
   void initState() {
@@ -63,26 +59,15 @@ class _FindProductPageState extends State<FindProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final ThemeData themeStyle = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'ค้นหาสินค้า',
             ),
           ],
         ),
-
-        // IconButton(
-        //   onPressed: () {
-        //     FirebaseAuth.instance.signOut();
-        //     Navigator.pushNamed(context, '/Login');
-        //   },
-        //   icon: Icon(Icons.logout),
-        // ),
       ),
       body: Column(
         children: [
@@ -200,12 +185,10 @@ class _FindProductPageState extends State<FindProductPage> {
                                       ],
                                     ),
                                   ),
-
                                   leading: CircleAvatar(
                                     backgroundImage:
                                         NetworkImage(products['UrlPd']),
                                   ),
-                                  // trailing: const Icon(Icons.arrow_forward_ios),
                                   onTap: () {
                                     print(
                                         'check customerId ${context.read<ProfileDetailModel>().customerId}');
@@ -245,27 +228,29 @@ class _FindProductPageState extends State<FindProductPage> {
                                       ..availableTime = _availableTime;
 
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProductDetailPage(
-                                                    Products: Product(
-                                                        _Productid,
-                                                        _UrlPd,
-                                                        _name,
-                                                        _description,
-                                                        _price,
-                                                        _productStatus,
-                                                        _typeOfFood,
-                                                        _deliveryFee,
-                                                        _deliveryLocation,
-                                                        _sentDate,
-                                                        _sentTime,
-                                                        _stock,
-                                                        _email,
-                                                        _UrlQr,
-                                                        _availableDate,
-                                                        _availableTime))));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductDetailPage(
+                                          Products: Product(
+                                              _Productid,
+                                              _UrlPd,
+                                              _name,
+                                              _description,
+                                              _price,
+                                              _productStatus,
+                                              _typeOfFood,
+                                              _deliveryFee,
+                                              _deliveryLocation,
+                                              _sentDate,
+                                              _sentTime,
+                                              _stock,
+                                              _email,
+                                              _UrlQr,
+                                              _availableDate,
+                                              _availableTime),
+                                        ),
+                                      ),
+                                    );
                                   },
                                 ),
                               ),
@@ -325,7 +310,7 @@ class _FindProductPageState extends State<FindProductPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              color: Colors.black54,
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -361,12 +346,10 @@ class _FindProductPageState extends State<FindProductPage> {
                                       ],
                                     ),
                                   ),
-
                                   leading: CircleAvatar(
                                     backgroundImage:
                                         NetworkImage(products['UrlPd']),
                                   ),
-                                  // trailing: const Icon(Icons.arrow_forward_ios),
                                   onTap: () {
                                     print(
                                         'check customerId ${context.read<ProfileDetailModel>().customerId}');
@@ -445,141 +428,3 @@ class _FindProductPageState extends State<FindProductPage> {
     );
   }
 }
-
-// class CardList extends StatelessWidget {
-//   final Product products;
-//   int index;
-//   CardList(this.products, this.index);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(2.0),
-//       child: Container(
-//         decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.only(
-//               bottomLeft: Radius.circular(10),
-//               topLeft: Radius.circular(10),
-//             )),
-//         child: ListTile(
-//           shape: RoundedRectangleBorder(
-//             //<-- SEE HERE
-//             side: BorderSide(width: 1, color: Colors.white),
-//             borderRadius: BorderRadius.circular(10),
-//           ),
-//           title: Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Row(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Text(
-//                   products.name,
-//                   maxLines: 1,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: TextStyle(
-//                       color: Colors.black54,
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.bold),
-//                 ),
-//                 Text(
-//                   'ราคา ${products.price.toString()} บาท',
-//                   maxLines: 1,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: TextStyle(
-//                       color: Colors.black54,
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.bold),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           subtitle: Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   products.description,
-//                   maxLines: 1,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: TextStyle(
-//                       color: Colors.black54,
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.bold),
-//                 ),
-//                 Text(
-//                   products.deliveryLocation,
-//                   maxLines: 1,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: TextStyle(
-//                       color: Colors.black54,
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.bold),
-//                 )
-//               ],
-//             ),
-//           ),
-
-//           leading: CircleAvatar(
-//             backgroundImage: NetworkImage(products.UrlPd),
-//           ),
-//           // trailing: const Icon(Icons.arrow_forward_ios),
-//           onTap: () {
-//             print(
-//                 'check customerId ${context.read<ProfileDetailModel>().customerId}');
-//             Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                     builder: (context) =>
-//                         ProductDetailPage(Products: products)));
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class CatagoryCard extends StatelessWidget {
-//   const CatagoryCard({
-//     Key? key,
-//     required this.icon,
-//     required this.title,
-//     required this.press,
-//   }) : super(key: key);
-
-//   final String icon, title;
-//   final VoidCallback press;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return OutlinedButton(
-//       onPressed: press,
-//       style: OutlinedButton.styleFrom(
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.all(
-//             Radius.circular(20.0),
-//           ),
-//         ),
-//       ),
-//       child: Padding(
-//         padding:
-//             const EdgeInsets.symmetric(horizontal: 8.0 / 4, vertical: 8.0 / 2),
-//         child: Column(
-//           children: [
-//             Image.asset('assets/images/FastFood.jpg'),
-//             const SizedBox(
-//               height: 50 / 2,
-//             ),
-//             Text(
-//               title,
-//               style: Theme.of(context).textTheme.subtitle2,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

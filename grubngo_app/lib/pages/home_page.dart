@@ -77,16 +77,6 @@ class _HomePageState extends State<HomePage> {
 
     Successcartitems.forEach((b) {
       countstatusCompletes += int.parse(b.totalCost.toString());
-
-      // if (a.name == b.department) {
-      // if (b.status == "อนุมัติ") {
-      //   a.amountApprove += int.parse(b.payamount);
-      // } else if (b.status == "ร้องขอ") {
-      //   a.amountRequest += int.parse(b.receiptamount);
-      // } else {
-      //   a.amountReject += int.parse(b.receiptamount);
-      // }
-      // }
     });
     print('countstatusComplete ${countstatusComplete}');
     setState(() {
@@ -99,16 +89,6 @@ class _HomePageState extends State<HomePage> {
 
     Waitcartitems.forEach((b) {
       countstatusWaits += int.parse(b.totalCost.toString());
-
-      // if (a.name == b.department) {
-      // if (b.status == "อนุมัติ") {
-      //   a.amountApprove += int.parse(b.payamount);
-      // } else if (b.status == "ร้องขอ") {
-      //   a.amountRequest += int.parse(b.receiptamount);
-      // } else {
-      //   a.amountReject += int.parse(b.receiptamount);
-      // }
-      // }
     });
     print('countstatusWait ${countstatusWait}');
     setState(() {
@@ -287,7 +267,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -342,32 +321,10 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                        // child: Center(
-                        //   child: Text(
-                        //     "ไม่มีรายการคำสั่งซื้อรอยืนยัน",
-                        //     style: TextStyle(
-                        //       color: Colors.black,
-                        //     ),
-                        //   ),
-                        // ),
                       );
               }),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Container(
-          //     height: 450,
-          //     child: GridView.builder(
-          //       itemCount: 10,
-          //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //         crossAxisCount: 1,
-          //         childAspectRatio: (6 / 2),
-          //       ),
-          //     //   itemBuilder: (context, index) => Widget(),
-          //     // ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -486,13 +443,11 @@ class CardListWait extends StatelessWidget {
                 ],
               ),
             ),
-
             leading: CircleAvatar(
               backgroundImage: NetworkImage(carts.image),
             ),
-            // trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
-              print('#######################carts ID ${carts.cartId}');
+              print('carts ID ${carts.cartId}');
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -607,13 +562,11 @@ class CardListWait extends StatelessWidget {
                 ],
               ),
             ),
-
             leading: CircleAvatar(
               backgroundImage: NetworkImage(carts.image),
             ),
-            // trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
-              print('#######################carts ID ${carts.cartId}');
+              print('carts ID ${carts.cartId}');
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PurchaseOrderPage()));
             },
@@ -725,13 +678,11 @@ class CardListWait extends StatelessWidget {
                 ],
               ),
             ),
-
             leading: CircleAvatar(
               backgroundImage: NetworkImage(carts.image),
             ),
-            // trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
-              print('#######################carts ID ${carts.cartId}');
+              print('carts ID ${carts.cartId}');
               Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -63,13 +63,6 @@ class _ApproveRiderPageState extends State<ApproveRiderPage> {
                 )));
         }),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.pushNamed(context, '/5');
-      //   },
-      //   backgroundColor: Colors.red[500],
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }
@@ -125,133 +118,175 @@ class _CardListState extends State<CardList> {
               bottomLeft: Radius.circular(10),
               topLeft: Radius.circular(10),
             )),
-        child: Column(
-          children: [
-            ListTile(
-              // value: statusBL,
-              shape: RoundedRectangleBorder(
-                //<-- SEE HERE
-                side: BorderSide(width: 1, color: Colors.white),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              title: Row(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'ชื่อ - นามสกุล : ',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'ชื่อ - นามสกุล : ',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.riders.FirstName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    widget.riders.FirstName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+                      ),
                     ),
                   ),
-                  Text(
-                    ' ',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    widget.riders.LastName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.riders.LastName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
               ),
-              subtitle: Row(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'อีเมล์ : ',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'อีเมล์ : ',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  Text(
-                    widget.riders.email,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.riders.email,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal),
+                    ),
                   ),
                 ],
               ),
-              onTap: () {},
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Row(
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.green),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Icon(Icons.check),
-                          Text('อนุมัติ'),
-                        ],
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'เลขบัตรประชาชน : ',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _updateApproveStatus(widget.riders.Riderid, 'Approved');
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ApproveSuccessPage()));
-                      });
-                    },
                   ),
-                  ElevatedButton(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Icon(Icons.close),
-                          Text('ปฎิเสธ'),
-                        ],
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.riders.idCard,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _updateApproveStatus(widget.riders.Riderid, 'Rejected');
+                  ),
+                ],
+              ),
+              Card(
+                child: Container(
+                  height: 400,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(widget.riders.UrlCf),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Container(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Icon(Icons.check),
+                            Text('อนุมัติ'),
+                          ],
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _updateApproveStatus(
+                              widget.riders.Riderid, 'Approved');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ApproveSuccessPage()));
+                        });
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Icon(Icons.close),
+                            Text('ปฎิเสธ'),
+                          ],
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _updateApproveStatus(
+                              widget.riders.Riderid, 'Rejected');
 
-                        _updateBLStatus(widget.riders.Riderid, true);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RejectSuccessPage()));
-                      });
-                    },
-                  ),
-                ],
+                          _updateBLStatus(widget.riders.Riderid, true);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RejectSuccessPage()));
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

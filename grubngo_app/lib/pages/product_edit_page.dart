@@ -23,34 +23,19 @@ import '../widgets/drawerappbar.dart';
 import 'productadd_success_page.dart';
 
 class EditProductPage extends StatefulWidget {
-  // const EditProductPage(
-  //     {super.key, required this.products, required this.indexs});
-  // // final Product Products;
-  // // const AddProduct({Key? key, required this.email}) : super(key: key);
-  // final Product products;
-  // final int indexs;
   @override
   State<EditProductPage> createState() => _EditProductPage();
 }
 
 class _EditProductPage extends State<EditProductPage> {
-  // String Productid = '';
-  // TextEditingController _nameController = TextEditingController();
-  // TextEditingController _descriptionController = TextEditingController();
   TextEditingController _dateSent = TextEditingController();
   TextEditingController _dateAvailable = TextEditingController();
   TextEditingController _timeSent = TextEditingController();
   TextEditingController _timeAvailable = TextEditingController();
   TextEditingController _typeOfFoodController = TextEditingController();
-  // TextEditingController __UrlPdController = TextEditingController();
-  // TextEditingController _deliveryLocationController = TextEditingController();
-  // TextEditingController _priceController = TextEditingController();
-  // TextEditingController _stockController = TextEditingController();
-  // TextEditingController _deliveryFeeController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
   String? typeOfFood = null;
-  // List<DropdownMenuItem<String>> _listtypeOfFood = [];
 
   late String _name = "";
   late String _description = "";
@@ -81,11 +66,10 @@ class _EditProductPage extends State<EditProductPage> {
     print('user $UserEmail');
     _getuserRider(UserEmail);
     print("widget");
-    // print(widget.indexs.toInt());
 
     String Productid =
         Provider.of<EditProductModel>(context, listen: false).Productid;
-    // String _Productid = context.read<EditProductModel>().Productid;
+
     _getProductinfo(Productid);
     print('productid $Productid');
     setState(() {});
@@ -104,31 +88,13 @@ class _EditProductPage extends State<EditProductPage> {
   void _getProductinfo(String Productid) async {
     var newproductinfo = await controller.fetchProductInfo(Productid);
 
-    // newproductinfo.forEach(
-    //   (e) {
-    //     _listtypeOfFood.add(
-    //       DropdownMenuItem(child: Text("ของคาว"), value: "ของคาว"),
-
-    //     );
-    //   },
-    // );
-    // context.read<EditProductModel>().;
     setState(() {
       productinfo = newproductinfo;
-      //   _nameController.text = '${productinfo[0].name}';
-      //   _descriptionController.text = '${productinfo[0].description}';
       _dateSent.text = '${productinfo[0].sentDate}';
       _dateAvailable.text = '${productinfo[0].availableDate}';
       _timeSent.text = '${productinfo[0].sentTime}';
       _timeAvailable.text = '${productinfo[0].availableTime}';
       _typeOfFoodController.text = '${productinfo[0].typeOfFood}';
-      //   __UrlPdController.text = '${productinfo[0].UrlPd}';
-      //   _deliveryLocationController.text = '${productinfo[0].deliveryLocation}';
-      //   _priceController.text = '${productinfo[0].price}';
-      //   _stockController.text = '${productinfo[0].stock}';
-      //   _deliveryFeeController.text = '${productinfo[0].deliveryFee}';
-      //   _Productid = '${productinfo[0].Productid}';
-      //   print('getproductinfo ${_Productid}${_nameController} ');
     });
   }
 
@@ -146,15 +112,6 @@ class _EditProductPage extends State<EditProductPage> {
       availableDate,
       availableTime,
       Productid) async {
-    // _Indexs = widget.indexs.toInt();
-    // int pricess = price;
-
-    // Provider.of<EditProductModel>(context, listen: false)
-    //     .modify(_Indexs, pricess);
-    // print("done");
-
-    // print("index $_Indexs");
-    // print("index $pricess");
     controller.updateProduct(
         UrlPd,
         name,
@@ -401,7 +358,6 @@ class _EditProductPage extends State<EditProductPage> {
                       },
                       onChanged: (newValue) {
                         _price = int.parse(newValue);
-                        // _price = int.parse(newValue!);
                       },
                       onSaved: (String? value) {
                         _price = int.parse(value!);
@@ -463,9 +419,7 @@ class _EditProductPage extends State<EditProductPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      // initialValue: product.sentDate,
                       controller: _dateSent,
-                      // _dateSent..text = '${product.sentDate}',
                       decoration: InputDecoration(
                         labelText: 'วันที่จัดส่ง',
                         border: OutlineInputBorder(),
@@ -480,7 +434,7 @@ class _EditProductPage extends State<EditProductPage> {
                             if (pickedate != null) {
                               setState(
                                 () {
-                                  _dateSent.text = DateFormat('dd/MM/yyyy')
+                                  _dateSent.text = DateFormat('yyyy/MM/dd')
                                       .format(pickedate);
                                 },
                               );
@@ -590,7 +544,7 @@ class _EditProductPage extends State<EditProductPage> {
                             if (pickedate != null) {
                               setState(
                                 () {
-                                  _dateAvailable.text = DateFormat('dd/MM/yyyy')
+                                  _dateAvailable.text = DateFormat('yyyy/MM/dd')
                                       .format(pickedate);
                                 },
                               );
@@ -670,7 +624,6 @@ class _EditProductPage extends State<EditProductPage> {
                           onPressed: () {
                             if (_formkey.currentState!.validate()) {
                               _formkey.currentState!.save();
-
                               _updateProduct(
                                   _UrlPd,
                                   _name,
@@ -686,16 +639,6 @@ class _EditProductPage extends State<EditProductPage> {
                                   _availableTime,
                                   product.Productid);
                               print('_name $_name');
-
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => ProductDetailPage(
-                              //         Products: widget.products,
-                              //         Indexs: widget.indexs),
-                              //   ),
-                              // );
-
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -49,7 +49,6 @@ class _EditProfilePage extends State<EditProfilePage> {
     print('user $UserEmail');
     _getuserRiderinfo(UserEmail);
     print("widget");
-    // print(widget.indexs.toInt());
 
     setState(() {});
   }
@@ -145,7 +144,6 @@ class _EditProfilePage extends State<EditProfilePage> {
                   SizedBox(
                     height: 15,
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
@@ -190,34 +188,6 @@ class _EditProfilePage extends State<EditProfilePage> {
                       },
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.all(8.0),
-                  //   child: DropdownButtonFormField(
-                  //     decoration: InputDecoration(
-                  //       labelText: 'เพศ',
-                  //       // enabledBorder: OutlineInputBorder(),
-                  //       border: OutlineInputBorder(),
-                  //     ),
-                  //     value: Gender,
-                  //     validator: (value) {
-                  //       if (value == null) {
-                  //         return 'กรุณาใส่เพศ';
-                  //       }
-                  //       return null;
-                  //     },
-                  //     items: [
-                  //       DropdownMenuItem(
-                  //           child: Text("ไม่ระบุเพศ"), value: "No Gender"),
-                  //       DropdownMenuItem(child: Text("หญิง"), value: "Female"),
-                  //       DropdownMenuItem(child: Text("ชาย"), value: "Male"),
-                  //     ],
-                  //     onChanged: (newVal) {
-                  //       setState(() {
-                  //         _Gender = newVal.toString();
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
@@ -283,7 +253,6 @@ class _EditProfilePage extends State<EditProfilePage> {
                     },
                     child: Text("เปลี่ยน QR Code สำหรับชำระเงิน"),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

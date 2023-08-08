@@ -36,62 +36,8 @@ class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
         Provider.of<CartItemModel>(context, listen: false).Productid;
     // _getProduct(context);
     _getOrderByProduct(context);
-    // print('productid $Productid');
     setState(() {});
   }
-
-//   void _getProduct(BuildContext context) async {
-//     var newProduct = await controller.fetchbyuser();
-//     print('chk ${newProduct}');
-
-//     context.read<FetchProductModel>().getListProduct = newProduct;
-//     print('provider ${context.read<FetchProductModel>().Productid}');
-
-//     List<CategoriesProduct> ad = [];
-//     newProduct.forEach((element) {
-//       ad.add(CategoriesProduct(
-//           element.Productid, element.email, 0, element.name, element.price));
-//     });
-//     // print(jsonEncode(ad));
-
-// //  int.parse(element.payamount)
-// // convert each item to a string by using JSON encoding
-//     final jsonList = ad.map((item) => jsonEncode(item)).toList();
-//     // print(jsonList);
-//     // using toSet - toList strategy
-//     final uniqueJsonList = jsonList.toSet().toList();
-//     // print(uniqueJsonList);
-
-//     // convert each item back to the original form using JSON decoding
-//     final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
-//     // print(jsonEncode(result));
-
-//     // VerifyModel.parseApplList(jsonEncode(result));
-
-//     List<CategoriesProduct> ddd =
-//         CategoriesProduct.parseApplList(jsonEncode(result));
-
-//     ddd.forEach((a) {
-//       newProduct.forEach((b) {
-//         if (a.productID == b.Productid) {
-//           a.Sumquantity += b.Productid.substring(1, 2).length as int;
-//           // if (b.Productid == ) {
-//           //   a.amountApprove += b.id.substring(1, 2).length as int;
-//           // } else if (b.status == "ร้องขอ") {
-//           //   a.amountRequest += b.id.substring(1, 2).length as int;
-//           // } else {
-//           //   a.amountReject += b.id.substring(1, 2).length as int;
-//           // }
-//         }
-//       });
-//     });
-//     print('category');
-//     print(jsonEncode(ddd));
-
-//     setState(() {
-//       CategoriesChilds = ddd;
-//     });
-//   }
 
   void _getOrderByProduct(BuildContext context) async {
     var newcart = await controllerCart.fetchOrderByProductWithCFPay();
@@ -130,20 +76,6 @@ class _PurchaseOrderPageState extends State<PurchaseOrderPage> {
 
     List<OrderByProduct> ddd = OrderByProduct.parseApplList(jsonEncode(result));
 
-    // ddd.forEach((a) {
-    //   newcart.forEach((b) {
-    //     if (a.Productid == b.Productid) {
-    //       // a.Sumquantity += b.Productid.substring(1, 2).length as int;
-    //       // if (b.Productid == ) {
-    //       //   a.amountApprove += b.id.substring(1, 2).length as int;
-    //       // } else if (b.status == "ร้องขอ") {
-    //       //   a.amountRequest += b.id.substring(1, 2).length as int;
-    //       // } else {
-    //       //   a.amountReject += b.id.substring(1, 2).length as int;
-    //       // }
-    //     }
-    //   });
-    // });
     print('category');
     print(jsonEncode(ddd));
 
@@ -299,67 +231,10 @@ class CardList extends StatelessWidget {
               ],
             ),
           ),
-          // subtitle: Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       Text(
-          //         'จำนวนที่สั่ง ${carts.quantity.toString()}',
-          //         maxLines: 1,
-          //         overflow: TextOverflow.ellipsis,
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 16,
-          //             fontWeight: FontWeight.bold),
-          //       ),
-          //       Text(
-          //         'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
-          //         maxLines: 1,
-          //         overflow: TextOverflow.ellipsis,
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 16,
-          //             fontWeight: FontWeight.bold),
-          //       ),
-          //       Text(
-          //         'วันที่ต้องจัดส่ง ${carts.availableDate.toString()}',
-          //         maxLines: 1,
-          //         overflow: TextOverflow.ellipsis,
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 16,
-          //             fontWeight: FontWeight.bold),
-          //       ),
-          //       Text(
-          //         'เวลา ${carts.availableTime.toString()} น.',
-          //         maxLines: 1,
-          //         overflow: TextOverflow.ellipsis,
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 16,
-          //             fontWeight: FontWeight.bold),
-          //       ),
-          //       Text(
-          //         'สถานะ >> ${carts.status.toString()} ',
-          //         maxLines: 1,
-          //         overflow: TextOverflow.ellipsis,
-          //         style: TextStyle(
-          //             color: Colors.blue,
-          //             fontSize: 16,
-          //             fontWeight: FontWeight.bold),
-          //       )
-          //     ],
-          //   ),
-          // ),
-
           leading: CircleAvatar(
             backgroundImage: NetworkImage(products.image),
           ),
-          // // trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            // print('#######################carts ID ${carts.cartId}');
             Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -210,10 +210,6 @@ class _RegisterPageState extends State<RegisterPage> {
         });
   }
 
-  // void _addRiders(Rider rider) {
-  //   RiderController.addRider(rider);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -364,13 +360,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         Expanded(
                             child: Container(
                           width: 200,
-                          height: 200,
+                          height: 400,
                           child: _confirmImage != null
                               ? Image.file(
                                   _confirmImage!,
                                   fit: BoxFit.cover,
                                 )
-                              : Text('ถ่ายรูปคู่กับบัตรประชาชน'),
+                              : Container(
+                                  child: Image.asset(
+                                    'assets/images/verify.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                         )),
                         SizedBox(
                           width: 20,
@@ -485,14 +486,28 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         Card(
                           child: Container(
-                              width: 200,
-                              height: 200,
-                              child: _imageQR != null
-                                  ? Image.file(
-                                      _imageQR!,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Text('กรุณาแนบรูป QR Code สำหรับชำระเงิน')),
+                            width: 200,
+                            height: 200,
+                            child: _imageQR != null
+                                ? Image.file(
+                                    _imageQR!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Text(
+                                        maxLines: 2,
+                                        'กรุณาแนบรูป QR Code สำหรับชำระเงิน',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ),
                         ),
                         ElevatedButton(
                           onPressed: () {

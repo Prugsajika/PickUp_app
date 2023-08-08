@@ -382,7 +382,7 @@ class _AddProduct extends State<AddProduct> {
                           setState(
                             () {
                               _dateSent.text =
-                                  DateFormat('dd/MM/yyyy').format(pickedate);
+                                  DateFormat('yyyy/MM/dd').format(pickedate);
                             },
                           );
                         }
@@ -480,7 +480,7 @@ class _AddProduct extends State<AddProduct> {
                           setState(
                             () {
                               _dateAvailable.text =
-                                  DateFormat('dd/MM/yyyy').format(pickedate);
+                                  DateFormat('yyyy/MM/dd').format(pickedate);
                             },
                           );
                         }
@@ -576,12 +576,6 @@ class _AddProduct extends State<AddProduct> {
                               _availableTime);
 
                           print('test QR Code ${UrlQr}');
-
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   SnackBar(
-                          //     content: Text('Processing Save : $_name'),
-                          //   ),
-                          // );
                         }
                         context.read<ProductModel>()
                           ..name = _name

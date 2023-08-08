@@ -61,13 +61,6 @@ class _BlacklistPageState extends State<BlacklistPage> {
                 )));
         }),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.pushNamed(context, '/5');
-      //   },
-      //   backgroundColor: Colors.red[500],
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }
@@ -104,14 +97,6 @@ class _CardListState extends State<CardList> {
     context.read<AdminRiderModel>().getListAdminRiderModel = newRider;
     print('provider ${context.read<AdminRiderModel>().email}');
   }
-
-  // void _getAdminRiders(BuildContext context) async {
-  //   var newRider = await controller.fetchAdminRiders();
-  //   print('chk New ${newRider.length}');
-
-  //   context.read<AdminRiderBL>().getListAdminRiderBL = newRider;
-  //   print('provider ${context.read<AdminRiderBL>().email}');
-  // }
 
   void _updateBLStatus(String Riderid, bool statusBL) async {
     controller.updateBLStatus(Riderid, statusBL);

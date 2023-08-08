@@ -44,12 +44,6 @@ class ConfirmProfilePage extends StatelessWidget {
               return Text('เลขบัตรประชาชน' ' : ${value.idCard}');
             }),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Consumer<RiderModel>(builder: (context, value, child) {
-          //     return Text('pic' ' : ${value.confirmImage}');
-          //   }),
-          // ),
         ],
       ),
     );

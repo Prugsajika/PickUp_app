@@ -176,11 +176,6 @@ class CardList extends StatelessWidget {
               ),
             ),
           ),
-
-          // Image.network(
-          //   '${products.UrlPd}',
-          //   fit: BoxFit.fill,
-          // ),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
             Navigator.push(

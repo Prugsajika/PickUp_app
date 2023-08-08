@@ -23,7 +23,7 @@ class ReportServices {
 
   final user = FirebaseAuth.instance.currentUser!;
 
-  DateFormat dateFormat = DateFormat("dd/MM/yyy");
+  DateFormat dateFormat = DateFormat('yyyy/MM/dd');
 
   Future<List<CartItem>> getReportCartItem() async {
     QuerySnapshot snapshot = await _collectionCart.get();
@@ -65,6 +65,8 @@ class ReportServices {
         .where('availableDate',
             isGreaterThanOrEqualTo: dateFormat.format(DateTime.now()))
         .get();
+    print('active product${snapshot.docs.length}');
+    print('active product${dateFormat.format(DateTime.now())}');
 
     AllProducts snap = AllProducts.fromSnapshot(snapshot);
 
@@ -75,6 +77,8 @@ class ReportServices {
     QuerySnapshot snapshot = await _collectionProduct
         .where('availableDate', isLessThan: dateFormat.format(DateTime.now()))
         .get();
+    print('notactive product${snapshot.docs.length}');
+    print('notactive product${dateFormat.format(DateTime.now())}');
 
     AllProducts snap = AllProducts.fromSnapshot(snapshot);
 

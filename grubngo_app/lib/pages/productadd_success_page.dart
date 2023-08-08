@@ -46,7 +46,6 @@ class AddProductSuccessPage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProductsPage()));
-                      // Navigator.popUntil(context, (route) => route.first);
                     },
                     child: Text(
                       "ตกลง",

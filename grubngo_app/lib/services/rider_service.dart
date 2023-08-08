@@ -22,7 +22,8 @@ class RiderServices {
   }
 
   Future<List<Rider>> getAdminRiders() async {
-    QuerySnapshot snapshot = await _collection.get();
+    QuerySnapshot snapshot =
+        await _collection.where('statusApprove', isEqualTo: 'Approved').get();
 
     AllRiders riders = AllRiders.fromSnapshot(snapshot);
 

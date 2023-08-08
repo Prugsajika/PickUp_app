@@ -74,10 +74,6 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                       _updatePayStatus(widget.Carts.cartId, _chosenValue);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
-
-                      // print(
-                      //     'สลิปไม่ถูกต้อง ${context.read<CartItemModel>().cartId}');
-                      // _updatePayStatus(widget.Carts.cartId, 'สลิปไม่ถูกต้อง');
                     },
                     child: const Text(
                       "ตกลง",

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 import '../controllers/cart_controller.dart';
@@ -22,11 +21,9 @@ class _DeliveryReportPageState extends State<DeliveryReportPage> {
   @override
   void initState() {
     super.initState();
-
     final user = FirebaseAuth.instance.currentUser!;
     String UserEmail = user.email.toString();
     _getCartByEmail(UserEmail);
-    // print('productid $Productid');
     setState(() {});
   }
 
@@ -40,7 +37,7 @@ class _DeliveryReportPageState extends State<DeliveryReportPage> {
     var Newcartitems = await controller.fetchCartItemsByEmail(emailRider);
     print('cartitemsstatusdeli ${Newcartitems.length}');
     Newcartitems.sort(
-      (a, b) => a.email.compareTo(b.email),
+      (a, b) => a.sentDate.compareTo(b.sentDate),
     );
     cartitems = Newcartitems.reversed.toList();
     //status รอยืนยัน
@@ -460,15 +457,6 @@ class CardList extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Text(
-                //   'ราคา ${carts.price.toString()} บาท',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // ),
               ],
             ),
           ),
@@ -478,15 +466,6 @@ class CardList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Text(
-                //   'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // ),
                 Text(
                   'วันที่ต้องจัดส่ง ${carts.availableDate.toString()}',
                   maxLines: 1,
@@ -513,21 +492,15 @@ class CardList extends StatelessWidget {
                       color: Colors.blue,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
-                )
+                ),
               ],
             ),
           ),
-
           leading: CircleAvatar(
             backgroundImage: NetworkImage(carts.image),
           ),
-          // trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            print('#######################carts ID ${carts.cartId}');
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => ConfirmPaymentPage(Carts: carts)));
+            print('carts ID ${carts.cartId}');
           },
         ),
       ),
@@ -663,15 +636,6 @@ class CardListRefund extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Text(
-                //   'ราคา ${carts.price.toString()} บาท',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // ),
               ],
             ),
           ),
@@ -681,15 +645,6 @@ class CardListRefund extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Text(
-                //   'จำนวนเงินที่จ่าย ${carts.totalCost.toString()} บาท',
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold),
-                // ),
                 Text(
                   'วันที่ต้องจัดส่ง ${carts.availableDate.toString()}',
                   maxLines: 1,
@@ -729,17 +684,11 @@ class CardListRefund extends StatelessWidget {
               ],
             ),
           ),
-
           leading: CircleAvatar(
             backgroundImage: NetworkImage(carts.image),
           ),
-          // trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            print('#######################carts ID ${carts.cartId}');
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => ConfirmPaymentPage(Carts: carts)));
+            print('carts ID ${carts.cartId}');
           },
         ),
       ),

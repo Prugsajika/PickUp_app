@@ -116,15 +116,6 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ' ${admin.adminLastname}');
               }),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Text('สวัสดี!! ' +
-            //       context.read<AdminModel>().adminName +
-            //       ' ' +
-            //       context.read<AdminModel>().adminLastname),
-            // ),
-
-            // Text('สวัสดี!! XXXXXXXXX'),
             IconButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
@@ -164,7 +155,13 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                               MaterialPageRoute(
                                   builder: (context) => ApproveRiderPage()));
                         },
-                        child: Card(
+                        child: Container(
+                          height: 70,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -193,7 +190,13 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                         ),
                       ),
                       InkWell(
-                        child: Card(
+                        child: Container(
+                          height: 70,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -234,7 +237,13 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                               MaterialPageRoute(
                                   builder: (context) => BlacklistPage()));
                         },
-                        child: Card(
+                        child: Container(
+                          height: 70,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -434,12 +443,6 @@ class _CardListState extends State<CardList> {
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
-                        // if (widget.riders.statusBL = false) {
-                        //   Text('แบล็คลิส'),
-
-                        // } else{
-                        //   TextBox()
-                        // },
                         Text(
                           widget.riders.statusBL ? 'แบล็คลิส' : 'ปกติ',
                           maxLines: 2,

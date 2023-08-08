@@ -23,7 +23,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   late String _roomNo = '';
   late int _cost = 0;
 
-  DateFormat dateFormat = DateFormat("dd/MM/yyy");
+  DateFormat dateFormat = DateFormat('yyyy/MM/dd');
 
   @override
   Widget build(BuildContext context) {

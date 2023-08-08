@@ -54,8 +54,6 @@ class _HomePageState extends State<HomePage> {
   int _price = 0;
   String _UrlPd = '';
   int _stock = 0;
-  // DateTime _endDate = DateTime.now();
-  // TimeOfDay _endTime = TimeOfDay.now();
   String searchvalue = "";
 
   int _current = 0;
@@ -65,7 +63,6 @@ class _HomePageState extends State<HomePage> {
     filteredData = data;
     super.initState();
     _getEmail(context);
-    // context.read<ListProducts>().addAllItem(products);
     controller.onSync.listen((bool syncState) => setState(() {
           isLoading = syncState;
         }));
@@ -83,7 +80,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getEmail(BuildContext context) async {
-    // get data  MedicalDashboard
     context.read<emailProvider>().email = user.email!;
   }
 
@@ -107,7 +103,6 @@ class _HomePageState extends State<HomePage> {
     var userCustomer = await custcontroller.fetchCustomersByEmail(userEmail);
     print("userCustomer  $userCustomer");
     setState(() => customer = userCustomer);
-    // print('_getCustomer ID : ${customer.first.customerId}');
 
     if (!customer.isEmpty) {
       context.read<ProfileDetailModel>()
@@ -145,22 +140,12 @@ class _HomePageState extends State<HomePage> {
           ? data
           : data
               .where((item) =>
-                      item.name.toLowerCase().contains(text.toLowerCase()) ||
-                      item.deliveryLocation
-                          .toLowerCase()
-                          .contains(text.toLowerCase()) ||
-                      item.sentDate
-                          .toLowerCase()
-                          .contains(text.toLowerCase()) ||
-                      item.availableDate
-                          .toLowerCase()
-                          .contains(text.toLowerCase())
-                  // item.namechild.toLowerCase().contains(text.toLowerCase()) ||
-                  // item.namepartner.toLowerCase().contains(text.toLowerCase()) ||
-                  // item.maritalstatus.toLowerCase().contains(text.toLowerCase()) ||
-                  // item.submaritalstatus.toLowerCase().contains(text.toLowerCase()) ||
-                  // item.status.toLowerCase().contains(text.toLowerCase())
-                  )
+                  item.name.toLowerCase().contains(text.toLowerCase()) ||
+                  item.deliveryLocation
+                      .toLowerCase()
+                      .contains(text.toLowerCase()) ||
+                  item.sentDate.toLowerCase().contains(text.toLowerCase()) ||
+                  item.availableDate.toLowerCase().contains(text.toLowerCase()))
               .toList();
 
       print(data);
@@ -192,7 +177,6 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.shopping_cart_sharp),
             onPressed: () {
               Navigator.pushNamed(context, '/7');
-              // showSearch(context: context, delegate: delegate);
             },
           ),
           IconButton(
@@ -343,11 +327,9 @@ class CardList extends StatelessWidget {
               ],
             ),
           ),
-
           leading: CircleAvatar(
             backgroundImage: NetworkImage(products.UrlPd),
           ),
-          // trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
             print(
                 'check customerId ${context.read<ProfileDetailModel>().customerId}');
@@ -393,16 +375,6 @@ final List<Widget> imageSliders = imgList
                             end: Alignment.topCenter,
                           ),
                         ),
-                        // padding: EdgeInsets.symmetric(
-                        //     vertical: 10.0, horizontal: 20.0),
-                        // child: Text(
-                        //   'No. ${imgList.indexOf(item)} image',
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: 15.0,
-                        //     fontWeight: FontWeight.bold,
-                        //   ),
-                        // ),
                       ),
                     ),
                   ],

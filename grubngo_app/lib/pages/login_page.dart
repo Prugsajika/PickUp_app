@@ -127,7 +127,6 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(

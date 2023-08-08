@@ -52,15 +52,6 @@ class _AdminSaleReportPageState extends State<AdminSaleReportPage> {
 
     context.read<AdminOrderRefundStatus>().getListAdminOrderRefundStatus =
         refundorder;
-
-    // reportcart = cartitems
-    //     .where((x) =>
-    //         x.status == 'จัดส่งสำเร็จ' || x.refundStatus == 'คืนเงินสำเร็จ')
-    //     .toList();
-    // setState(() => reportcart = reportcart);
-
-    // context.read<AdminReportCartItem>().getListAdminReportCartItem = reportcart;
-    // print('cart chk ${context.read<AdminReportCartItem>().cartId}');
   }
 
   @override

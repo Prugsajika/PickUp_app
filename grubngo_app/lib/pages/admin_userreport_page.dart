@@ -35,8 +35,7 @@ class _AdminUserReportPageState extends State<AdminUserReportPage> {
     List<ReportCustomer> customer = List.empty();
 
     var Newrider = await controller.fetchReportRider();
-    // Newcartitems.sort((a, b) => a.orderDate.compareTo(b.orderDate));
-    // cartitems = Newcartitems.reversed.toList();
+
     apprider = Newrider.where((x) => x.statusApprove == 'Approved').toList();
     setState(() => rider = apprider);
 
@@ -47,12 +46,7 @@ class _AdminUserReportPageState extends State<AdminUserReportPage> {
     context.read<CountRiderAdminModel>().StatusApprove = countapprider;
 
     var Newcustomer = await controller.fetchReportCustomer();
-    // Newcartitems.sort((a, b) => a.orderDate.compareTo(b.orderDate));
-    // cartitems = Newcartitems.reversed.toList();
-    // reportcart = cartitems
-    //     .where((x) =>
-    //         x.status == 'จัดส่งสำเร็จ' || x.refundStatus == 'คืนเงินสำเร็จ')
-    //     .toList();
+
     setState(() => customer = Newcustomer);
 
     context.read<AdminReportCustomer>().getListAdminReportCustomer = customer;
@@ -313,31 +307,6 @@ class CardListRider extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Row(
-                    //     children: [
-                    //       Text(
-                    //         carts.totalCost.toString(),
-                    //         maxLines: 2,
-                    //         overflow: TextOverflow.ellipsis,
-                    //         style: TextStyle(
-                    //             color: Colors.black,
-                    //             fontSize: 16,
-                    //             fontWeight: FontWeight.normal),
-                    //       ),
-                    //       Text(
-                    //         ' บาท',
-                    //         maxLines: 2,
-                    //         overflow: TextOverflow.ellipsis,
-                    //         style: TextStyle(
-                    //             color: Colors.black,
-                    //             fontSize: 16,
-                    //             fontWeight: FontWeight.bold),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
                 Padding(
@@ -368,18 +337,6 @@ class CardListRider extends StatelessWidget {
               ],
             ),
           ),
-
-          // leading: CircleAvatar(
-          //   backgroundImage: NetworkImage(carts.image),
-          // ),
-          // trailing: const Icon(Icons.arrow_forward_ios),
-          // onTap: () {
-          //   print('#######################carts ID ${carts.cartId}');
-          //   Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) => ConfirmPaymentPage(Carts: carts)));
-          // },
         ),
       ),
     );
@@ -466,83 +423,8 @@ class CardListCustomer extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Row(
-                    //     children: [
-                    //       Text(
-                    //         carts.totalCost.toString(),
-                    //         maxLines: 2,
-                    //         overflow: TextOverflow.ellipsis,
-                    //         style: TextStyle(
-                    //             color: Colors.black,
-                    //             fontSize: 16,
-                    //             fontWeight: FontWeight.normal),
-                    //       ),
-                    //       Text(
-                    //         ' บาท',
-                    //         maxLines: 2,
-                    //         overflow: TextOverflow.ellipsis,
-                    //         style: TextStyle(
-                    //             color: Colors.black,
-                    //             fontSize: 16,
-                    //             fontWeight: FontWeight.bold),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     children: [
-                //       Text(
-                //         'ผู้รับหิ้ว ',
-                //         maxLines: 2,
-                //         overflow: TextOverflow.ellipsis,
-                //         style: TextStyle(
-                //             color: Colors.black,
-                //             fontSize: 16,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //       Text(
-                //         carts.emailRider,
-                //         maxLines: 2,
-                //         overflow: TextOverflow.ellipsis,
-                //         style: TextStyle(
-                //             color: Colors.black,
-                //             fontSize: 16,
-                //             fontWeight: FontWeight.normal),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     children: [
-                //       Text(
-                //         'สถานะ ',
-                //         maxLines: 2,
-                //         overflow: TextOverflow.ellipsis,
-                //         style: TextStyle(
-                //             color: Colors.black,
-                //             fontSize: 16,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //       Text(
-                //         carts.status,
-                //         maxLines: 2,
-                //         overflow: TextOverflow.ellipsis,
-                //         style: TextStyle(
-                //             color: Colors.black,
-                //             fontSize: 16,
-                //             fontWeight: FontWeight.normal),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

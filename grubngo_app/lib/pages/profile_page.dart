@@ -10,34 +10,16 @@ import '../widgets/drawerappbar.dart';
 import 'login_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  // const ProfilePage({Key? key, required this.email}) : super(key: key);
-  // final String email;
-
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   List<Rider> profile = List.empty();
-  // late String _email = widget.email;
+
   bool isLoading = false;
   final _formkey = GlobalKey<FormState>();
   RiderController riderController = RiderController(RiderServices());
-
-  // void initState() {
-  //   super.initState();
-  //   riderController.onSync.listen((bool synState) => setState(() {
-  //         isLoading = synState;
-  //       }));
-  //   _getProfile(_email);
-  //   print('_getProfile _email:' + _email);
-  // }
-
-  // void _getProfile(String email) async {
-  //   var newProfile = await riderController.fetchRidersByEmail(email);
-  //   //print('newprofile   ${newProfile.first.firstName}');
-  //   setState(() => profile = newProfile);
-  // }
 
   void initState() {
     super.initState();

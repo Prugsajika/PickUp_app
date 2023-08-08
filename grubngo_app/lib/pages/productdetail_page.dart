@@ -70,54 +70,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  // Future<void> _showMyDialog() async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (BuildContext context) {
-  //       return SizedBox(
-  //         width: 100,
-  //         height: 100,
-  //         child: AlertDialog(
-  //           title: Text('ยืนยันลบ'),
-  //           content: Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: ListBody(
-  //               children: <Widget>[
-  //                 Column(
-  //                   children: [
-  //                     Text('คุณต้องการลบรายการสินค้าใช่ไหม'),
-  //                     Text('หากกดยืนยันแล้วจะไม่สามารถกู้คืนข้อมูลได้อีก'),
-  //                   ],
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //           actions: <Widget>[
-  //             Row(
-  //               children: [
-  //                 ElevatedButton(
-  //                   child: Text('ยืนยัน'),
-  //                   onPressed: () {
-  //                     _deleteProduct(widget.Products.Productid);
-  //                     Navigator.of(context).pop();
-  //                   },
-  //                 ),
-  //                 ElevatedButton(
-  //                   child: Text('ยกเลิก'),
-  //                   onPressed: () {
-  //                     Navigator.of(context).pop();
-  //                   },
-  //                 )
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,16 +81,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              // Padding(
-              //   padding: EdgeInsets.only(bottom: 15),
-              //   child: Text(
-              //     "ข้อมูลสินค้า",
-              //     style: TextStyle(
-              //         color: Colors.black,
-              //         fontWeight: FontWeight.bold,
-              //         fontSize: 18),
-              //   ),
-              // ),
               Center(
                 child: Container(
                   decoration: BoxDecoration(

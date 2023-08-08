@@ -224,7 +224,7 @@ class _PurchaseOrderNotCompletePageState
                               if (pickedate != null) {
                                 setState(
                                   () {
-                                    _dateC.text = DateFormat('dd/MM/yyyy')
+                                    _dateC.text = DateFormat('yyyy/MM/dd')
                                         .format(pickedate);
                                   },
                                 );
