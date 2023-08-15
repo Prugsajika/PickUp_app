@@ -230,7 +230,7 @@ class _ProcessPaymentPageState extends State<ProcessPaymentPage> {
                               if (pickedate != null) {
                                 setState(
                                   () {
-                                    _dateC.text = DateFormat('dd/MM/yyyy')
+                                    _dateC.text = DateFormat('yyyy/MM/dd')
                                         .format(pickedate);
                                   },
                                 );
@@ -302,14 +302,28 @@ class _ProcessPaymentPageState extends State<ProcessPaymentPage> {
                 children: [
                   Card(
                     child: Container(
-                        width: 200,
-                        height: 200,
-                        child: _confirmPayimg != null
-                            ? Image.file(
-                                _confirmPayimg!,
-                                fit: BoxFit.cover,
-                              )
-                            : Text('กรุณาแนบรูป Slip สำหรับชำระเงิน')),
+                      width: 200,
+                      height: 200,
+                      child: _confirmPayimg != null
+                          ? Image.file(
+                              _confirmPayimg!,
+                              fit: BoxFit.cover,
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  maxLines: 2,
+                                  'กรุณาแนบรูป Slip สำหรับชำระเงิน',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {

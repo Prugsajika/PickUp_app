@@ -296,14 +296,28 @@ class _PurchaseOrderNotCompletePageState
                 children: [
                   Card(
                     child: Container(
-                        width: 200,
-                        height: 200,
-                        child: _refundPayimg != null
-                            ? Image.file(
-                                _refundPayimg!,
-                                fit: BoxFit.cover,
-                              )
-                            : Text('กรุณาแนบรูป Slip สำหรับชำระเงิน')),
+                      width: 200,
+                      height: 200,
+                      child: _refundPayimg != null
+                          ? Image.file(
+                              _refundPayimg!,
+                              fit: BoxFit.cover,
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  maxLines: 2,
+                                  'กรุณาแนบรูป Slip สำหรับชำระเงิน',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {
